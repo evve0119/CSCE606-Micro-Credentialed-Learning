@@ -1,0 +1,22 @@
+<% layout("layouts/boilerplate")%>
+<h1>Login</h1>
+<div>
+    <form action="/login" class="needs-validation" novalidate method="POST"> <!-- Use bootstrap to validate not HTML -->
+        <div>
+            <label class="form-label" for="username">Username</label>
+            <input class="form-control" type="text" name="username" id="username" placeholder="Username" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+        </div>
+        <div>
+            <label class="form-label" for="password">Password</label>
+            <input class="form-control" type="password" name="password" id="password" placeholder="Password" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+        </div>
+        <button class="btn btn-success mt-3">Login</button>
+    </form>
+    <a class="btn btn-success mt-3"href="/register">Register</a>
+</div>
