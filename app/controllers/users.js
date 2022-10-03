@@ -1,4 +1,4 @@
-const User = require("../models/user");
+const {User,Group} = require("../models/user");
 const Credential = require("../models/credential");
 
 module.exports.renderRegister = async (req, res, next) => {
@@ -41,13 +41,64 @@ module.exports.logout = (req, res) => {
 };
 
 module.exports.myHomePage = async (req, res) => {
-    if(req.user._id != req.params.id){
-        req.flash("error","This is not your page, you must sign in")
-        return res.redirect("/login");
-    }
-    const currentUser = await User.findById(req.params.id).populate('credentials');
+    const currentUser = await User.findById(req.params.id).populate({
+        path: "groups",
+        populate: {
+            path: "credentials"
+        }
+    });
     res.render("users/myHomePage.ejs", {currentUser});
 };
+
+module.exports.renderNewGroupForm = async (req, res) => {
+    const currentUser = await User.findById(req.params.id).populate('credentials');
+    res.render("users/newGroup.ejs",{currentUser})
+}
+
+module.exports.createNewGroup = async (req, res) => {
+    // save new group
+    const { groupName, addCredentials } = req.body;
+    const currentGroup = new Group({ name: groupName, holder: req.params.id, credentials: addCredentials});
+    await currentGroup.save()
+    // push group to this user
+    const holder = await User.findById(req.params.id);
+    holder.groups.push(currentGroup._id);
+    await holder.save()
+    // redirect to home page
+    req.flash("success","Successfully add new credential")
+    res.redirect(`/myHomePage/${holder._id}`);
+}
+
+module.exports.renderGroupForm = async (req, res) => {
+    const currentGroup = await Group.findById(req.params.groupId)
+    const currentUser = await User.findById(req.params.id).populate({
+        path: "groups",
+        populate: {
+            path: "credentials"
+        }
+    }).populate('credentials');
+    res.render("users/editGroup.ejs",{currentGroup,currentUser})
+}
+
+module.exports.updateGroup = async (req,res) => {
+    const currentGroup = await Group.findById(req.params.groupId)
+    await currentGroup.update({$set:{credentials:req.body.editCredentials}})
+    req.flash("success", "Successfully update!!!")
+    res.redirect(res.redirect(`/myHomePage/${req.params.id}`))
+}
+
+module.exports.deleteGroup = async (req,res) => {
+    const currentUser = await User.findById(req.params.id)
+    await currentUser.update({$pull:{groups:req.params.groupId}})
+    await Group.findByIdAndDelete(req.params.groupId);
+    req.flash("success", "Successfully delete!!!")
+    res.redirect(res.redirect(`/myHomePage/${req.params.id}`))
+}
+
+module.exports.renderAllCredentials = async (req,res) =>{
+    const currentUser = await User.findById(req.params.id).populate('credentials')
+    res.render("users/allCredentials.ejs",{currentUser})
+}
 
 module.exports.addCredential = async (req, res) => {
     // save new credential
@@ -59,11 +110,6 @@ module.exports.addCredential = async (req, res) => {
     holder.credentials.push(currentCredential._id);
     await holder.save()
     // search all this user's credentials
-    const currentUser = await holder.populate('credentials');
-    if(req.user._id != req.params.id){
-        req.flash("error","This is not your page, you must sign in")
-        return res.redirect("/login");
-    }
     req.flash("success","Successfully add new credential")
-    res.render("users/myHomePage.ejs", {currentUser});
+    res.redirect(res.redirect(`/allCredentials/${req.params.id}`))
 };
