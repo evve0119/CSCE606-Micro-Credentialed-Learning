@@ -1,21 +1,25 @@
+if (process.env.NODE_ENV !== "production") {
+    require("dotenv").config(); // Read dotenv file
+};
+
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 const methodOverride = require('method-override'); // Use HTTP verbs such as PUT or DELETE in places where the client doesn’t support it.
 const path = require('path');
-const {User,Group} = require("./models/user");
+const { User, Group } = require("./models/user");
 const userRoutes = require("./routes/users.js");
 const ejsMate = require("ejs-mate"); // Use ejsMate to enable and create boilerplate
 const session = require("express-session");
+const MongoDBStore = require('connect-mongo'); // Store session in mongo
 const passport = require("passport"); // Create user model
 const LocalStrategy = require("passport-local"); // Module lets you authenticate using a username and password
 const flash = require("connect-flash"); // Flash a message
 const ExpressError = require("./utils/ExpressError"); // A function to handle error
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/Microcredentialed-learning'
+const secret = process.env.SECRET || "THis is a better secret"
 
-
-
-
-mongoose.connect("mongodb://localhost:27017/microcredentialed-learning");
+mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const db = mongoose.connection;                 // Mongoose connect and handle error
 db.on("error", console.error.bind(console, "Connection error:"));
@@ -23,8 +27,14 @@ db.once("open", () => {
     console.log("Databased connected");
 });
 
-const sessionConfig = {                         // Session configuration
-    secret: "thisisabettersecret!!!!!",
+
+const sessionConfig = {      
+    store: MongoDBStore.create({
+        mongoUrl: dbUrl,
+        touchAfter: 24 * 3600  // time period in seconds
+      }),             
+    // Session configuration
+    secret,
     name: "session",
     resave: false,
     saveUninitialized: true,
@@ -50,11 +60,11 @@ passport.deserializeUser(User.deserializeUser()); // How to get user in a sessio
 
 app.use(express.static((__dirname, "public"))); //  serve static files
 app.set('view engine', 'ejs');
-app.set('views',path.join(__dirname,'views'));
+app.set('views', path.join(__dirname, 'views'));
 app.engine('ejs', ejsMate); // Use ejsMate to enable and create boilerplate
 app.use(express.urlencoded({ extended: true })); // Parse req.body!!!
 
-app.use((req,res,next)=>{                   // Set local variables
+app.use((req, res, next) => {                   // Set local variables
     res.locals.currentUser = req.user;
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
@@ -76,7 +86,7 @@ app.use((err, req, res, next) => {          // Handle Error (id doesn't exist)
     res.status(statusCode).send(message);
 })
 
-
-app.listen(3000,()=>{
-    console.log("Serving on port 3000")
+const port = process.env.PORT || 3000
+app.listen(port, () => {
+    console.log(`Serving on port ${port}`)
 });
