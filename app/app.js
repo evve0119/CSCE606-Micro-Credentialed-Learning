@@ -3,7 +3,6 @@ if (process.env.NODE_ENV !== "production") {
 };
 
 const express = require('express');
-const mongoose = require('mongoose');
 const app = express();
 const methodOverride = require('method-override'); // Use HTTP verbs such as PUT or DELETE in places where the client doesn’t support it.
 const path = require('path');
@@ -16,17 +15,9 @@ const passport = require("passport"); // Create user model
 const LocalStrategy = require("passport-local"); // Module lets you authenticate using a username and password
 const flash = require("connect-flash"); // Flash a message
 const ExpressError = require("./utils/ExpressError"); // A function to handle error
+const exp = require("constants");
 const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/Microcredentialed-learning'
 const secret = process.env.SECRET || "THis is a better secret"
-
-mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
-
-const db = mongoose.connection;                 // Mongoose connect and handle error
-db.on("error", console.error.bind(console, "Connection error:"));
-db.once("open", () => {
-    console.log("Databased connected");
-});
-
 
 const sessionConfig = {      
     store: MongoDBStore.create({
@@ -62,6 +53,7 @@ app.use(express.static((__dirname, "public"))); //  serve static files
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.engine('ejs', ejsMate); // Use ejsMate to enable and create boilerplate
+app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // Parse req.body!!!
 
 app.use((req, res, next) => {                   // Set local variables
@@ -86,7 +78,4 @@ app.use((err, req, res, next) => {          // Handle Error (id doesn't exist)
     res.status(statusCode).send(message);
 })
 
-const port = process.env.PORT || 3000
-app.listen(port, () => {
-    console.log(`Serving on port ${port}`)
-});
+module.exports = app;
