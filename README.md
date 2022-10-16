@@ -9,3 +9,4 @@ If you are using macOS or Linux, you will see a "permission denied" error when e
 You will need to give permission to the path by typing: \
 `sudo chmod 755 <path in the error message>`, \
 and then `npm test` will be able to function correctly.
+
