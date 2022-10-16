@@ -10,3 +10,7 @@ You will need to give permission to the path by typing: \
 `sudo chmod 755 <path in the error message>`, \
 and then `npm test` will be able to function correctly.
 
+<h3> To run jest (unit test): </h3>
+
+`npm run jest` this will execute the unit test\
+Please open mongod before unit test.
