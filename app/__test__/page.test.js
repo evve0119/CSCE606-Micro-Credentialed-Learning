@@ -1,31 +1,20 @@
 
 const users = require("../controllers/users");
 const request = require("supertest");
-// const app = require("../app")
-const express = require("express")
-const app = express()
+const app = require("../app")
 
 describe("testing pages", () => {
-    beforeAll(async() => {
-        // connect dataset
-    });
-      
-    afterAll(async() => {
-        // disconnect dataset
-        // clean dataset
-    });
-
     test("testing rigister page", () => {
-        // const req = {},
-        // res = {render: jest.fn()};
-        // users.renderRegister(req, res);
-        // expect(res.render.mock.calls[0][0]).toBe("users/register.ejs");
+        const req = {},
+        res = {render: jest.fn()};
+        users.renderRegister(req, res);
+        expect(res.render.mock.calls[0][0]).toBe("users/register.ejs");
     });
     test("testing login page", () => {
-        // const req = {},
-        // res = {render: jest.fn()};
-        // users.renderLogin(req, res);
-        // expect(res.render.mock.calls[0][0]).toBe("users/login.ejs");
+        const req = {},
+        res = {render: jest.fn()};
+        users.renderLogin(req, res);
+        expect(res.render.mock.calls[0][0]).toBe("users/login.ejs");
     });
     test("testing user home page", async () => {
         // const query = {body:{username: "kk", password: "kk"}};

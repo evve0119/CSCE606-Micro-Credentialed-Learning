@@ -29,6 +29,7 @@ module.exports.renderLogin = (req, res) => {
 
 module.exports.login = (req, res, next) => {
     req.flash("success","Welcome back");
+    console.log("login");
     res.redirect(`/myHomePage/${req.user._id}`);
 };
 

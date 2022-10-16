@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "cucumber-js",
-    "jest": "jest",
-    "start": "node app.js"
+    "jest": "jest --coverage",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",

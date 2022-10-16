@@ -1,32 +1,36 @@
-const users = require("../controllers/users");
 const request = require("supertest");
-// const app = require("../app")
-const express = require("express")
-const app = express()
+const app = require("../app");
+
+const mongoose = require('mongoose');
+const User = require("../models/user")
+const mongoURL = "mongodb://127.0.0.1:27017/csce606"
 
 describe("testing register", function () {
-    beforeAll(() =>{
-        // connect dataset
+    beforeAll(async() =>{
+        mongoose.connect(mongoURL);
+        await mongoose.connection.once('open', () => console.log('connected to database'));
+        mongoose.connection.on('error', (error) => console.error('database error', error));
     });
-    afterAll(() => {
-        // disconnect dataset
-        // clean dataset
+    afterEach(async() => {
+        const { users } = mongoose.connection.collections;
+        await users.drop();
+    });
+    afterAll(async() => {
+        await mongoose.connection.close()
+        console.log("close dataset")
     });
 
-    test("testing register successfully", () => {
+    test("testing register successfully", async() => {
         // username = , password = 
-        // const req = {
-        //     body: {username: "aa", password: "aa", email: "aa@gmail.com"}
-        // },
-        // res = {};
-        // await users.register(req, res);
+        account = {username: "aa", password: "aa", email: "aa@gmail.com"};
+        const res = await request(app).post('/register').send(account);
     });
-    test("testing invalid username format", () => {
-        // "%20", "!" ...
-        // await users.register(req, res);
-    });
-    test("testign invalid email format", () => {
-        // without "@"
-        // await users.register(req, res);
-    });
+    // test("testing invalid username format", () => {
+    //     // "%20", "!" ...
+    //     // await users.register(req, res);
+    // });
+    // test("testign invalid email format", () => {
+    //     // without "@"
+    //     // await users.register(req, res);
+    // });
 });
