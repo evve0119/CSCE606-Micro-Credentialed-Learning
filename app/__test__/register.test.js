@@ -3,7 +3,7 @@ const app = require("../app");
 
 const mongoose = require('mongoose');
 const User = require("../models/user")
-const mongoURL = "mongodb://127.0.0.1:27017/csce606"
+const mongoURL = "mongodb://localhost:27017/csce606"
 
 describe("testing register", function () {
     beforeAll(async() =>{
