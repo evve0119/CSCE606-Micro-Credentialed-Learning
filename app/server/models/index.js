@@ -1,6 +1,8 @@
-const { User, Group } = require("./user");
+const { User, Group, Credential } = require("./user");
+const { Course } = require("./course");
 module.exports={
     User,
     Group,
-    Credential: require("./credential")
+    Credential,
+    Course
 }

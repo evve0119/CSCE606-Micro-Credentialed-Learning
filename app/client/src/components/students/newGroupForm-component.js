@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import AuthService from "../services/auth.service";
+import StudentService from "../../services/student.service"
 
 const NewGroupFormComponent = (props) => {
     let { currentUser, setCurrentUser } = props;
@@ -9,16 +9,18 @@ const NewGroupFormComponent = (props) => {
     const handleTakeToLogin = () => {
         history.push("/login");
     };
+    console.log("run")
     // Get user's credentials
     let [credentialData, setCredentialData] = useState(null);
     useEffect(() => {
+        console.log("useeffect")
         let _id;
         if (currentUser) {
             _id = currentUser.user._id;
         } else {
             _id = "";
         }
-        AuthService.renderAllCredentials(_id)
+        StudentService.renderAllCredentials(_id)
             .then(({ data }) => {
                 setCredentialData(data);
             })
@@ -38,9 +40,9 @@ const NewGroupFormComponent = (props) => {
 
     // Post new credential
     const postGroup = () => {
-        AuthService.createNewGroup(groupName, addcredentials ,currentUser.user._id).then(() => {
+        StudentService.createNewGroup(groupName, addcredentials ,currentUser.user._id).then(() => {
             window.alert("New group is created!")
-            history.push("/myHomePage")
+            history.push("/studentHomePage")
         }).catch((err) => {
             setMessage(err.response.data)
         });
@@ -63,6 +65,7 @@ const NewGroupFormComponent = (props) => {
 
     return (
         <div style={{ padding: "3rem" }}>
+            {console.log("return")}
             {/* If not login */}
             {!currentUser && (
                 <div>
@@ -75,8 +78,14 @@ const NewGroupFormComponent = (props) => {
                     </button>
                 </div>
             )}
-            {/* If login */}
-            {currentUser && (
+            {/* If not student */}
+            {(currentUser.user.role != "student") && (
+                <div>
+                    <p>You are not authorized</p>
+                </div>
+            )}
+            {/* If login and student */}
+            {currentUser && (currentUser.user.role == "student") &&(
                 <div className="form-group">
                     <h1>Add new group</h1>
                     <label for="groupName">Group name</label>

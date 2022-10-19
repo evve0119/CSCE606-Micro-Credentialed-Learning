@@ -18,11 +18,6 @@ const NavComponent = (props) => {
           <div className="container-fluid">
             <div className="collapse navbar-collapse" id="navbarNav">
               <ul className="navbar-nav">
-                <li className="nav-item">
-                  <Link className="nav-link active" to="/">
-                    Home
-                  </Link>
-                </li>
                 {!currentUser && (
                   <li className="nav-item">
                     <Link className="nav-link" to="/register">
@@ -44,14 +39,23 @@ const NavComponent = (props) => {
                     </Link>
                   </li>
                 )}
-                {currentUser && (
+                {currentUser && (currentUser.user.role == "instructor") &&(
+                  
                   <li className="nav-item">
-                    <Link className="nav-link" to="/myHomePage">
+                    
+                    <Link className="nav-link" to="/instructorHomePage">
                       My Home Page
                     </Link>
                   </li>
                 )}
-                {currentUser && (
+                {currentUser && (currentUser.user.role == "student") &&(
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/studentHomePage">
+                      My Home Page
+                    </Link>
+                  </li>
+                )}
+                {currentUser && (currentUser.user.role == "student") && (
                   <li className="nav-item">
                     <Link className="nav-link" to="/allCredentials">
                       View all credentials

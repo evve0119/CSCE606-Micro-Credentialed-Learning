@@ -1,38 +1,35 @@
 import React, { useState, useEffect } from "react";
 import { useHistory, Link } from "react-router-dom";
-import AuthService from "../services/auth.service";
+import AuthService from "../../services/auth.service";
+import StudentService from "../../services/student.service";
 
-const MyHomePageComponent = () => {
-  let [ currentUser, setCurrentUser ] = useState(null);
+const StudentHomePageComponent = () => {
+  let [currentUser, setCurrentUser] = useState(null);
   //  Get current user all information from database
-  useEffect(()=>{
-    AuthService.renderMyHomePage(AuthService.getCurrentUser().user._id)
-    .then(({data}) => {
-      setCurrentUser(data);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  },[]);
+  useEffect(() => {
+    StudentService.renderMyHomePage(AuthService.getCurrentUser().user._id)
+      .then(({ data }) => {
+        setCurrentUser(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   // render new group form
   const history = useHistory();
-  const renderNewGroupForm = ()=>{
+  const renderNewGroupForm = () => {
     history.push("/newGroupForm")
-  }
-
-  // render edit group form
-  const renderGroupForm = () =>{
-    history.push("/GroupForm")
   }
 
   return (
     <div style={{ padding: "3rem" }}>
+      {(console.log("return", currentUser))}
       {/* If not login */}
       {!currentUser && (
-        <div>You must login first before viewing your home page.</div>
+        <div>You are not authorized</div>
       )}
-      {/* If login */}
+      {/* If login and student */}
       {currentUser && (
         <div>
           <h1 className="mb-3">My home page</h1>
@@ -42,7 +39,7 @@ const MyHomePageComponent = () => {
             </h3>
           </header>
           <h3>
-              Email: {currentUser.email}
+            Email: {currentUser.email}
           </h3>
         </div>
       )}
@@ -51,22 +48,21 @@ const MyHomePageComponent = () => {
         <div>
           <h3 className="mt-5 mb-3">Groups</h3>
           <div>
-          {currentUser.groups.map((group) => (
-            <div className="mb-3">
+            {currentUser.groups.map((group) => (
+              <div className="mb-3">
                 <Link className="text-primary" to={`groupForm/${group._id}`}>{group.name}</Link>
                 {group.credentials.map((credential) => (<h5>{credential.name}</h5>))}
-            </div>
-          ))}
-        </div>
+              </div>
+            ))}
+          </div>
+          {/* Add new groups (if login) */}
           <button className="btn btn-primary" onClick={renderNewGroupForm}>
             Add new group
           </button>
         </div>
       )}
-      {/* Add new groups (if login) */}
-      
     </div>
   );
 };
 
-export default MyHomePageComponent;
+export default StudentHomePageComponent;

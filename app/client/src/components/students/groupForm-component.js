@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import AuthService from "../services/auth.service";
+import StudentService from "../../services/student.service";
 
 const GroupFormComponent = (props) => {
     // If not holder go to login
@@ -24,14 +24,16 @@ const GroupFormComponent = (props) => {
         } else {
             _id = "";
         }
-        AuthService.renderGroupForm(_id, group_id)
+        StudentService.renderGroupForm(_id, group_id)
             .then(({ data }) => {
                 setCurrentGroup(data);
+                setNewGroupName(data.name)
+                setEditCredentials(data.credentials)
             })
             .catch((err) => {
                 console.log(err);
             });
-        AuthService.renderAllCredentials(_id)
+        StudentService.renderAllCredentials(_id)
             .then(({ data }) => {
                 setCredentialData(data);
             })
@@ -44,16 +46,16 @@ const GroupFormComponent = (props) => {
     let [message, setMessage] = useState(null);
 
     // // Handle new group name
-    let [newGroupName, setNewGroupName] = useState(null);
+    let [newGroupName, setNewGroupName] = useState(" ");
     const handleChangeGroupName = (e) => {
         setNewGroupName(e.target.value);
     };
 
     // Update group
     const updateGroup = () => {
-        AuthService.updateGroup(currentUser.user._id, editcredentials, currentGroup._id, newGroupName).then(() => {
+        StudentService.updateGroup(currentUser.user._id, editcredentials, currentGroup._id, newGroupName).then(() => {
             window.alert("Group is updated!")
-            history.push("/myHomePage")
+            history.push("/studentHomePage")
         }).catch((err) => {
             setMessage(err.response.data)
         });
@@ -108,11 +110,11 @@ const GroupFormComponent = (props) => {
                         <div className="mb-5">
                             {(currentGroup.credentials.includes(credential._id)) &&
                                 <div>
-                                    <input className="h3" type="checkbox" name="addcredentials" value={credential._id} onChange={handleChange} checked />
+                                    <input className="h3" type="checkbox" name="addcredentials" value={credential._id} onChange={handleChange} defaultChecked />
                                     <label className="h3" for={credential._id}>{credential.name}</label>
                                 </div>
                             }
-                             {!(currentGroup.credentials.includes(credential._id)) &&
+                            {!(currentGroup.credentials.includes(credential._id)) &&
                                 <div>
                                     <input className="h3" type="checkbox" name="addcredentials" value={credential._id} onChange={handleChange} />
                                     <label className="h3" for={credential._id}>{credential.name}</label>
@@ -120,7 +122,7 @@ const GroupFormComponent = (props) => {
                             }
                         </div>
                     )))}
-                    <button className="btn btn-primary" onClick={updateGroup}>Add</button>
+                    <button className="btn btn-primary" onClick={updateGroup}>Submit</button>
                     <br />
                     {message && (
                         <div className="alert alert-warning mt-3" role="alert">

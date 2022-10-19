@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import AuthService from "../services/auth.service";
+import StudentService from "../../services/student.service";
 // import CredentialService from "../services/credential.service";
 
 const CredentialComponent = (props) => {
@@ -25,13 +25,13 @@ const CredentialComponent = (props) => {
     } else {
       _id = "";
     }
-    AuthService.renderAllCredentials(_id)
-    .then(({data}) => {
-      setCredentialData(data);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+    StudentService.renderAllCredentials(_id)
+      .then(({ data }) => {
+        setCredentialData(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   // Handle new credential name
@@ -40,8 +40,8 @@ const CredentialComponent = (props) => {
   };
 
   // Post new credential
-  const postCredential = ()=>{
-    AuthService.addCredential(credentialName,currentUser.user._id).then((response)=>{
+  const postCredential = () => {
+    StudentService.addCredential(credentialName, currentUser.user._id).then((response) => {
       window.alert("New credential is created, refresh to see all credentials")
       history.push("/allCredentials")
     }).catch((err) => {
@@ -51,7 +51,7 @@ const CredentialComponent = (props) => {
 
   return (
     <div style={{ padding: "3rem" }}>
-    {/* If not login */}
+      {/* If not login */}
       {!currentUser && (
         <div>
           <p>You must login before seeing your credentials.</p>
@@ -63,19 +63,19 @@ const CredentialComponent = (props) => {
           </button>
         </div>
       )}
-    {/* If this person has credential, show all credentials */}
+      {/* If this person has credential, show all credentials */}
       {currentUser && credentialData && credentialData.length != 0 && (
         <div>
           <h1 class="mt-5">Here are your credentials</h1>
           {credentialData.map((credential) => (
             <div >
-                <h5 className="card-title">{credential.name}</h5>
-                <br />
+              <h5 className="card-title">{credential.name}</h5>
+              <br />
             </div>
           ))}
         </div>
       )}
-    {/* If is instructor */}
+      {/* If is instructor */}
       {currentUser && currentUser.user.role == "instructor" && (
         <div className="form-group">
           <h1>Add new credential</h1>
@@ -99,7 +99,7 @@ const CredentialComponent = (props) => {
           )}
         </div>
       )}
-    {/* If is student */}
+      {/* If is student */}
       {currentUser && currentUser.user.role == "student" && (
         <div>
           <h1>Welcome to student's Credentials page.</h1>
