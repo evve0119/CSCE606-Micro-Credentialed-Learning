@@ -7,7 +7,7 @@ const app = express();
 const methodOverride = require('method-override'); // Use HTTP verbs such as PUT or DELETE in places where the client doesn’t support it.
 // const path = require('path');
 // const { User, Group } = require("./models/user");
-const userRoutes = require("./routes/users.js");
+const { userRoutes, studentRoutes, instructorRoutes, courseRoutes } = require("./routes/index.js");
 // const ejsMate = require("ejs-mate"); // Use ejsMate to enable and create boilerplate
 // const session = require("express-session");
 // const MongoDBStore = require('connect-mongo'); // Store session in mongo
@@ -67,9 +67,9 @@ app.use(cors()); // Enable to run two localhost ports
 // })
 
 app.use("/api/user", userRoutes);  // Use User route
-
-app.get('/', (req, res) => {
-});
+app.use("/api/instructors", instructorRoutes);
+app.use("/api/courses", courseRoutes);
+app.use("/api/students", studentRoutes);
 
 app.all("*", (req, res, next) => {          // Handle Error (router doesn't exist) and pass to the next function
     next(new ExpressError("Page not found", 404));

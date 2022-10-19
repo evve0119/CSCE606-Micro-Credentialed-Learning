@@ -7,6 +7,7 @@ const LoginComponent = (props) => {
   const history = useHistory();
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
+  let [role, setRole] = useState("");
   let [message, setMessage] = useState("");
   const handleChangeEmail = (e) => {
     setEmail(e.target.value);
@@ -16,8 +17,12 @@ const LoginComponent = (props) => {
     setPassword(e.target.value);
   };
 
+  const handleChangeRole = (e) => {
+    setRole(e.target.value);
+  };
+
   const handleLogin = () => {
-    AuthService.login(email, password)
+    AuthService.login(email, password, role)
       .then((response) => {
 
         /// jwt in local storage
@@ -28,7 +33,12 @@ const LoginComponent = (props) => {
           "Login successfully, you are now redirected to the profile page."
         );
         setCurrentUser(AuthService.getCurrentUser());
-        history.push("/myHomePage");
+        if(role == "student"){
+          history.push("/studentHomePage");
+        };
+        if(role == "instructor"){
+          history.push("/instructorHomePage");
+        };
       })
       .catch((error) => {
         console.log(error.response);
@@ -62,6 +72,16 @@ const LoginComponent = (props) => {
             type="password"
             className="form-control"
             name="password"
+          />
+        </div>
+        <br />
+        <div className="form-group">
+          <label htmlFor="role">Role</label>
+          <input
+            onChange={handleChangeRole}
+            type="text"
+            className="form-control"
+            name="role"
           />
         </div>
         <br />

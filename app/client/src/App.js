@@ -4,11 +4,15 @@ import HomeComponent from "./components/home-component";
 import NavComponent from "./components/nav-component";
 import RegisterComponent from "./components/register-component";
 import LoginComponent from "./components/login-component";
-import MyHomePageComponent from "./components/myHomePage-component";
-import CredentialComponent from "./components/credential-component";
-import NewGroupFormComponent from "./components/newGroupForm-component";
-import GroupFormComponent from "./components/groupForm-component";
+import StudentHomePageComponent from "./components/students/studentHomePage-component";
+import CredentialComponent from "./components/students/credential-component";
+import NewGroupFormComponent from "./components/students/newGroupForm-component";
+import GroupFormComponent from "./components/students/groupForm-component";
+import InstructorHomePageComponent from "./components/instructors/instructorHomePage-component";
+import NewTeachFormComponent from "./components/instructors/newTeachForm-components";
+import SendCredentialComponent from "./components/courses/sendCredential-component"
 import AuthService from "./services/auth.service";
+
 
 function App() {
   let [currentUser, setCurrentUser] = useState(AuthService.getCurrentUser());
@@ -28,8 +32,8 @@ function App() {
             setCurrentUser={setCurrentUser}
           />
         </Route>
-        <Route path="/myHomePage" exact>
-          <MyHomePageComponent
+        <Route path="/studentHomePage" exact>
+          <StudentHomePageComponent
             currentUser={currentUser}
             setCurrentUser={setCurrentUser}
           />
@@ -48,6 +52,24 @@ function App() {
         </Route>
         <Route path="/groupForm/:_id">
           <GroupFormComponent
+            currentUser={currentUser}
+            setCurrentUser={setCurrentUser}
+          />
+        </Route>
+        <Route path="/instructorHomePage" exact>
+          <InstructorHomePageComponent
+            currentUser={currentUser}
+            setCurrentUser={setCurrentUser}
+          />
+        </Route>
+        <Route path="/newTeachForm" exact>
+          <NewTeachFormComponent
+            currentUser={currentUser}
+            setCurrentUser={setCurrentUser}
+          />
+        </Route>
+        <Route path="/sendCredential/:_id" exact>
+          <SendCredentialComponent
             currentUser={currentUser}
             setCurrentUser={setCurrentUser}
           />
