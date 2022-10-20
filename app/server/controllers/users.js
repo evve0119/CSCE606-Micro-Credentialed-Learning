@@ -68,17 +68,18 @@ module.exports.login = (req, res, next) => {
   if (error) return res.status(400).send(error.details[0].message);
 
   User.findOne({ email: req.body.email }, function (err, user) {
-    
+
     if (err) {
-      res.status(400).send(err);
+      return res.status(400).send(err);
     }
     if (!user) {
-      res.status(401).send("User not found.");
+      return res.status(401).send("User not found.");
     } else {
-      if(user.role!=req.body.role){
-        res.status(401).send(`You are not a ${req.body.role}`);
+      if (user.role != req.body.role) {
+        return res.status(401).send(`You are not a ${req.body.role}`);
       }
       user.comparePassword(req.body.password, function (err, isMatch) {
+
         if (err) return res.status(400).send(err);
         if (isMatch) {
           const tokenObject = { _id: user._id, email: user.email };
