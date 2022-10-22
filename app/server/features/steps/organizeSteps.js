@@ -1,74 +1,48 @@
 const { Before, Given, When, Then } = require('@cucumber/cucumber')
-let users = require("../../controllers/users.js");
+const { Builder, By, until, ChromeOptions, Browser, WebDriverWait } = require('selenium-webdriver');
+const { getSystemErrorMap } = require('util');
 
-Given('I am at the home page', function () {
-    users.myHomePage;
+Given('I am at the student home page', async function () {
+    let expectedUrl = "http://localhost:3000/studentHomePage";
+    let actualUrl = await this.driver.getCurrentUrl();
+    let assert = require('assert');
+    assert.equal(actualUrl, expectedUrl);
 });
 
-When('I click the add button', function () {
-    users.renderNewGroupForm;
+When('I click the add new group button', async function () {
+    await this.driver.wait(until.elementLocated(By.xpath("/html/body/div/div/div[2]/div[2]/button")), 1000);
+    await this.driver.findElement(By.xpath("/html/body/div/div/div[2]/div[2]/button")).click();
 });
 
-Then('I should be at the add page', function () {
-    users.renderNewGroupForm;
+When('I click on a group', async function () {
+    await this.driver.wait(until.elementLocated(By.xpath("//a[@href='/groupForm/6352b065b74e6ab82bbf481f']")), 1000);
+    await this.driver.findElement(By.xpath("//a[@href='/groupForm/6352b065b74e6ab82bbf481f']")).click();
 });
 
-Then('I should be at the edit page', function () {
-    users.renderGroupForm;
-  });
-
-Then('I should see the group textbox as blank', function () {
-    users.renderNewGroupForm;
+When('I click on the submit button', async function () {
+    await this.driver.wait(until.elementLocated(By.xpath("//*[@id='submit']")), 1000);
+    await this.driver.findElement(By.xpath("//*[@id='submit']")).click();
+    await this.driver.wait(until.alertIsPresent());
+    let alert = await this.driver.switchTo().alert();
+    await alert.accept();
 });
 
-When('I click the edit button', function () {
-    users.updateGroup;
+When('I fill the group name textbox with value {string}', function (groupName) {
+    this.driver.findElement(By.xpath("//*[@id='groupName']")).sendKeys(groupName);
 });
 
-Then('I should see the group textbox value from database', function () {
-    users.updateGroup;
+Then('I should be at the add group page', async function () {
+    let expectedUrl = "http://localhost:3000/newGroupForm";
+    let actualUrl = await this.driver.getCurrentUrl();
+    let assert = require('assert');
+    assert.equal(actualUrl, expectedUrl);
+    this.driver.close();
 });
 
-Given('I am at the add page', function () {
-    renderNewGroupForm;
-});
-
-Given('I am at the edit page', function () {
-    users.renderGroupForm;
-});
-
-When('I click the save button', function () {
-    users.createNewGroup;
-});
-
-Then('I should save my edits to the database', function () {
-    users.updateGroup;
-});
-
-Then('I should return to the home page', function () {
-    users.myHomePage;
-});
-
-Then('I should see the credentials under the group', function () {
-    users.renderGroupForm;
-});
-
-When('I click the cancel button', function () {
-    users.myHomePage;
-});
-
-When ('I click the delete button', function () {
-    users.deleteGroup;
-});
-
-Then ('the group should be deleted', function () {
-    users.deleteGroup;
-});
-
-When ('I click the view all credentials button', function () {
-    users.renderAllCredentials;
-});
-
-Then ('I should see all my credentials', function () {
-    users.renderAllCredentials;
+Then('I should be at the edit group page', async function () {
+    let expectedUrl = "http://localhost:3000/groupForm/6352b065b74e6ab82bbf481f";
+    let actualUrl = await this.driver.getCurrentUrl();
+    let assert = require('assert');
+    assert.equal(actualUrl, expectedUrl);
+    this.driver.close();
 });
