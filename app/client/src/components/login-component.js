@@ -86,7 +86,7 @@ const LoginComponent = (props) => {
         </div>
         <br />
         <div className="form-group">
-          <button onClick={handleLogin} className="btn btn-primary btn-block">
+          <button id="login" onClick={handleLogin} className="btn btn-primary btn-block">
             <span>Login</span>
           </button>
         </div>

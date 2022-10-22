@@ -56,7 +56,7 @@ const StudentHomePageComponent = () => {
             ))}
           </div>
           {/* Add new groups (if login) */}
-          <button className="btn btn-primary" onClick={renderNewGroupForm}>
+          <button id="addNewGroup" className="btn btn-primary" onClick={renderNewGroupForm}>
             Add new group
           </button>
         </div>

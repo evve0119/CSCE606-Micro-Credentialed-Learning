@@ -56,7 +56,7 @@ const InstructorHomePageComponent = () => {
               </div>
             ))}
           </div>
-            <button className="btn btn-primary" onClick={renderNewTeachForm}>
+            <button id="addNewCourse" className="btn btn-primary" onClick={renderNewTeachForm}>
               Add new course
             </button>
           </div>

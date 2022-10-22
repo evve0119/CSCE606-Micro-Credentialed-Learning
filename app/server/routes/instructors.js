@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const instructors = require("../controllers/instructors");
-
 const passport = require("passport");
 require("../config/passport")(passport); // Validate user by passport
 const {isAuthor} = require("../middleware");

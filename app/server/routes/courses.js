@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const courses = require("../controllers/courses");
-const {isAuthor} = require("../middleware");
 const passport = require("passport");
 require("../config/passport")(passport); // Validate user by passport
 
@@ -16,7 +15,5 @@ router.route("/:id/edit")
 router.route("/:id/sendCredential")
 .get(passport.authenticate("jwt", { session: false }), courses.renderSendCredential)
 .post(passport.authenticate("jwt", { session: false }), courses.sendCredential)
-
-
 
 module.exports = router;

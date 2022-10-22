@@ -122,7 +122,7 @@ const GroupFormComponent = (props) => {
                             }
                         </div>
                     )))}
-                    <button className="btn btn-primary" onClick={updateGroup}>Submit</button>
+                    <button id="submit" className="btn btn-primary" onClick={updateGroup}>Submit</button>
                     <br />
                     {message && (
                         <div className="alert alert-warning mt-3" role="alert">
