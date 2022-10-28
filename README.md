@@ -31,7 +31,7 @@ Please open mongod before unit test.
 To test the app and deploy on Heroku
 <b>MAKE SURE YOU ARE IN server FILE!</b>
 
-`cd app/server`\
+`cd app/server`
 
 <h4>Step 1: Using two localhosts localhost:8080 for server and localhost:3000 for React frontend</h4>
 <h5> For the backend server </h5>
@@ -51,8 +51,10 @@ React will run on localhost:3000
 
 
 <h4>Step 2:  Change React frontend to static file and use localhost:8080 for server</h4>
-Instead of there are two host, change react to static file, we only need one for the server\
+Instead of there are two host, change react to static file, we only need one for the server
+
 Go to `app/server/.env` change `NODE_ENV = production`
+
 Go to `app/server/client/scr/services` and change all files of "API_URL" to get rid of localhost:3000
 
 <h5> For the Frontend </h5>
@@ -69,7 +71,8 @@ The server will run on localhost:8080
 
 <h4>Step 3:  Push entire app on Heroku</h4>
 <b>MAKE SURE YOU ARE IN server FILE!</b>
-PUT `.env` to gitignore\
+
+PUT `.env` to gitignore
 
 `cd app/server`\
 `heroku login`\
@@ -78,7 +81,3 @@ PUT `.env` to gitignore\
 `git add .`\
 `git commit -am "<message>"`\
 `git push heroku master`
-
-
-
-
