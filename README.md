@@ -72,7 +72,7 @@ The server will run on localhost:8080
 <h4>Step 3:  Push entire app on Heroku</h4>
 <b>MAKE SURE YOU ARE IN server FILE!</b>
 
-PUT `.env` to gitignore
+Put `.env` to gitignore
 
 `cd app/server`\
 `heroku login`\
