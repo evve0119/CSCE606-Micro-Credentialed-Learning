@@ -1,6 +1,6 @@
 import axios from "axios";
 const API_URL = "http://localhost:8080/api/students";
-
+// const API_URL = "/api/students";
 
 class StudentService {
     // get all groups function
