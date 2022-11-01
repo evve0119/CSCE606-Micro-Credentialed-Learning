@@ -55,7 +55,7 @@ const GroupFormComponent = (props) => {
     const updateGroup = () => {
         StudentService.updateGroup(currentUser.user._id, editcredentials, currentGroup._id, newGroupName).then(() => {
             window.alert("Group is updated!")
-            history.push("/studentHomePage")
+            history.push("/student/home")
         }).catch((err) => {
             setMessage(err.response.data)
         });
@@ -92,9 +92,20 @@ const GroupFormComponent = (props) => {
             )}
             {/* If holder */}
             {currentGroup && (
-                <div className="form-group">
-                    <h1>Edit group {currentGroup.name}</h1>
-                    <label for="groupName">Name</label>
+                <div 
+                    className="form-group"
+                    style={{
+                        position: "absolute",
+                        background: "#fff",
+                        top: "10%",
+                        left: "10%",
+                        right: "10%",
+                        padding: 15,
+                        border: "2px solid #444"
+                    }}
+                >
+                    <h1>Edit {currentGroup.name}</h1>
+                    <label htmlFor="groupName">Name</label>
                     <input
                         name="groupName"
                         type="text"
@@ -107,17 +118,17 @@ const GroupFormComponent = (props) => {
                     {/* All credentials */}
 
                     {credentialData && (credentialData.map((credential) => (
-                        <div className="mb-5">
+                        <div key={credential._id} className="mb-5">
                             {(currentGroup.credentials.includes(credential._id)) &&
                                 <div>
-                                    <input className="h3" type="checkbox" name="addcredentials" value={credential._id} onChange={handleChange} defaultChecked />
-                                    <label className="h3" for={credential._id}>{credential.name}</label>
+                                    <input className="h5" type="checkbox" name="addcredentials" value={credential._id} onChange={handleChange} defaultChecked />
+                                    <label className="h5" htmlFor={credential._id}>{credential.name}</label>
                                 </div>
                             }
                             {!(currentGroup.credentials.includes(credential._id)) &&
                                 <div>
-                                    <input className="h3" type="checkbox" name="addcredentials" value={credential._id} onChange={handleChange} />
-                                    <label className="h3" for={credential._id}>{credential.name}</label>
+                                    <input className="h5" type="checkbox" name="addcredentials" value={credential._id} onChange={handleChange} />
+                                    <label className="h5" htmlFor={credential._id}>{credential.name}</label>
                                 </div>
                             }
                         </div>

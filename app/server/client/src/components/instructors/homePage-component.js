@@ -19,10 +19,10 @@ const InstructorHomePageComponent = () => {
     // render new group form
     const history = useHistory();
     const renderNewTeachForm = ()=>{
-      history.push("/newTeachForm")
+      history.push("/instructor/courses/new")
     }
     const renderSendCredential = (teachId) => { 
-      history.push("/sendCredential/"+teachId);
+      history.push("/instructor/courses/"+teachId);
     };
   
     return (
@@ -45,20 +45,21 @@ const InstructorHomePageComponent = () => {
             </h3>
           </div>
         )}
-        {/* Show all groups (if login) */}
+        {/* Show all courses (if login) */}
         {currentUser && (
           <div>
-            <h3 className="mt-5 mb-3">Courses</h3>
+            <h3 className="mt-5 mb-3">Courses
+              <button id="addNewCourse" className="btn btn-primary" onClick={renderNewTeachForm}>
+                Add new course
+              </button>
+            </h3>
             <div>
-            {currentUser.teach.map((teach) => (
-              <div className="mb-3">
-                  <Link className="text-primary h3" to={`groupForm/${teach._id}`}>{teach.name}</Link> <button className="btn btn-success" onClick={() => renderSendCredential(teach._id)} >Send credentials</button>
-              </div>
-            ))}
-          </div>
-            <button id="addNewCourse" className="btn btn-primary" onClick={renderNewTeachForm}>
-              Add new course
-            </button>
+              {currentUser.teach.map((teach) => (
+                <div key={teach._id}className="mb-3">
+                    <Link className="text-primary h3" to={`groupForm/${teach._id}`}>{teach.name}</Link> <button className="btn btn-success" onClick={() => renderSendCredential(teach._id)} >Send credentials</button>
+                </div>
+              ))}
+            </div>
           </div>
         )}
         {/* Add new groups (if login) */}

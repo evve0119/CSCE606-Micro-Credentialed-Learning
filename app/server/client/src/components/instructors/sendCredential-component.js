@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
+import InstructorService from "../../services/instructor.service"
 import CourseService from "../../services/course.service";
 
 const SendCredentialComponent = (props) => {
@@ -30,9 +31,9 @@ const SendCredentialComponent = (props) => {
 
     // Send Credential
     const sendCredential = () => {
-        CourseService.sendCredential(course_id, addStudents).then(({data}) => {
+        InstructorService.sendCredential(course_id, addStudents).then(({data}) => {
             window.alert(data);
-            history.push("/instructorHomePage");
+            history.push("/instructor/home");
         }).catch((err) => {
             setMessage(err.response.data)
         });
@@ -77,10 +78,10 @@ const SendCredentialComponent = (props) => {
                     {/* All credentials */}
 
                     {currentCourse && (currentCourse.students.map((student) => (
-                        <div className="mb-5">
+                        <div key={student._id} className="mb-5">
                                 <div>
                                     <input className="h3" type="checkbox" name="studentEmail" value={student._id} onChange={handleChange} />
-                                    <label className="h3" for={student._id}>{student.email}</label>
+                                    <label className="h3" htmlFor={student._id}>{student.email}</label>
                                 </div>
                         </div>
                     )))}

@@ -18,49 +18,60 @@ const NavComponent = (props) => {
           <div className="container-fluid">
             <div className="collapse navbar-collapse" id="navbarNav">
               <ul className="navbar-nav">
+                {/* root not login */}
                 {!currentUser && (
-                  <li className="nav-item">
-                    <Link className="nav-link" to="/register">
-                      Register
-                    </Link>
-                  </li>
+                  <>
+                    <li className="nav-item">
+                      <Link className="nav-link" to="/">
+                        Micro-Credentials
+                      </Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link className="nav-link" to="/register">
+                        Register
+                      </Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link className="nav-link" to="/login">
+                        Login
+                      </Link>
+                    </li>
+                  </>
                 )}
-                {!currentUser && (
-                  <li className="nav-item">
-                    <Link className="nav-link" to="/login">
-                      Login
-                    </Link>
-                  </li>
-                )}
+                {/* all role after login */}
                 {currentUser && (
-                  <li className="nav-item">
-                    <Link onClick={handleLogout} className="nav-link" to="#">
-                      Logout
-                    </Link>
-                  </li>
+                  <>
+                    <li className="nav-item">
+                      <Link onClick={handleLogout} className="nav-link" to="#">
+                        Logout
+                      </Link>
+                    </li>
+                  </>
                 )}
-                {currentUser && (currentUser.user.role == "instructor") &&(
-                  
-                  <li className="nav-item">
-                    
-                    <Link className="nav-link" to="/instructorHomePage">
-                      My Home Page
-                    </Link>
-                  </li>
-                )}
+                {/* student */}
                 {currentUser && (currentUser.user.role == "student") &&(
-                  <li className="nav-item">
-                    <Link className="nav-link" to="/studentHomePage">
-                      My Home Page
-                    </Link>
-                  </li>
+                  <>
+                    <li className="nav-item">
+                      <Link className="nav-link" to="/student/home">
+                        My Home Page
+                      </Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link className="nav-link" to="/student/credentials">
+                        Credential
+                      </Link>
+                    </li>
+                  </>
                 )}
-                {currentUser && (currentUser.user.role == "student") && (
-                  <li className="nav-item">
-                    <Link className="nav-link" to="/allCredentials">
-                      View all credentials
-                    </Link>
-                  </li>
+                {/* instructor */}
+                {currentUser && (currentUser.user.role == "instructor") &&(
+                  <>
+                    <li className="nav-item">
+                      <Link className="nav-link" to="/instructorHomePage">
+                        My Home Page
+                      </Link>
+                    </li>
+                  </>
                 )}
               </ul>
             </div>

@@ -3,7 +3,7 @@ const API_URL = "http://localhost:8080/api/students";
 // const API_URL = "/api/students";
 
 class StudentService {
-    // get all groups function
+    // get student profile, group, resume
     renderMyHomePage(_id) {
         let token;
         if (localStorage.getItem("user")) {
@@ -16,6 +16,25 @@ class StudentService {
                 Authorization: token,
             },
         });
+    }
+
+    //add new group function
+    createNewGroup(groupName, addCredentials, _id) {
+        let token;
+        if (localStorage.getItem("user")) {
+            token = JSON.parse(localStorage.getItem("user")).token;
+        } else {
+            token = "";
+        }
+        return axios.post(
+            API_URL + "/myHomePage/" + _id,
+            { groupName, addCredentials },
+            {
+                headers: {
+                    Authorization: token,
+                },
+            }
+        );
     }
 
     //get group info function
@@ -48,25 +67,6 @@ class StudentService {
                     Authorization: token,
                 },
             });
-    }
-
-    //add new group function
-    createNewGroup(groupName, addCredentials, _id) {
-        let token;
-        if (localStorage.getItem("user")) {
-            token = JSON.parse(localStorage.getItem("user")).token;
-        } else {
-            token = "";
-        }
-        return axios.post(
-            API_URL + "/myHomePage/" + _id,
-            { groupName, addCredentials },
-            {
-                headers: {
-                    Authorization: token,
-                },
-            }
-        );
     }
 
     // add credential function
@@ -118,6 +118,89 @@ class StudentService {
                 },
             }
         );
+    }
+
+    // get profile information
+    renderProfileForm(_id) {
+        let token;
+        if (localStorage.getItem("user")) {
+            token = JSON.parse(localStorage.getItem("user")).token;
+        } else {
+            token = "";
+        }
+        return axios.get(API_URL + "/profile/" + _id, {
+            headers: {
+                Authorization: token,
+            },
+        });
+    }
+
+    // update profile
+    updateProfile(_id, editProfile) {
+        let token;
+        if (localStorage.getItem("user")) {
+            token = JSON.parse(localStorage.getItem("user")).token;
+        } else {
+            token = "";
+        }
+        return axios.put(API_URL + "/profile/" + _id ,
+            { editProfile },
+            {
+                headers: {
+                    Authorization: token,
+                },
+            });
+    }
+
+    //add new resume
+    createNewResume(resumeName, addProfile, addCredentials, addCredentialsName, _id) {
+        let token;
+        if (localStorage.getItem("user")) {
+            token = JSON.parse(localStorage.getItem("user")).token;
+        } else {
+            token = "";
+        }
+        return axios.post(
+            API_URL + "/resume/new/" + _id,
+            { resumeName, addProfile, addCredentials, addCredentialsName },
+            {
+                headers: {
+                    Authorization: token,
+                },
+            }
+        );
+    }
+
+    //get resume info
+    renderResumeForm(_id, resume_id) {
+        let token;
+        if (localStorage.getItem("user")) {
+            token = JSON.parse(localStorage.getItem("user")).token;
+        } else {
+            token = "";
+        }
+        return axios.get(API_URL + "/resume/" + _id + "/" + resume_id, {
+            headers: {
+                Authorization: token,
+            },
+        });
+    }
+
+    //update resume
+    updateResume(resumeName, addProfile, addCredentials, addCredentialsName, _id, resume_id) {
+        let token;
+        if (localStorage.getItem("user")) {
+            token = JSON.parse(localStorage.getItem("user")).token;
+        } else {
+            token = "";
+        }
+        return axios.put(API_URL + "/resume/" + _id + "/" + resume_id,
+            { resumeName, addProfile, addCredentials, addCredentialsName },
+            {
+                headers: {
+                    Authorization: token,
+                },
+            });
     }
 }
 

@@ -33,6 +33,21 @@ class InstructorService {
             }
         );
     }
+    sendCredential(courseId, addStudents) {
+        let token;
+        if (localStorage.getItem("user")) {
+            token = JSON.parse(localStorage.getItem("user")).token;
+        } else {
+            token = "";
+        }
+        return axios.post("http://localhost:8080/api/courses" + "/" + courseId + "/sendCredential",
+            {addStudents},
+            {
+                headers: {
+                    Authorization: token,
+                },
+            });
+    }
 }
 
 export default new InstructorService();

@@ -25,6 +25,29 @@ const groupSchema = new mongoose.Schema({
   },
 });
 
+const resumeSchema = new mongoose.Schema({
+  name: String,
+  profile: {
+    firstName: {type: String, default: ""},
+    lastName: {type: String, default: ""},
+    phone: {type: String, default: ""},
+    email: {type: String, default: ""},
+    address: {type: String, default: ""},
+    description: {type: String, default: ""},
+  },
+  credentials: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Credential"
+  }],
+  credentialsName: [{
+    type: String
+  }],
+  holder: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  },
+});
+
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -44,6 +67,14 @@ const userSchema = new mongoose.Schema({
     minLength: 6,
     maxLength: 1024,
   },
+  profile: {
+    firstName: {type: String, default: ""},
+    lastName: {type: String, default: ""},
+    phone: {type: String, default: ""},
+    email: {type: String, default: ""},
+    address: {type: String, default: ""},
+    description: {type: String, default: ""},
+  },
   credentials: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Credential"
@@ -51,6 +82,10 @@ const userSchema = new mongoose.Schema({
   groups: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Group"
+  }],
+  resumes: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Resume"
   }],
   role: {
     type: String,
@@ -98,3 +133,4 @@ userSchema.methods.comparePassword = function (password, cb) { // cb = callback
 module.exports.Group = mongoose.model("Group", groupSchema);
 module.exports.Credential = mongoose.model("Credential", credentialSchema);
 module.exports.User = mongoose.model("User", userSchema);
+module.exports.Resume = mongoose.model("Resume", resumeSchema);

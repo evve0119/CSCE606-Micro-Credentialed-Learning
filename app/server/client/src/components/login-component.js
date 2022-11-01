@@ -34,10 +34,10 @@ const LoginComponent = (props) => {
         );
         setCurrentUser(AuthService.getCurrentUser());
         if(role == "student"){
-          history.push("/studentHomePage");
+          history.push("/student/home");
         };
         if(role == "instructor"){
-          history.push("/instructorHomePage");
+          history.push("/instructor/home");
         };
       })
       .catch((error) => {

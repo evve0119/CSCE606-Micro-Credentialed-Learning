@@ -9,11 +9,9 @@ const NewGroupFormComponent = (props) => {
     const handleTakeToLogin = () => {
         history.push("/login");
     };
-    console.log("run")
     // Get user's credentials
     let [credentialData, setCredentialData] = useState(null);
     useEffect(() => {
-        console.log("useeffect")
         let _id;
         if (currentUser) {
             _id = currentUser.user._id;
@@ -42,7 +40,7 @@ const NewGroupFormComponent = (props) => {
     const postGroup = () => {
         StudentService.createNewGroup(groupName, addcredentials ,currentUser.user._id).then(() => {
             window.alert("New group is created!")
-            history.push("/studentHomePage")
+            history.push("/student/home")
         }).catch((err) => {
             setMessage(err.response.data)
         });
@@ -65,7 +63,6 @@ const NewGroupFormComponent = (props) => {
 
     return (
         <div style={{ padding: "3rem" }}>
-            {console.log("return")}
             {/* If not login */}
             {!currentUser && (
                 <div>
@@ -86,9 +83,20 @@ const NewGroupFormComponent = (props) => {
             )}
             {/* If login and student */}
             {currentUser && (currentUser.user.role == "student") &&(
-                <div className="form-group">
-                    <h1>Add new group</h1>
-                    <label for="groupName">Group name</label>
+                <div 
+                    className="form-group"
+                    style={{
+                        position: "absolute",
+                        background: "#fff",
+                        top: "10%",
+                        left: "10%",
+                        right: "10%",
+                        padding: 15,
+                        border: "2px solid #444"
+                    }}
+                >
+                    <h1>Add New Group</h1>
+                    <label htmlFor="groupName">Group name</label>
                     <input
                         name="groupName"
                         type="text"
@@ -99,9 +107,9 @@ const NewGroupFormComponent = (props) => {
                     <br />
                     {/* All credentials */}
                     {credentialData && (credentialData.map((credential) => (
-                        <div className="mb-5">
+                        <div key={credential._id} className="mb-5">
                             <input className="h3" type="checkbox" name="addcredentials" value={credential._id} onChange={handleChange}/>
-                            <label className="h3" for={credential._id}>{credential.name}</label>
+                            <label className="h3" htmlFor={credential._id}>{credential.name}</label>
                         </div>
                     )))}
                     <button className="btn btn-primary" onClick={postGroup}>Add</button>
