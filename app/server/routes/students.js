@@ -20,4 +20,16 @@ router.route("/allCredentials/:id")
 router.route("/search")
 .post( passport.authenticate("jwt", { session: false }),students.searchByEmail)
 
+router.route("/profile/:id")
+.get(passport.authenticate("jwt", { session: false }), isAuthor, students.renderProfileForm)
+.put(passport.authenticate("jwt", { session: false }), isAuthor, students.updateProfile)
+
+router.route("/resume/new/:id")
+.post(passport.authenticate("jwt", { session: false }), students.createNewResume)
+
+router.route("/resume/:id/:resumeId")
+.get(passport.authenticate("jwt", { session: false }), isAuthor, students.renderResumeForm)
+.put(passport.authenticate("jwt", { session: false }), isAuthor, students.updateResume)
+.delete(passport.authenticate("jwt", { session: false }), isAuthor, students.deleteResume)
+
 module.exports = router;

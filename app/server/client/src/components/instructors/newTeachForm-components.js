@@ -35,7 +35,7 @@ const NewTeachFormComponent = (props) => {
     const postCourse = () => {
         InstructorService.createNewCourse(courseName, description, addStudentsId, currentUser.user._id).then(() => {
             window.alert("New course is created!")
-            history.push("/instructorHomePage")
+            history.push("/instructor/home")
         }).catch((err) => {
             setMessage(err.response.data)
         });
@@ -89,7 +89,7 @@ const NewTeachFormComponent = (props) => {
                     {/* Button to submit all form */}
                     <h1>Add new course <button className="btn btn-primary" onClick={postCourse}>Submit</button></h1>
 
-                    <label for="courseName">Course name</label>
+                    <label htmlFor="courseName">Course name</label>
                     <input
                         name="courseName"
                         type="text"
@@ -98,7 +98,7 @@ const NewTeachFormComponent = (props) => {
                         onChange={handleChangeCourseName}
                     />
                     <br />
-                    <label for="description">Description</label>
+                    <label htmlFor="description">Description</label>
                     <input
                         name="description"
                         type="text"
@@ -108,8 +108,8 @@ const NewTeachFormComponent = (props) => {
                     />
                     <br />
                     {/* All credentials */}
-                    {addStudentsEmail && (addStudentsEmail.map((email) => (
-                        <div className="mb-5">
+                    {addStudentsEmail && (addStudentsEmail.map((email, index) => (
+                        <div key={index} className="mb-5">
                             <h3>{email}</h3>
                         </div>
                     )))}

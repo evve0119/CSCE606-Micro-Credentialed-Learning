@@ -16,21 +16,6 @@ class CourseService {
             },
         });
     }
-    sendCredential(courseId, addStudents) {
-        let token;
-        if (localStorage.getItem("user")) {
-            token = JSON.parse(localStorage.getItem("user")).token;
-        } else {
-            token = "";
-        }
-        return axios.post(API_URL + "/" + courseId + "/sendCredential",
-            {addStudents},
-            {
-                headers: {
-                    Authorization: token,
-                },
-            });
-    }
 };
 
 export default new CourseService();

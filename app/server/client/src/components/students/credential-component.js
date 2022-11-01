@@ -43,7 +43,7 @@ const CredentialComponent = (props) => {
   const postCredential = () => {
     StudentService.addCredential(credentialName, currentUser.user._id).then((response) => {
       window.alert("New credential is created, refresh to see all credentials")
-      history.push("/allCredentials")
+      history.push("/student/credentials")
     }).catch((err) => {
       setMessage(err.response.data)
     });
@@ -66,9 +66,9 @@ const CredentialComponent = (props) => {
       {/* If this person has credential, show all credentials */}
       {currentUser && credentialData && credentialData.length != 0 && (
         <div>
-          <h1 class="mt-5">Here are your credentials</h1>
+          <h1 className="mt-5">Here are your credentials</h1>
           {credentialData.map((credential) => (
-            <div >
+            <div key={credential._id}>
               <h5 className="card-title">{credential.name}</h5>
               <br />
             </div>
@@ -79,7 +79,7 @@ const CredentialComponent = (props) => {
       {currentUser && currentUser.user.role == "instructor" && (
         <div className="form-group">
           <h1>Add new credential</h1>
-          <label for="credentialName">Credential name</label>
+          <label htmlFor="credentialName">Credential name</label>
           <input
             name="credentialName"
             type="text"
@@ -97,12 +97,6 @@ const CredentialComponent = (props) => {
               {message}
             </div>
           )}
-        </div>
-      )}
-      {/* If is student */}
-      {currentUser && currentUser.user.role == "student" && (
-        <div>
-          <h1>Welcome to student's Credentials page.</h1>
         </div>
       )}
     </div>
