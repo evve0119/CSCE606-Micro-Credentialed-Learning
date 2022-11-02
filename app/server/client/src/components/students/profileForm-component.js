@@ -145,11 +145,9 @@ const ProfileFormComponent = (props) => {
                     defaultValue={currentAddress}
                     onChange={handleChangeAddress}
                 />
-                <ProfileForm 
-                    name={"Description"}
-                    defaultValue={currentDescription}
-                    onChange={handleChangeDescription}
-                />
+                <p><label htmlFor="description">Description</label></p>
+                <textarea id="description" rows="4" cols="100"
+                    value={currentDescription} onChange={handleChangeDescription} />
                 <br />
                 <button id="submit" className="btn btn-primary" onClick={updateProfile}>Submit</button>
                 <br />

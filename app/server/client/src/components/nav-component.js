@@ -67,7 +67,7 @@ const NavComponent = (props) => {
                 {currentUser && (currentUser.user.role == "instructor") &&(
                   <>
                     <li className="nav-item">
-                      <Link className="nav-link" to="/instructorHomePage">
+                      <Link className="nav-link" to="/instructor/home">
                         My Home Page
                       </Link>
                     </li>

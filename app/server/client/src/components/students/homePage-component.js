@@ -32,7 +32,7 @@ const StudentHomePageComponent = () => {
     <div style={{ padding: "3rem" }}>
       {/* If not login or not student*/}
       {!currentUser && (
-        <div>You are not authorized</div>
+        <h1>You are not authorized</h1>
       )}
       {/* If login and student */}
       {currentUser && (
@@ -60,7 +60,7 @@ const Profile = (props) => {
   const profile = currentUser.profile;
   return(
     <div>
-      <h3 className="mt-5 mb-3">Profile
+      <h3 className="mb-3">Profile
       <button id="editProfile" className="btn btn-primary" onClick={props.renderProfileForm}>
           Edit
       </button>
@@ -71,7 +71,7 @@ const Profile = (props) => {
       <h6> Email: {profile.email} </h6>
       <h6> Phone: {profile.phone} </h6>
       <h6> Address: {profile.address}</h6>
-      <h6> {profile.description} </h6>
+      <pre>{profile.description}</pre>
 
     </div>
   )
