@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import { useHistory } from "react-router-dom";
 import AuthService from "../services/auth.service";
+import Select from 'react-select';
 
 const RegisterComponent = () => {
   const history = useHistory();
@@ -9,7 +10,10 @@ const RegisterComponent = () => {
   let [password, setPassword] = useState("");
   let [role, setRole] = useState("");
   let [message, setMessage] = useState("");
-
+  const roles = [
+    {value: "student", label: "student"},
+    {value: "instructor", label: "instructor"}
+  ];
   const handleChangeUsername = (e) => {
     setUsername(e.target.value);
   };
@@ -20,7 +24,7 @@ const RegisterComponent = () => {
     setPassword(e.target.value);
   };
   const handleChangeRole = (e) => {
-    setRole(e.target.value);
+    setRole(e.label);
   };
   const handleRegister = () => {
     AuthService.register(username, email, password, role)
@@ -29,7 +33,10 @@ const RegisterComponent = () => {
           "Registration succeeds. You are now redirected to the login page."
         );
         // redirect to the other page
-        history.push("/login");
+        history.push({
+          pathname: "/login",
+          state: {role: role}
+        })
       })
       .catch((error) => {
         setMessage(error.response.data);
@@ -45,7 +52,7 @@ const RegisterComponent = () => {
         </div>
         <br />
         <div className="form-group">
-          <label htmlFor="email">email</label>
+          <label htmlFor="email">Email</label>
           <input onChange={handleChangeEmail} type="text" className="form-control" name="email" />
         </div>
         <br />
@@ -55,8 +62,14 @@ const RegisterComponent = () => {
         </div>
         <br />
         <div className="form-group">
-          <label htmlFor="password">role</label>
-          <input onChange={handleChangeRole} type="text" className="form-control" name="role" />
+          <label htmlFor="password">Role</label>
+          <Select
+            options={roles}
+            onChange={handleChangeRole}
+            defaultValue={roles.find(r => {
+              return r.value === role
+            })}
+          />
         </div>
         <br />
         <button id="register" onClick={handleRegister} className="btn btn-primary">

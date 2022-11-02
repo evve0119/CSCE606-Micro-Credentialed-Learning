@@ -1,6 +1,20 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 
 const HomeComponent = () => {
+  const history = useHistory();
+  function studentLogin() {
+    history.push({
+      pathname: "/login",
+      state: {role: "student"}
+    })
+  }
+  function instructorLogin() {
+    history.push({
+      pathname: "/login",
+      state: {role: "instructor"}
+    })
+  }
   return (
     <main>
       <div className="container py-4">
@@ -26,7 +40,7 @@ const HomeComponent = () => {
                 practice purpose only, so please do not provide any personal
                 information, such as credit card numbers.
               </p>
-              <button className="btn btn-outline-light" type="button">
+              <button className="btn btn-outline-light" type="button" onClick={studentLogin}>
                 Login or Register Now
               </button>
             </div>
@@ -40,7 +54,7 @@ const HomeComponent = () => {
                 only, so please do not provide any personal information, such as
                 credit card numbers.
               </p>
-              <button class="btn btn-outline-secondary" type="button">
+              <button class="btn btn-outline-secondary" type="button" onClick={instructorLogin}>
                 Login or Register Now
               </button>
             </div>
