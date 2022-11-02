@@ -72,6 +72,7 @@ module.exports.updateCourse = async (req, res) => {
         })
         // Update course
         await currentCourse.update({ $set: { name: req.body.courseName, students: req.body.editStudents, description: req.body.courseDescription } });
+        await currentCourse.save();
         // Add course to new student
         newStudentsId.map(async(studentId) => {
             const currentStudent = await User.findById(studentId);
@@ -84,7 +85,6 @@ module.exports.updateCourse = async (req, res) => {
             currentStudent.enroll.pull(currentCourse._id);
             await currentStudent.save();
         });
-
         return res.send("Successfully update!!!");
     } catch(err){
         return res.status(400).send("Update failed");
@@ -103,7 +103,7 @@ module.exports.deleteCourse = async (req, res) => {
         })
         const currentInstructor = User.findById(currentCourse.holder._id);
         await currentInstructor.update({ $pull: { teach: currentCourse._id } });
-        await Course.findByIdAndDelete(req.params.id);
+        await Course.findByIdAndDelete(req.params.courseId);
         return res.send("Successfully delete!!!");
     } catch(err){
         return res.status(404).send("Delete fail!");
@@ -131,10 +131,10 @@ module.exports.sendCredential = async (req, res) => {
         req.body.addStudents.map(async(studentId) =>{
             const currentStudent = await User.findById(studentId);
             const currentCredential = new Credential({ name: currentCourse.name, holder: studentId, instructor: currentCourse.holder });
-            await currentCredential.save()
+            await currentCredential.save();
             // push group to this user
             currentStudent.credentials.push(currentCredential._id);
-            await currentStudent.save()
+            await currentStudent.save();
         });
         return res.send("Credentials have been sent!");
     } catch(err){
