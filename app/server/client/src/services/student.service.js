@@ -11,7 +11,7 @@ class StudentService {
         } else {
             token = "";
         }
-        return axios.get(API_URL + "/myHomePage/" + _id, {
+        return axios.get(API_URL + "/home/" + _id, {
             headers: {
                 Authorization: token,
             },
@@ -27,7 +27,7 @@ class StudentService {
             token = "";
         }
         return axios.post(
-            API_URL + "/myHomePage/" + _id,
+            API_URL + "/groups/new/" + _id,
             { groupName, addCredentials },
             {
                 headers: {
@@ -45,7 +45,7 @@ class StudentService {
         } else {
             token = "";
         }
-        return axios.get(API_URL + "/myHomePage/" + _id + "/" + group_id, {
+        return axios.get(API_URL + "/groups/" + _id + "/" + group_id, {
             headers: {
                 Authorization: token,
             },
@@ -60,7 +60,7 @@ class StudentService {
         } else {
             token = "";
         }
-        return axios.put(API_URL + "/myHomePage/" + _id + "/" + group_id,
+        return axios.put(API_URL + "/groups/" + _id + "/" + group_id,
             { editCredentials, newGroupName },
             {
                 headers: {
@@ -95,7 +95,7 @@ class StudentService {
         } else {
             token = "";
         }
-        return axios.get(API_URL + "/allCredentials/" + _id, {
+        return axios.get(API_URL + "/credentials/" + _id, {
             headers: {
                 Authorization: token,
             },
@@ -128,7 +128,7 @@ class StudentService {
         } else {
             token = "";
         }
-        return axios.get(API_URL + "/profile/" + _id, {
+        return axios.get(API_URL + "/intro/" + _id, {
             headers: {
                 Authorization: token,
             },
@@ -143,7 +143,7 @@ class StudentService {
         } else {
             token = "";
         }
-        return axios.put(API_URL + "/profile/" + _id ,
+        return axios.put(API_URL + "/intro/" + _id ,
             { editProfile },
             {
                 headers: {
@@ -161,7 +161,7 @@ class StudentService {
             token = "";
         }
         return axios.post(
-            API_URL + "/resume/new/" + _id,
+            API_URL + "/resumes/new/" + _id,
             { resumeName, addProfile, addCredentials, addCredentialsName },
             {
                 headers: {
@@ -179,7 +179,7 @@ class StudentService {
         } else {
             token = "";
         }
-        return axios.get(API_URL + "/resume/" + _id + "/" + resume_id, {
+        return axios.get(API_URL + "/resumes/" + _id + "/" + resume_id, {
             headers: {
                 Authorization: token,
             },
@@ -194,7 +194,7 @@ class StudentService {
         } else {
             token = "";
         }
-        return axios.put(API_URL + "/resume/" + _id + "/" + resume_id,
+        return axios.put(API_URL + "/resumes/" + _id + "/" + resume_id,
             { resumeName, addProfile, addCredentials, addCredentialsName },
             {
                 headers: {

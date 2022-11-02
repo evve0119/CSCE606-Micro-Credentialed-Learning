@@ -5,8 +5,19 @@ const passport = require("passport");
 require("../config/passport")(passport); // Validate user by passport
 const {isAuthor} = require("../middleware");
 
-router.route("/myHomePage/:id")
+router.route("/home/:id")
 .get(passport.authenticate("jwt", { session: false }), isAuthor, instructors.myHomePage)
+
+router.route("/courses/new")
 .post(passport.authenticate("jwt", { session: false }), instructors.createNewCourse)
+
+router.route("/courses/:courseId/edit")
+.get(passport.authenticate("jwt", { session: false }), instructors.renderCourseForm)
+.put(passport.authenticate("jwt", { session: false }), instructors.updateCourse)
+.delete(passport.authenticate("jwt", { session: false }), instructors.deleteCourse);
+
+router.route("/courses/:courseId/sendCredential")
+.get(passport.authenticate("jwt", { session: false }), instructors.renderSendCredential)
+.post(passport.authenticate("jwt", { session: false }), instructors.sendCredential)
 
 module.exports = router;

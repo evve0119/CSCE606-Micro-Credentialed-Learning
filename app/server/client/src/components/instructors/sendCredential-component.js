@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import InstructorService from "../../services/instructor.service"
-import CourseService from "../../services/course.service";
 
 const SendCredentialComponent = (props) => {
     // If not holder go to login
@@ -18,7 +17,7 @@ const SendCredentialComponent = (props) => {
     // // Get user's credentials and group info
     let [currentCourse, setCurrentCourse] = useState(null)
     useEffect(() => {
-        CourseService.renderCourseForm(course_id)
+        InstructorService.renderSendCredentialForm(course_id)
             .then(({ data }) => {
                 setCurrentCourse(data);
             })
@@ -45,12 +44,10 @@ const SendCredentialComponent = (props) => {
         const { value, checked } = e.target;
         // Case 1 : The user checks the box
         if (checked) {
-            console.log(addStudents)
             setAddStudents([...addStudents, value]);
         }
         // Case 2  : The user unchecks the box
         else {
-            console.log(addStudents)
             setAddStudents(addStudents.filter((e) => e !== value));
         }
     };

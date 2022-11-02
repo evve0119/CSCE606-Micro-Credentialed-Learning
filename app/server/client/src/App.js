@@ -4,8 +4,17 @@ import HomeComponent from "./components/home-component";
 import NavComponent from "./components/nav-component";
 import RegisterComponent from "./components/register-component";
 import LoginComponent from "./components/login-component";
-import StudentComponent from "./components/students/student-component"
-import InstructorComponent from "./components/instructors/instructor-component"
+import StudentHomePageComponent from "./components/students/homePage-component";
+import CredentialComponent from "./components/students/credential-component";
+import ProfileFormComponent from "./components/students/profileForm-component";
+import NewGroupFormComponent from "./components/students/newGroupForm-component";
+import GroupFormComponent from "./components/students/groupForm-component";
+import NewResumeFormComponent from "./components/students/newResume-component";
+import ResumeFormComponent from "./components/students/resumeForm-component";
+import EditResumeFormComponent from "./components/students/editResumeForm-component"
+import InstructorHomePageComponent from "./components/instructors/homePage-component";
+import NewTeachFormComponent from "./components/instructors/newTeachForm-components";
+import SendCredentialComponent from "./components/instructors/sendCredential-component"
 import AuthService from "./services/auth.service";
 
 function App() {
@@ -27,13 +36,13 @@ function App() {
           />
         </Route>
         <Route path="/student">
-          <StudentComponent
+          <Student
             currentUser={currentUser}
             setCurrentUser={setCurrentUser}
           />
         </Route>
         <Route path="/instructor">
-          <InstructorComponent
+          <Instructor
             currentUser={currentUser}
             setCurrentUser={setCurrentUser}
           />
@@ -42,5 +51,122 @@ function App() {
     </div>
   );
 }
+
+const Student = (props) => {
+  return(
+    <>
+      <Switch>
+      <Route path="/student/home">
+          <StudentHomePageComponent
+            currentUser={props.currentUser}
+            setCurrentUser={props.setCurrentUser}
+          />
+        </Route>
+        <Route path="/student/credentials">
+          <CredentialComponent
+            currentUser={props.currentUser}
+            setCurrentUser={props.setCurrentUser}
+          />
+        </Route>
+        <Route path="/student/intro">
+          <ProfileFormComponent
+            currentUser={props.currentUser}
+            setCurrentUser={props.setCurrentUser}
+          />
+        </Route>
+        <Route path="/student/groups">
+          <Group
+            currentUser={props.currentUser}
+            setCurrentUser={props.setCurrentUser}
+          />
+        </Route>
+        <Route path="/student/resumes">
+          <Resume
+            currentUser={props.currentUser}
+            setCurrentUser={props.setCurrentUser}
+          />
+        </Route>
+      </Switch>
+    </>
+  )
+};
+
+const Group = (props) => {
+return(
+  <>
+    <Switch>
+      <Route path="/student/groups/new">
+          <NewGroupFormComponent
+            currentUser={props.currentUser}
+            setCurrentUser={props.setCurrentUser}
+          />
+        </Route>
+        <Route path="/student/groups/:_id">
+          <GroupFormComponent
+            currentUser={props.currentUser}
+            setCurrentUser={props.setCurrentUser}
+          />
+        </Route>
+    </Switch>
+  </>
+)
+};
+
+const Resume = (props) => {
+return(
+  <>
+    <Switch>
+      <Route path="/student/resumes/new">
+          <NewResumeFormComponent
+            currentUser={props.currentUser}
+            setCurrentUser={props.setCurrentUser}
+          />
+        </Route>
+        <Route path="/student/resumes/:_id" exact>
+          <ResumeFormComponent
+            currentUser={props.currentUser}
+            setCurrentUser={props.setCurrentUser}
+          />
+        </Route>
+        <Route path="/student/resumes/:_id/edit">
+          <EditResumeFormComponent
+            currentUser={props.currentUser}
+            setCurrentUser={props.setCurrentUser}
+          />
+        </Route>
+    </Switch>
+  </>
+)
+};
+
+const Instructor = (props) => {
+  return(
+    <>
+      <Switch>
+      <Route path="/instructor/home" exact>
+          <InstructorHomePageComponent
+            currentUser={props.currentUser}
+            setCurrentUser={props.setCurrentUser}
+          />
+        </Route>
+        <Route path="/instructor/courses/new" exact>
+          <NewTeachFormComponent
+            currentUser={props.currentUser}
+            setCurrentUser={props.setCurrentUser}
+          />
+        </Route>
+        <Route path="/instructor/courses/:_id/edit" exact>
+          
+        </Route>
+        <Route path="/instructor/courses/:_id/sendCredential" exact>
+          <SendCredentialComponent
+            currentUser={props.currentUser}
+            setCurrentUser={props.setCurrentUser}
+          />
+        </Route>
+      </Switch>
+    </>
+  )
+};
 
 export default App;

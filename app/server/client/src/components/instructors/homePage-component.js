@@ -22,7 +22,7 @@ const InstructorHomePageComponent = () => {
       history.push("/instructor/courses/new")
     }
     const renderSendCredential = (teachId) => { 
-      history.push("/instructor/courses/"+teachId);
+      history.push("/instructor/courses/"+teachId+"/sendCredential");
     };
   
     return (

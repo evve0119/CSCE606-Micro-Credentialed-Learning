@@ -10,7 +10,7 @@ class InstructorService {
         } else {
             token = "";
         }
-        return axios.get(API_URL + "/myHomePage/" + _id, {
+        return axios.get(API_URL + "/home/" + _id, {
             headers: {
                 Authorization: token,
             },
@@ -23,8 +23,7 @@ class InstructorService {
         } else {
             token = "";
         }
-        return axios.post(
-            API_URL + "/myHomePage/" + _id,
+        return axios.post(API_URL + "/courses/new",
             { courseName, description, addStudentsId },
             {
                 headers: {
@@ -33,6 +32,21 @@ class InstructorService {
             }
         );
     }
+
+    renderSendCredentialForm(courseId) {
+        let token;
+        if (localStorage.getItem("user")) {
+            token = JSON.parse(localStorage.getItem("user")).token;
+        } else {
+            token = "";
+        }
+        return axios.get(API_URL + "/courses/" + courseId + "/sendCredential", {
+            headers: {
+                Authorization: token,
+            },
+        });
+    }
+
     sendCredential(courseId, addStudents) {
         let token;
         if (localStorage.getItem("user")) {
@@ -40,7 +54,7 @@ class InstructorService {
         } else {
             token = "";
         }
-        return axios.post("http://localhost:8080/api/courses" + "/" + courseId + "/sendCredential",
+        return axios.post(API_URL + "/courses/" + courseId + "/sendCredential",
             {addStudents},
             {
                 headers: {
