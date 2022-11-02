@@ -53,7 +53,7 @@ const GroupFormComponent = (props) => {
 
     // Update group
     const updateGroup = () => {
-        StudentService.updateGroup(currentUser.user._id, editcredentials, currentGroup._id, newGroupName).then(() => {
+        StudentService.updateCourse(currentUser.user._id, editcredentials, currentGroup._id, newGroupName).then(() => {
             window.alert("Group is updated!")
             history.push("/student/home")
         }).catch((err) => {

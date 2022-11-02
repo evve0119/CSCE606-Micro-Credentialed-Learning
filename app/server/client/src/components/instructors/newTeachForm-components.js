@@ -107,7 +107,7 @@ const NewTeachFormComponent = (props) => {
                         onChange={handleChangeDescription}
                     />
                     <br />
-                    {/* All credentials */}
+                    {/* Added students */}
                     {addStudentsEmail && (addStudentsEmail.map((email, index) => (
                         <div key={index} className="mb-5">
                             <h3>{email}</h3>

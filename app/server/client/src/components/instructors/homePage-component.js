@@ -24,6 +24,9 @@ const InstructorHomePageComponent = () => {
     const renderSendCredential = (teachId) => { 
       history.push("/instructor/courses/"+teachId+"/sendCredential");
     };
+    const renderCoursePage = (teachId) => { 
+      history.push("/courses/"+teachId);
+    };
   
     return (
       <div style={{ padding: "3rem" }}>
@@ -48,7 +51,7 @@ const InstructorHomePageComponent = () => {
         {/* Show all courses (if login) */}
         {currentUser && (
           <div>
-            <h3 className="mt-5 mb-3">Courses
+            <h3 className="mt-5 mb-3">Courses &emsp;
               <button id="addNewCourse" className="btn btn-primary" onClick={renderNewTeachForm}>
                 Add new course
               </button>
@@ -56,7 +59,9 @@ const InstructorHomePageComponent = () => {
             <div>
               {currentUser.teach.map((teach) => (
                 <div key={teach._id}className="mb-3">
-                    <Link className="text-primary h3" to={`groupForm/${teach._id}`}>{teach.name}</Link> <button className="btn btn-success" onClick={() => renderSendCredential(teach._id)} >Send credentials</button>
+                    <Link className="text-primary h3" to={`courses/${teach._id}/edit`}>{teach.name}</Link> &emsp;&emsp;
+                    <button className="btn btn-warning" onClick={() => renderCoursePage(teach._id)} >View course</button> &emsp;&emsp;
+                    <button className="btn btn-success" onClick={() => renderSendCredential(teach._id)} >Send credentials</button>               
                 </div>
               ))}
             </div>
