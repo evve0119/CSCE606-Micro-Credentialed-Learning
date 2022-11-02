@@ -40,7 +40,7 @@ module.exports.createNewCourse = async (req, res) => {
 
 module.exports.renderCourseForm = async (req, res) => {
     try{
-        const currentCourse = await Course.findById(req.params.id).populate("holder");
+        const currentCourse = await Course.findById(req.params.courseId).populate("holder").populate("students");
         if(req.user._id != currentCourse.holder._id.toString()){
             return res.status(403).send("You are not authorized");
         }
@@ -52,12 +52,39 @@ module.exports.renderCourseForm = async (req, res) => {
 
 module.exports.updateCourse = async (req, res) => {
     try{
-        const currentCourse = await Course.findById(req.params.id).populate("holder");
+        const currentCourse = await Course.findById(req.params.courseId);
         if(req.user._id != currentCourse.holder._id.toString()){
             return res.status(400).send("You are not authorized");
         }
-        // res.send(currentCourse);
-        await currentCourse.update({ $set: { name: req.body.courseName, students: req.body.addStudents, description: req.body.description } });
+        // New students
+        let newStudentsId = []
+        req.body.editStudents.map((studentId)=>{
+            if(!currentCourse.students.includes(studentId)){
+                newStudentsId = [...newStudentsId,studentId]
+            }
+        })
+        // Deleted students
+        let deletedStudentsId = []
+        currentCourse.students.map((studentId)=>{
+            if(!req.body.editStudents.includes(studentId)){
+                deletedStudentsId = [...deletedStudentsId,studentId]
+            }
+        })
+        // Update course
+        await currentCourse.update({ $set: { name: req.body.courseName, students: req.body.editStudents, description: req.body.courseDescription } });
+        // Add course to new student
+        newStudentsId.map(async(studentId) => {
+            const currentStudent = await User.findById(studentId);
+            currentStudent.enroll.push(currentCourse._id);
+            await currentStudent.save();
+        });
+        // Delete course to deleted student
+        deletedStudentsId.map(async(studentId) => {
+            const currentStudent = await User.findById(studentId);
+            currentStudent.enroll.pull(currentCourse._id);
+            await currentStudent.save();
+        });
+
         return res.send("Successfully update!!!");
     } catch(err){
         return res.status(400).send("Update failed");
@@ -66,22 +93,20 @@ module.exports.updateCourse = async (req, res) => {
 
 module.exports.deleteCourse = async (req, res) => {
     try{
-        const currentCourse = await Course.findById(req.params.id).populate("holder");
+        const currentCourse = await Course.findById(req.params.courseId);
         if(req.user._id != currentCourse.holder._id.toString()){
             return res.status(400).send("You are not authorized");
         }
-        // res.send(currentCourse);
         currentCourse.students.map(async (studentId) => {
             const currentStudent = User.findById(studentId);
-            await currentStudent.update({ $pull: { enroll: req.params.id } });
+            await currentStudent.update({ $pull: { enroll: currentCourse._id } });
         })
         const currentInstructor = User.findById(currentCourse.holder._id);
-        await currentInstructor.update({ $pull: { teach: req.params.id } });
-
+        await currentInstructor.update({ $pull: { teach: currentCourse._id } });
         await Course.findByIdAndDelete(req.params.id);
         return res.send("Successfully delete!!!");
     } catch(err){
-        return res.status(404).send("Course does not exist");
+        return res.status(404).send("Delete fail!");
     }
 };
 

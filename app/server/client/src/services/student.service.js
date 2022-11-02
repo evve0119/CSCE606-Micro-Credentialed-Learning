@@ -53,7 +53,7 @@ class StudentService {
     }
 
     //update group
-    updateGroup(_id, editCredentials, group_id, newGroupName) {
+    updateCourse(_id, editCredentials, group_id, newGroupName) {
         let token;
         if (localStorage.getItem("user")) {
             token = JSON.parse(localStorage.getItem("user")).token;

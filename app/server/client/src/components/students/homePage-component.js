@@ -60,7 +60,7 @@ const Profile = (props) => {
   const profile = currentUser.profile;
   return(
     <div>
-      <h3 className="mb-3">Profile
+      <h3 className="mb-3">Profile  &emsp;&emsp;
       <button id="editProfile" className="btn btn-primary" onClick={props.renderProfileForm}>
           Edit
       </button>
@@ -80,7 +80,7 @@ const Profile = (props) => {
 const Group = (props) => {
   return(
     <div>
-      <h3 className="mt-5 mb-3">Groups
+      <h3 className="mt-5 mb-3">Groups &emsp;&emsp;
       <button id="addNewGroup" className="btn btn-primary" onClick={props.renderNewGroupForm}>
           Add
       </button>
@@ -100,7 +100,7 @@ const Group = (props) => {
 const Resume = (props) => {
   return(
     <div>
-      <h3 className="mt-5 mb-3">Resumes
+      <h3 className="mt-5 mb-3">Resumes &emsp;&emsp;
       <button id="addNewResume" className="btn btn-primary" onClick={props.renderNewResume}>
           Add
       </button>
