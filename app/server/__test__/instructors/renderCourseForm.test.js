@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 const mongoURL = "mongodb://localhost:27017/csce606"
 const User = require("../../models").User
 const Course = require("../../models").Course
-const {renderSendCredential} = require("../../controllers/courses")
+const {renderCourseForm} = require("../../controllers/instructors")
 
-describe("testing renderSendCredential", function () {
+describe("testing renderCourseForm", function () {
     let student;
     let instructor;
     let course;
@@ -48,21 +48,22 @@ describe("testing renderSendCredential", function () {
 
     test("get request by holder", async() => {
         const req = {user:{_id: instructor._id},
-                     params: {id: course._id}};
-        await renderSendCredential(req, res);
+                     params: {courseId: course._id}};
+        await renderCourseForm(req, res);
         expect(res.text.name).toEqual("python")
     });
     test("get request by others", async() => {
         const req = {user:{_id: student._id},
-                     params: {id: course._id}};
-        await renderSendCredential(req, res);
+                     params: {courseId: course._id}};
+        await renderCourseForm(req, res);
         expect(res.statusCode).toBe(403);
+        // console.log(res.text)
         expect(res.text).toEqual("You are not authorized");
     });
     test("get request by wrong ID", async() => {
         const req = {user:{_id: course._id},
                      params: {id: student._id}};
-        await renderSendCredential(req, res);
+        await renderCourseForm(req, res);
         expect(res.statusCode).toBe(400);
         expect(res.text).toEqual("Course does not exist");
     });
