@@ -5,6 +5,12 @@ import AuthService from "../services/auth.service";
 const NavComponent = (props) => {
   let { currentUser, setCurrentUser } = props;
   const history = useHistory();
+  const handleLogin = () => {
+    history.push({
+    pathname: "/login",
+    state: {role: ""}
+    })
+  };
   const handleLogout = () => {
     AuthService.logout();
     window.alert("Logout Successfully, now you are redirected to the homepage.");
@@ -32,7 +38,7 @@ const NavComponent = (props) => {
                       </Link>
                     </li>
                     <li className="nav-item">
-                      <Link className="nav-link" to="/login">
+                      <Link onClick={handleLogin} className="nav-link">
                         Login
                       </Link>
                     </li>

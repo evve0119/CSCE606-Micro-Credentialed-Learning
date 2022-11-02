@@ -1,14 +1,21 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
 import AuthService from "../services/auth.service";
+import Select from 'react-select';
+import { useLocation } from "react-router-dom";
 
 const LoginComponent = (props) => {
   let { currentUser, setCurrentUser } = props;
   const history = useHistory();
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
-  let [role, setRole] = useState("");
+  const location = useLocation();
+  let [role, setRole] = useState(location.state.role);
   let [message, setMessage] = useState("");
+  const roles = [
+    {value: "student", label: "student"},
+    {value: "instructor", label: "instructor"}
+  ];
   const handleChangeEmail = (e) => {
     setEmail(e.target.value);
   };
@@ -18,7 +25,8 @@ const LoginComponent = (props) => {
   };
 
   const handleChangeRole = (e) => {
-    setRole(e.target.value);
+    setRole(e.label);
+    //setRole(e.target.value);
   };
 
   const handleLogin = () => {
@@ -77,11 +85,12 @@ const LoginComponent = (props) => {
         <br />
         <div className="form-group">
           <label htmlFor="role">Role</label>
-          <input
+          <Select
+            options={roles}
             onChange={handleChangeRole}
-            type="text"
-            className="form-control"
-            name="role"
+            defaultValue={roles.find(r => {
+              return r.value === role
+            })}
           />
         </div>
         <br />
