@@ -66,7 +66,7 @@ const Profile = (props) => {
       </button>
       </h3>
       {profile.firstName && (
-        <h4>{profile.firstName} {profile.lastName}</h4>
+        <h5>{profile.firstName} {profile.lastName}</h5>
       )}
       <h6> Email: {profile.email} </h6>
       <h6> Phone: {profile.phone} </h6>
@@ -88,8 +88,10 @@ const Group = (props) => {
       <div>
         {props.currentUser.groups.map((group) => (
           <div key={group._id} className="mb-3">
-            <Link className="text-primary" to={`groups/${group._id}`}>{group.name}</Link>
-            {group.credentials.map((credential) => (<h5 key={credential._id}>{credential.name}</h5>))}
+            <Link className="text-primary h5" to={`groups/${group._id}`}>{group.name}</Link>
+            {group.credentials.map((credential) => (
+              <li key={credential._id}>{credential.name}</li>
+            ))}
           </div>
         ))}
       </div>
@@ -108,7 +110,7 @@ const Resume = (props) => {
       <div>
         {props.currentUser.resumes.map((resume) => (
           <div key={resume._id} className="mb-3">
-            <Link className="text-primary" to={`resumes/${resume._id}`}>{resume.name}</Link>
+            <Link className="text-primary h5" to={`resumes/${resume._id}`}>{resume.name}</Link>
           </div>
         ))}
       </div>

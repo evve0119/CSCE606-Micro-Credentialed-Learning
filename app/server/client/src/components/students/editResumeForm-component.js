@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import StudentService from "../../services/student.service"
+import Select from 'react-select';
 
 const ProfileForm = (props) => {
     return(
@@ -32,9 +33,7 @@ const EditResumeFormComponent = (props) => {
     const [ currentEmail, setEmail ] = useState("");
     const [ currentDescription, setDescription ] = useState("");
     const [ addCredentials, setAddCredentials ] = useState([]);
-    const [ addCredentialsName, setAddCredentialsName ] = useState([]);
-    const [ credentialData, setCredentialData ] = useState(null);
-    const [ showCredentials, setShowCredentials ] = useState("");
+    const [ credentialData, setCredentialData ] = useState([]);
     // If no current user go to login
     const history = useHistory();
     const handleTakeToLogin = () => {
@@ -63,6 +62,10 @@ const EditResumeFormComponent = (props) => {
         setDescription(e.target.value);
     };
 
+    const handleChange = (value) => {
+        setAddCredentials(value);
+    };
+
     const updateResume = () => {
         const addProfile = {
             firstName: currentFirstName,
@@ -72,40 +75,48 @@ const EditResumeFormComponent = (props) => {
             email: currentEmail,
             description: currentDescription,
         };
-        StudentService.updateResume(resumeName, addProfile, addCredentials, addCredentialsName, _id, resume_id)
+        const addCred = [];
+        addCredentials.map((credential) => {
+            addCred.push(credential.value);
+        });
+        StudentService.updateResume(resumeName, addProfile, addCred, _id, resume_id)
         .then(() => {
             window.alert("The resume is updated!")
-            history.push("/student/home")
+            history.push("/student/resumes/"+resume_id)
         }).catch((err) => {
             setMessage(err.response.data)
         });
     };  
 
-    const handleChange = (e) => {
-        // Destructuring
-        const { value, checked, name } = e.target;
-        // Case 1 : The user checks the box
-        if (checked) {
-            setAddCredentials([...addCredentials, value]);
-            setAddCredentialsName([...addCredentialsName, name]);
-            setShowCredentials(showCredentials+name+" | ");
-        }
-        // Case 2  : The user unchecks the box
-        else {
-            setAddCredentials(addCredentials.filter((e)=> e !== value));
-            setAddCredentialsName(addCredentialsName.filter((e) => e !== name));
-            setShowCredentials(showCredentials.replace(name+" | ", ""));
-        }
+    const deleteResume = () => {
+        StudentService.deleteResume(_id, resume_id)
+        .then(() => {
+            window.alert("Resume is deleted!")
+            history.push("/student/home")
+        }).catch((err) => {
+            setMessage(err.response.data)
+        });
     };
 
     useEffect(() => {
-        StudentService.renderAllCredentials(_id)
-        .then(({ data }) => {
-            setCredentialData(data);
+        StudentService.renderMyHomePage(_id)
+        .then(({data}) => {
+            const groups = [];
+            (data.groups).map((group) => {
+                const options = [];
+                (group.credentials).map((credential) => {
+                    let temp = {value: credential._id, label: credential.name};
+                    options.push(temp);
+                })
+                groups.push({label: group.name, options:options})
+            })
+            const allCred = [];
+            (data.credentials).map((credential) => { 
+                allCred.push({value:credential._id, label:credential.name})
+            })
+            groups.push({label:"all", options:allCred})
+            setCredentialData([...credentialData, ...groups]);
         })
-        .catch((err) => {
-            console.log(err);
-        });
         StudentService.renderResumeForm(_id, resume_id)
         .then(({ data }) => {
             setResumeName(data.name);
@@ -115,13 +126,11 @@ const EditResumeFormComponent = (props) => {
             setPhone(data.profile.phone);
             setEmail(data.profile.email);
             setDescription(data.profile.description);
-            setAddCredentials([...addCredentials, ...data.credentials]);
-            setAddCredentialsName([...addCredentialsName, ...data.credentialsName]);
-            let show = ""
-            data.credentialsName.map((name) => {
-                show = show+name+" | ";
-            });
-            setShowCredentials(showCredentials+show);
+            const options = [];
+            (data.credentials).map((credential) => {
+                options.push({value:credential._id, label:credential.name});
+            })
+            setAddCredentials(options);
         })
         .catch((err) => {
             console.log(err);
@@ -193,35 +202,23 @@ const EditResumeFormComponent = (props) => {
                         defaultValue={currentAddress}
                         onChange={handleChangeAddress}
                     />
-                    <ProfileForm 
-                        name={"Description"}
-                        defaultValue={currentDescription}
-                        onChange={handleChangeDescription}
+                    <p><label htmlFor="description">Description</label></p>
+                    <textarea id="description" rows="4" cols="50"
+                        value={currentDescription} onChange={handleChangeDescription} />
+                    <p>Credentials</p>
+                    <Select
+                        name="credentials"
+                        className="basic-multi-select"
+                        classNamePrefix="select"
+                        options={credentialData}
+                        value={addCredentials}
+                        isMulti
+                        closeMenuOnSelect={false}
+                        onChange={handleChange}
                     />
-                    <ProfileForm 
-                        name={"Credentials"}
-                        defaultValue={showCredentials}
-                    />
-                    {/* All credentials */}
-                    {credentialData && (credentialData.map((credential) => (
-                        <li key={credential._id}>
-                            {(addCredentials.includes(credential._id)) &&
-                                <>
-                                    <input className="h5" type="checkbox" name={credential.name} value={credential._id} onChange={handleChange} defaultChecked />
-                                    <label className="h5" htmlFor={credential._id}>{credential.name}</label>
-                                </>
-                            }
-                            {!(addCredentials.includes(credential._id)) &&
-                                <>
-                                    <input className="h5" type="checkbox" name={credential.name} value={credential._id} onChange={handleChange} />
-                                    <label className="h5" htmlFor={credential._id}>{credential.name}</label>
-                                </>
-                            }
-                        </li>
-                    )))}
-                    <div>
-                    <button className="btn btn-primary" onClick={updateResume}>Submit</button>
-                    </div>
+                    <br />
+                    <button id="update" className="btn btn-primary" onClick={updateResume} >Update</button> <button id="delete" className="btn btn-danger" onClick={deleteResume} >Delete</button>
+                    <br />
                     {message && (
                         <div className="alert alert-warning mt-3" role="alert">
                             {message}
