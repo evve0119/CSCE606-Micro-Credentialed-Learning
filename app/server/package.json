@@ -24,7 +24,8 @@
     "method-override": "^3.0.0",
     "mongoose": "^6.6.5",
     "passport": "^0.6.0",
-    "passport-jwt": "^4.0.0"
+    "passport-jwt": "^4.0.0",
+    "selenium-webdriver": "^4.5.0"
   },
   "devDependencies": {
     "@cucumber/cucumber": "^8.7.0",

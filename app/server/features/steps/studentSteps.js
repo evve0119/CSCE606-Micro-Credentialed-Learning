@@ -7,12 +7,10 @@ Given('I am logged in as a student', async function () {
         .forBrowser('chrome')
         .build();
     
-    await this.driver.get('http://localhost:3000/login');
-    
+    await this.driver.get('http://localhost:3000/');
+    await this.driver.findElement(By.xpath("//*[@id='root']/div/main/div/div[2]/div[1]/div/button")).click();
     await this.driver.findElement(By.xpath("//*[@id='root']/div/div[2]/div/div[1]/input")).sendKeys('testStudent@gmail.com');
     await this.driver.findElement(By.xpath("//*[@id='root']/div/div[2]/div/div[2]/input")).sendKeys('testStudent');
-    await this.driver.findElement(By.xpath("//*[@id='root']/div/div[2]/div/div[3]/input")).sendKeys('student');
-    
     await this.driver.findElement(By.xpath("//*[@id='login']")).click();
     await this.driver.wait(until.alertIsPresent());
     let alert = await this.driver.switchTo().alert();
@@ -28,7 +26,7 @@ When('I click the all credentials tab', async function () {
 });
 
 Then('I should be at the all credentials page', async function () {
-    let expectedUrl = "http://localhost:3000/allCredentials";
+    let expectedUrl = "http://localhost:3000/student/credentials";
     let actualUrl = await this.driver.getCurrentUrl();
     let assert = require('assert');
     assert.equal(actualUrl, expectedUrl);

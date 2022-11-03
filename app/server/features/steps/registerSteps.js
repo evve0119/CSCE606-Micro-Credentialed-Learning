@@ -11,7 +11,7 @@ Given('I am at the register page', async function () {
 });
 
 When('I click the login tab', async function () {
-    await this.driver.findElement(By.xpath("//*[@id='navbarNav']/ul/li[2]/a")).click();
+    await this.driver.findElement(By.xpath("//*[@id='navbarNav']/ul/li[3]/a")).click();
 });
 
 Then('I should be at the login page', async function () {
