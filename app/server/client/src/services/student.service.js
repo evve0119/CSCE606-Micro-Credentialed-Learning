@@ -53,7 +53,7 @@ class StudentService {
     }
 
     //update group
-    updateCourse(_id, editCredentials, group_id, newGroupName) {
+    updateGroup(_id, editCredentials, group_id, newGroupName) {
         let token;
         if (localStorage.getItem("user")) {
             token = JSON.parse(localStorage.getItem("user")).token;
@@ -67,27 +67,23 @@ class StudentService {
                     Authorization: token,
                 },
             });
+    };
+
+    deleteGroup(_id, group_id) {
+        let token;
+        if (localStorage.getItem("user")) {
+            token = JSON.parse(localStorage.getItem("user")).token;
+        } else {
+            token = "";
+        }
+        return axios.delete(API_URL + "/groups/" + _id + "/" + group_id,
+            {
+                headers: {
+                    Authorization: token,
+                },
+            });
     }
 
-    // add credential function
-    //   addCredential(credentialName, _id) {
-    //     let token;
-    //     if (localStorage.getItem("user")) {
-    //       token = JSON.parse(localStorage.getItem("user")).token;
-    //     } else {
-    //       token = "";
-    //     }
-    //     return axios.post(
-    //       API_URL + "/allCredentials/" + _id,
-    //       { credentialName },
-    //       {
-    //         headers: {
-    //           Authorization: token,
-    //         },
-    //       }
-    //     );
-    //   }
-    // get all crendentials function
     renderAllCredentials(_id) {
         let token;
         if (localStorage.getItem("user")) {
@@ -153,7 +149,7 @@ class StudentService {
     }
 
     //add new resume
-    createNewResume(resumeName, addProfile, addCredentials, addCredentialsName, _id) {
+    createNewResume(resumeName, addProfile, addCredentials, _id) {
         let token;
         if (localStorage.getItem("user")) {
             token = JSON.parse(localStorage.getItem("user")).token;
@@ -162,7 +158,7 @@ class StudentService {
         }
         return axios.post(
             API_URL + "/resumes/new/" + _id,
-            { resumeName, addProfile, addCredentials, addCredentialsName },
+            { resumeName, addProfile, addCredentials },
             {
                 headers: {
                     Authorization: token,
@@ -187,7 +183,7 @@ class StudentService {
     }
 
     //update resume
-    updateResume(resumeName, addProfile, addCredentials, addCredentialsName, _id, resume_id) {
+    updateResume(resumeName, addProfile, addCredentials, _id, resume_id) {
         let token;
         if (localStorage.getItem("user")) {
             token = JSON.parse(localStorage.getItem("user")).token;
@@ -195,7 +191,22 @@ class StudentService {
             token = "";
         }
         return axios.put(API_URL + "/resumes/" + _id + "/" + resume_id,
-            { resumeName, addProfile, addCredentials, addCredentialsName },
+            { resumeName, addProfile, addCredentials },
+            {
+                headers: {
+                    Authorization: token,
+                },
+            });
+    }
+
+    deleteResume(_id, resume_id) {
+        let token;
+        if (localStorage.getItem("user")) {
+            token = JSON.parse(localStorage.getItem("user")).token;
+        } else {
+            token = "";
+        }
+        return axios.delete(API_URL + "/resumes/" + _id + "/" + resume_id,
             {
                 headers: {
                     Authorization: token,

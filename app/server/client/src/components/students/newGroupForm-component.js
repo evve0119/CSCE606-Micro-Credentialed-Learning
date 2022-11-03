@@ -1,16 +1,40 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import StudentService from "../../services/student.service"
+import Select from 'react-select';
 
 const NewGroupFormComponent = (props) => {
     let { currentUser, setCurrentUser } = props;
+    const [message, setMessage] = useState(null);
+    const [groupName, setGroupName] = useState(null);
+    const [credentialData, setCredentialData] = useState(null);
+    const [addCredentials, setAddCredentials] = useState([])
     // If no current user go to login
     const history = useHistory();
     const handleTakeToLogin = () => {
         history.push("/login");
     };
-    // Get user's credentials
-    let [credentialData, setCredentialData] = useState(null);
+    
+    const handleChangeGroupName = (e) => {
+        setGroupName(e.target.value);
+    };
+    const handleChange = (value) => {
+        setAddCredentials(value);
+    };
+
+    const postGroup = () => {
+        const addCred = [];
+        addCredentials.map((credential) => {
+            addCred.push(credential.value);
+        });
+        StudentService.createNewGroup(groupName, addCred, currentUser.user._id).then(() => {
+            window.alert("New group is created!")
+            history.push("/student/home")
+        }).catch((err) => {
+            setMessage(err.response.data)
+        });
+    }
+    
     useEffect(() => {
         let _id;
         if (currentUser) {
@@ -19,47 +43,17 @@ const NewGroupFormComponent = (props) => {
             _id = "";
         }
         StudentService.renderAllCredentials(_id)
-            .then(({ data }) => {
-                setCredentialData(data);
-            })
-            .catch((err) => {
-                console.log(err);
+        .then(({ data }) => {
+            const options = [];
+            data.map((credential) => {
+                options.push({value:credential._id, label:credential.name})
             });
-    }, []);
-
-    let [message, setMessage] = useState(null);
-    // Set new group name
-    let [groupName, setGroupName] = useState(null);
-
-    // Handle new group name
-    const handleChangeGroupName = (e) => {
-        setGroupName(e.target.value);
-    };
-
-    // Post new credential
-    const postGroup = () => {
-        StudentService.createNewGroup(groupName, addcredentials ,currentUser.user._id).then(() => {
-            window.alert("New group is created!")
-            history.push("/student/home")
-        }).catch((err) => {
-            setMessage(err.response.data)
+            setCredentialData(options);
+        })
+        .catch((err) => {
+            console.log(err);
         });
-    }
-
-    // Handle checked and unchecked credentials
-    let [addcredentials, setAddCredentials] = useState([])
-    const handleChange = (e) => {
-        // Destructuring
-        const { value, checked } = e.target;
-        // Case 1 : The user checks the box
-        if (checked) {
-            setAddCredentials([...addcredentials, value]);
-        }
-        // Case 2  : The user unchecks the box
-        else {
-            setAddCredentials(addcredentials.filter((e)=> e !== value));
-        }
-      };
+    }, []);
 
     return (
         <div style={{ padding: "3rem" }}>
@@ -105,13 +99,18 @@ const NewGroupFormComponent = (props) => {
                         onChange={handleChangeGroupName}
                     />
                     <br />
-                    {/* All credentials */}
-                    {credentialData && (credentialData.map((credential) => (
-                        <div key={credential._id} className="mb-5">
-                            <input className="h3" type="checkbox" name="addcredentials" value={credential._id} onChange={handleChange}/>
-                            <label className="h3" htmlFor={credential._id}>{credential.name}</label>
-                        </div>
-                    )))}
+                    <p>Credentials</p>
+                    <Select
+                        name="credentials"
+                        className="basic-multi-select"
+                        classNamePrefix="select"
+                        options={credentialData}
+                        value={addCredentials}
+                        isMulti
+                        closeMenuOnSelect={false}
+                        onChange={handleChange}
+                    />
+                    <br />
                     <button className="btn btn-primary" onClick={postGroup}>Add</button>
                     <br />
                     {message && (

@@ -66,12 +66,9 @@ const CredentialComponent = (props) => {
       {/* If this person has credential, show all credentials */}
       {currentUser && credentialData && credentialData.length != 0 && (
         <div>
-          <h1 className="mt-5">Here are your credentials</h1>
+          <h3>Credentials</h3>
           {credentialData.map((credential) => (
-            <div key={credential._id}>
-              <h5 className="card-title">{credential.name}</h5>
-              <br />
-            </div>
+            <li key={credential._id}>{credential.name}</li>
           ))}
         </div>
       )}

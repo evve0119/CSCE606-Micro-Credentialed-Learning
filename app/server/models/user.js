@@ -36,11 +36,8 @@ const resumeSchema = new mongoose.Schema({
     description: {type: String, default: ""},
   },
   credentials: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Credential"
-  }],
-  credentialsName: [{
-    type: String
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Credential"
   }],
   holder: {
     type: mongoose.Schema.Types.ObjectId,

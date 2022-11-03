@@ -11,7 +11,8 @@ module.exports.myHomePage = async (req, res) => {
                 path: "credentials"
             },
         })
-        .populate("resumes");
+        .populate("resumes")
+        .populate("credentials");
         if (!currentStudent.isStudent()) {
             return res.status(403).send("You are not a student");
         }
@@ -47,7 +48,7 @@ module.exports.renderGroupForm = async (req, res) => {
         if (!currentStudent.isStudent()) {
             return res.status(403).send("You are not a student");
         }
-        const currentGroup = await Group.findById(req.params.groupId);
+        const currentGroup = await Group.findById(req.params.groupId).populate("credentials");
         return res.send(currentGroup);
     } catch (err) {
         return res.status(400).send("Error!! Cannot get GroupForm!!");
@@ -72,10 +73,11 @@ module.exports.updateGroup = async (req, res) => {
 
 module.exports.deleteGroup = async (req, res) => {
     try{
-        const currentStudent = await Student.findById(req.user._id);
-        if (!currentStudent.isStudent()) {
-            return res.status(403).send("You are not a student");
+        const currentGroup = await Group.findById(req.params.groupId);
+        if(req.user._id != currentGroup.holder._id.toString()){
+            return res.status(400).send("You are not authorized");
         }
+        const currentStudent = await Student.findById(req.user._id);
         await currentStudent.update({ $pull: { groups: req.params.groupId } });
         await Group.findByIdAndDelete(req.params.groupId);
         return res.send("Successfully delete!!!");
@@ -141,8 +143,8 @@ module.exports.createNewResume = async (req, res) => {
         if (!currentStudent.isStudent()) {
             return res.status(403).send("You are not a student");
         }
-        const { resumeName, addProfile, addCredentials, addCredentialsName } = req.body;
-        const currentResume = new Resume({ name: resumeName, profile: addProfile , credentials: addCredentials, credentialsName: addCredentialsName, holder: req.params.id });
+        const { resumeName, addProfile, addCredentials } = req.body;
+        const currentResume = new Resume({ name: resumeName, profile: addProfile , credentials: addCredentials, holder: req.params.id });
         await currentResume.save();
         // push group to this user
         currentStudent.resumes.push(currentResume._id);
@@ -160,7 +162,7 @@ module.exports.renderResumeForm = async (req, res) => {
         if (!currentStudent.isStudent()) {
             return res.status(403).send("You are not a student");
         }
-        const currentResume = await Resume.findById(req.params.resumeId);
+        const currentResume = await Resume.findById(req.params.resumeId).populate("credentials");
         return res.send(currentResume);
     } catch (err) {
         return res.status(400).send("Error!! Cannot get resume!!");
@@ -175,13 +177,12 @@ module.exports.updateResume = async (req, res) => {
             return res.status(403).send("You are not a student");
         }
         const currentResume = await Resume.findById(req.params.resumeId)
-        const { resumeName, addProfile, addCredentials, addCredentialsName } = req.body;
+        const { resumeName, addProfile, addCredentials } = req.body;
         await currentResume.update({ 
             $set: { 
                 name: resumeName, 
                 profile: addProfile, 
-                credentials: addCredentials, 
-                credentialsName: addCredentialsName
+                credentials: addCredentials
         }});
         return res.send("Successfully update!!!");
     } catch(err){
@@ -192,12 +193,13 @@ module.exports.updateResume = async (req, res) => {
 
 module.exports.deleteResume = async (req, res) => {
     try{
-        const currentStudent = await Student.findById(req.user._id);
-        if (!currentStudent.isStudent()) {
-            return res.status(403).send("You are not a student");
+        const currentResume = await Resume.findById(req.params.resumeId);
+        if(req.user._id != currentResume.holder._id.toString()){
+            return res.status(400).send("You are not authorized");
         }
+        const currentStudent = await Student.findById(req.user._id);
         await currentStudent.update({ $pull: { resumes: req.params.resumeId } });
-        await Resuem.findByIdAndDelete(req.params.resumeId);
+        await Resume.findByIdAndDelete(req.params.resumeId);
         return res.send("Successfully delete!!!");
     } catch(err){
         return res.status(400).send("Error!! Cannot delete resume!!");

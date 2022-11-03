@@ -19,7 +19,7 @@ const ResumeFormComponent = (props) => {
     const [ phone, setPhone ] = useState("");
     const [ email, setEmail ] = useState("");
     const [ description, setDescription ] = useState("");
-    const [ credentialsName, setCredentialsName ] = useState([]);
+    const [ credentials, setCredentials ] = useState([]);
     // If no current user go to login
     const history = useHistory();
     const handleTakeToLogin = () => {
@@ -40,7 +40,7 @@ const ResumeFormComponent = (props) => {
             setPhone(data.profile.phone);
             setEmail(data.profile.email);
             setDescription(data.profile.description);
-            setCredentialsName([...credentialsName, ...data.credentialsName]);
+            setCredentials([...credentials, ...data.credentials]);
         })
         .catch((err) => {
             console.log(err);
@@ -72,19 +72,21 @@ const ResumeFormComponent = (props) => {
                 <div className="form-resume">
                     <h1>{firstName} {lastName}</h1>
                     <h5>
-                        { phone && (<>Phone: {phone}; </>)}
-                        { email && (<>Email: {email}; </>)}
-                        { address && (<>Address: {address}; </>)}  
+                        { phone && (<>Phone: {phone} &emsp;</>)}
+                        { email && (<>Email: {email} &emsp;</>)}  
                     </h5>
-                    <h5>{description}</h5>
+                    <h5>{ address && (<>Address: {address} &emsp;</>)}</h5>
+                    <pre>{description}</pre>
                     <br></br>
                     <div>
                         <h3>Credentials</h3>
-                        {credentialsName && (credentialsName.map((name, index) => (
-                            <li key={index}> {name}</li>
+                        {credentials && (credentials.map((credential) => (
+                            <li key={credential._id}> {credential.name}</li>
                         )))}
                     </div>
+                    <br />
                     <button className="btn btn-primary" onClick={renderEditResumeForm}>Edit</button>
+                    <br />
                     {message && (
                         <div className="alert alert-warning mt-3" role="alert">
                             {message}
