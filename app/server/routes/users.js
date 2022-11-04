@@ -10,4 +10,7 @@ router.route("/register")
 router.route("/login")
 .post(users.login);
 
+router.route("/:id/verify/:token")
+.get(users.verifiedEmail);
+
 module.exports = router;

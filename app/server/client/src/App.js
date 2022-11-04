@@ -18,6 +18,7 @@ import SendCredentialComponent from "./components/instructors/sendCredential-com
 import CourseHomePageComponent from "./components/courses/homePage-component";
 import CourseFormComponent from "./components/instructors/courseForm-component";
 import AuthService from "./services/auth.service";
+import EmailVerify from "./components/EmailVerification/email-verification";
 
 
 function App() {
@@ -37,6 +38,9 @@ function App() {
             currentUser={currentUser}
             setCurrentUser={setCurrentUser}
           />
+        </Route>
+        <Route path="/user/:id/verify/:token" exact>
+          <EmailVerify/>
         </Route>
         <Route path="/student">
           <Student

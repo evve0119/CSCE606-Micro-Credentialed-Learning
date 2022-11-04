@@ -96,7 +96,11 @@ const userSchema = new mongoose.Schema({
   teach: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Course"  // teacher teaching courses
-  }]
+  }],
+  verified: {
+    type: Boolean,
+    default: false
+  },
 });
 
 userSchema.methods.isStudent = function () {
