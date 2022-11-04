@@ -3,7 +3,7 @@
 Webpage Link: https://micro-credential.herokuapp.com/
 
 The client directory is for react and the server directory is for express. \
-To run the project, the first step is to run `npm install` under client directory and under server directory to install all the dependencies. \
+To run the project, the first step is to run `npm install` under client directory and under server directory to install all the dependencies. 
 Then, run `npm start` under client directory to execute react and run `npm start` under server directory to execute express. \
 
 <h3> To run cucumber tests: </h3>
@@ -26,8 +26,37 @@ and then `npm test` will be able to function correctly.
 `npm run jest` this will execute the unit test\
 Please open mongod before unit test.
 
+<h3> Update application on Heroku: </h3>
+To test the app and deploy on Heroku
+<b>MAKE SURE YOU ARE IN server FILE!</b>
 
-<h3> To deploy on Heroku: </h3>
+`cd app/server`
+
+<h4>Step 1: Login to Heroku and clone the repository</h4>
+
+`heroku login`\
+`heroku git:clone -a micro-credential`\
+
+<h4>Step 2: Clone the repository on github and copy all the file from `CSCE606-Micro-Credentialed-Learning
+/app/server` to Heroku repository `micro-credential`</h4>
+
+Go to `micro-credential/.env` change `NODE_ENV = production`
+
+Go to `micro-credential/client/scr/services` and change all files of "API_URL" to get rid of localhost:3000
+
+<h4>Step 3:  Push entire app on Heroku</h4>
+<b>MAKE SURE YOU ARE IN server FILE!</b>
+
+Put `.env` to gitignore
+
+`cd micro-credential`\
+`git add .`\
+`git commit -am "<message>"`\
+`git push heroku master`
+
+
+
+<h3> Deploy new application on Heroku: </h3>
 To test the app and deploy on Heroku
 <b>MAKE SURE YOU ARE IN server FILE!</b>
 
