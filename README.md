@@ -35,10 +35,11 @@ To test the app and deploy on Heroku
 <h4>Step 1: Login to Heroku and clone the repository</h4>
 
 `heroku login`\
-`heroku git:clone -a micro-credential`\
+`heroku git:clone -a micro-credential`
 
-<h4>Step 2: Clone the repository on github and copy all the file from `CSCE606-Micro-Credentialed-Learning
-/app/server` to Heroku repository `micro-credential`</h4>
+<h4>Step 2: Clone the repository on github and copy all the file from</h4> `CSCE606-Micro-Credentialed-Learning
+/app/server`
+<h4> to Heroku repository</h4> `micro-credential`
 
 Go to `micro-credential/.env` change `NODE_ENV = production`
 
