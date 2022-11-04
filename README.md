@@ -7,6 +7,7 @@ To run the project, the first step is to run `npm install` under client director
 Then, run `npm start` under client directory to execute react and run `npm start` under server directory to execute express.
 
 <h3> Remark </h3>
+
 `.env` file will no longer be update on github to protect account. \
 Please make sure that you ask for the latest `.env` in the group. Thank you!
 
