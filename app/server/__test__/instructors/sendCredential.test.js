@@ -69,7 +69,7 @@ describe("testing sendCredential", function () {
         await sendCredential(req, res);
         expect(res.text).toEqual("Credentials have been sent!");
         const currentStudent = await User.findById(student1._id);
-        await expect(currentStudent.credentials.length).toEqual(1);
+        expect(currentStudent.credentials.length).toEqual(1);
     });
     
 

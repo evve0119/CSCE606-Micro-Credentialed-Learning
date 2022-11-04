@@ -128,14 +128,14 @@ module.exports.sendCredential = async (req, res) => {
         if(req.user._id != currentCourse.holder._id.toString()){
             return res.status(400).send("You are not authorized");
         }
-        req.body.addStudents.map(async(studentId) =>{
+        await Promise.all(req.body.addStudents.map(async(studentId) =>{
             const currentStudent = await User.findById(studentId);
             const currentCredential = new Credential({ name: currentCourse.name, holder: studentId, instructor: currentCourse.holder });
             await currentCredential.save();
             // push group to this user
             currentStudent.credentials.push(currentCredential._id);
             await currentStudent.save();
-        });
+        }));
         return res.send("Credentials have been sent!");
     } catch(err){
         return res.status(404).send("Course does not exist");
