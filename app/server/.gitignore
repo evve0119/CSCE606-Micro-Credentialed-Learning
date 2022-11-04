@@ -2,3 +2,5 @@
 client/node_modules
 node_modules
 coverage
+express.log
+react.log

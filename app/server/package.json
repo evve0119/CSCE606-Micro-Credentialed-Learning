@@ -7,7 +7,7 @@
     "test": "cucumber-js",
     "jest": "jest --runInBand",
     "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
-    "coverage": "jest --coverage",
+    "coverage": "jest --coverage --runInBand",
     "start": "node server.js",
     "dev": "nodemon server.js"
   },

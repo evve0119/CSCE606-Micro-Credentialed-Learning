@@ -5,7 +5,7 @@ const Credential = require("../../models").Credential
 const Group = require("../../models").Group
 const {deleteGroup} = require("../../controllers/students")
 
-describe("testing updateGroup", function () {
+describe("testing deleteGroup", function () {
     let student;
     let instructor;
     let group;
@@ -34,10 +34,10 @@ describe("testing updateGroup", function () {
             role: "instructor",
         });
         await instructor.save();
-        group = new Group({name: "programming"});
+        group = new Group({name: "programming", holder: student});
         await group.save();
         student.groups.push(group._id);
-        group = new Group({name: "dancing"});
+        group = new Group({name: "dancing", holder: student});
         await group.save()
         student.groups.push(group);
         await student.save();
@@ -57,16 +57,16 @@ describe("testing updateGroup", function () {
     });
     test("delete by instructor", async() => {
         const req = {user: {_id: instructor._id},
-                     params: {groupId: student.groups[0]}};
+                     params: {groupId: student.groups[1]}};
         await deleteGroup(req, res);
         expect(res.statusCode).toBe(403);
-        expect(res.text).toEqual("You are not a student");
+        expect(res.text).toEqual("You are not authorized");
     });
     test("update by wrong ID", async() => {
         const req = {user: {_id: group._id},
-                     params: {groupId: student.groups[0]}};
+                     params: {groupId: student.groups[1]}};
         await deleteGroup(req, res);
-        expect(res.statusCode).toBe(400);
-        expect(res.text).toEqual("Error!! Cannot delete group!!");
+        expect(res.statusCode).toBe(403);
+        expect(res.text).toEqual("You are not authorized");
     });
 })

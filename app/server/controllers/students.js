@@ -75,7 +75,7 @@ module.exports.deleteGroup = async (req, res) => {
     try{
         const currentGroup = await Group.findById(req.params.groupId);
         if(req.user._id != currentGroup.holder._id.toString()){
-            return res.status(400).send("You are not authorized");
+            return res.status(403).send("You are not authorized");
         }
         const currentStudent = await Student.findById(req.user._id);
         await currentStudent.update({ $pull: { groups: req.params.groupId } });
