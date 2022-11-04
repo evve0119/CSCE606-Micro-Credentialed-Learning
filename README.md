@@ -4,7 +4,7 @@ Webpage Link: https://micro-credential.herokuapp.com/
 
 The client directory is for react and the server directory is for express. \
 To run the project, the first step is to run `npm install` under client directory and under server directory to install all the dependencies. 
-Then, run `npm start` under client directory to execute react and run `npm start` under server directory to execute express. \
+Then, run `npm start` under client directory to execute react and run `npm start` under server directory to execute express.
 
 <h3> To run cucumber tests: </h3>
 
