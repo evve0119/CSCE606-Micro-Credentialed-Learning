@@ -4,10 +4,11 @@ if (process.env.NODE_ENV !== "production") {
 const express = require('express');
 const app = express();
 const methodOverride = require('method-override'); // Use HTTP verbs such as PUT or DELETE in places where the client doesn’t support it.
-const { userRoutes, studentRoutes, instructorRoutes, courseRoutes } = require("./routes/index.js");
+const { userRoutes, studentRoutes, instructorRoutes, recruiterRoutes, courseRoutes, jobRoutes } = require("./routes/index.js");
 const ExpressError = require("./utils/ExpressError"); // A function to handle error
 const cors = require("cors")
 const path = require('path');
+const { application } = require("express");
 
 
 /// Kill the React host and transfer react to static page
@@ -30,6 +31,8 @@ app.use("/api/user", userRoutes);  // Use User route
 app.use("/api/instructors", instructorRoutes);
 app.use("/api/courses", courseRoutes);
 app.use("/api/students", studentRoutes);
+app.use("/api/recruiters", recruiterRoutes);
+app.use("/api/jobs", jobRoutes);
 // Handle React routing, return all requests to React app
 
 

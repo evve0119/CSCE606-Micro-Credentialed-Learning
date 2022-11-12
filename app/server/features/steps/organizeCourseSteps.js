@@ -85,7 +85,7 @@ When('I click on the confirm button', async function () {
   });
 
 Then('I should be at the send credentials confirmation page', async function () {
-    let expectedUrl = "http://localhost:3000/instructor/courses/636360a338981757b74fb5db/sendCredential";
+    let expectedUrl = "http://localhost:3000/instructor/courses/63656c1a51387dfd711dbcf1/sendCredential";
     let actualUrl = await this.driver.getCurrentUrl();
     let assert = require('assert');
     assert.equal(actualUrl, expectedUrl);
@@ -97,7 +97,7 @@ When('I click the view course button', async function () {
 });
 
 Then('I should be at the view course page', async function () {
-    let expectedUrl = "http://localhost:3000/courses/636360a338981757b74fb5db";
+    let expectedUrl = "http://localhost:3000/courses/63656c1a51387dfd711dbcf1";
     let actualUrl = await this.driver.getCurrentUrl();
     let assert = require('assert');
     assert.equal(actualUrl, expectedUrl);
@@ -105,12 +105,12 @@ Then('I should be at the view course page', async function () {
 });
 
 When('I click on a course', async function () {
-    await this.driver.wait(until.elementLocated(By.xpath("//a[@href='/instructor/courses/636360a338981757b74fb5db/edit']")), 1000);
-    await this.driver.findElement(By.xpath("//a[@href='/instructor/courses/636360a338981757b74fb5db/edit']")).click();
+    await this.driver.wait(until.elementLocated(By.xpath("//a[@href='/instructor/courses/63656c1a51387dfd711dbcf1/edit']")), 1000);
+    await this.driver.findElement(By.xpath("//a[@href='/instructor/courses/63656c1a51387dfd711dbcf1/edit']")).click();
 });
 
 Then('I should be at the edit course page', async function () {
-    let expectedUrl = "http://localhost:3000/instructor/courses/636360a338981757b74fb5db/edit";
+    let expectedUrl = "http://localhost:3000/instructor/courses/63656c1a51387dfd711dbcf1/edit";
     let actualUrl = await this.driver.getCurrentUrl();
     let assert = require('assert');
     assert.equal(actualUrl, expectedUrl);
@@ -139,7 +139,7 @@ When('I click the submit new group button', async function () {
 });
 
 Then('I should be at the course description page', async function () {
-    let expectedUrl = "http://localhost:3000/courses/636360a338981757b74fb5db";
+    let expectedUrl = "http://localhost:3000/courses/63656c1a51387dfd711dbcf1";
     let actualUrl = await this.driver.getCurrentUrl();
     let assert = require('assert');
     assert.equal(actualUrl, expectedUrl);

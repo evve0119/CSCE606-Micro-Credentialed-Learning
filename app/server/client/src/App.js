@@ -4,6 +4,8 @@ import HomeComponent from "./components/home-component";
 import NavComponent from "./components/nav-component";
 import RegisterComponent from "./components/register-component";
 import LoginComponent from "./components/login-component";
+import AuthService from "./services/auth.service";
+
 import StudentHomePageComponent from "./components/students/homePage-component";
 import CredentialComponent from "./components/students/credential-component";
 import ProfileFormComponent from "./components/students/profileForm-component";
@@ -12,12 +14,19 @@ import GroupFormComponent from "./components/students/groupForm-component";
 import NewResumeFormComponent from "./components/students/newResume-component";
 import ResumeFormComponent from "./components/students/resumeForm-component";
 import EditResumeFormComponent from "./components/students/editResumeForm-component"
+
 import InstructorHomePageComponent from "./components/instructors/homePage-component";
 import NewTeachFormComponent from "./components/instructors/newTeachForm-components";
 import SendCredentialComponent from "./components/instructors/sendCredential-component"
-import CourseHomePageComponent from "./components/courses/homePage-component";
 import CourseFormComponent from "./components/instructors/courseForm-component";
-import AuthService from "./services/auth.service";
+
+import RecruiterHomePageComponent from "./components/recruiters/homePage-component";
+import NewJobFormComponent from "./components/recruiters/newJobForm-components";
+import JobFormComponent from "./components/recruiters/jobForm-component";
+
+import CourseHomePageComponent from "./components/courses/homePage-component";
+
+import JobHomePageComponent from "./components/jobs/homePage-component";
 
 
 function App() {
@@ -52,6 +61,18 @@ function App() {
         </Route>
         <Route path="/courses">
           <Course
+            currentUser={currentUser}
+            setCurrentUser={setCurrentUser}
+          />
+        </Route>
+        <Route path="/recruiter">
+          <Recruiter
+            currentUser={currentUser}
+            setCurrentUser={setCurrentUser}
+          />
+        </Route>
+        <Route path="/jobs">
+          <Job
             currentUser={currentUser}
             setCurrentUser={setCurrentUser}
           />
@@ -187,6 +208,48 @@ const Course = (props) => {
       <Switch>
         <Route path="/courses/:_id">
           <CourseHomePageComponent
+            currentUser={props.currentUser}
+            setCurrentUser={props.setCurrentUser}
+          />
+        </Route>
+      </Switch>
+    </>
+  )
+};
+
+const Recruiter = (props) => {
+  return (
+    <>
+      <Switch>
+        <Route path="/recruiter/home" exact>
+          <RecruiterHomePageComponent
+            currentUser={props.currentUser}
+            setCurrentUser={props.setCurrentUser}
+          />
+        </Route>
+        <Route path="/recruiter/jobs/new" exact>
+          <NewJobFormComponent
+            currentUser={props.currentUser}
+            setCurrentUser={props.setCurrentUser}
+          />
+        </Route>
+        <Route path="/recruiter/jobs/:_id/edit" exact>
+          <JobFormComponent
+            currentUser={props.currentUser}
+            setCurrentUser={props.setCurrentUser}
+          />
+        </Route>
+      </Switch>
+    </>
+  )
+};
+
+const Job = (props) => {
+  return (
+    <>
+      <Switch>
+        <Route path="/jobs/:_id">
+          <JobHomePageComponent
             currentUser={props.currentUser}
             setCurrentUser={props.setCurrentUser}
           />

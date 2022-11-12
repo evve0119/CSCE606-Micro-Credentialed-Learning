@@ -79,6 +79,16 @@ const NavComponent = (props) => {
                     </li>
                   </>
                 )}
+                {/* instructor */}
+                {currentUser && (currentUser.user.role == "recruiter") &&(
+                  <>
+                    <li className="nav-item">
+                      <Link className="nav-link" to="/recruiter/home">
+                        My Home Page
+                      </Link>
+                    </li>
+                  </>
+                )}
               </ul>
             </div>
           </div>

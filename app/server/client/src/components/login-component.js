@@ -10,11 +10,12 @@ const LoginComponent = (props) => {
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
   const location = useLocation();
-  let [role, setRole] = useState(location.state.role);
+  let [role, setRole] = useState(location.state ? location.state.role : "");
   let [message, setMessage] = useState("");
   const roles = [
     {value: "student", label: "student"},
-    {value: "instructor", label: "instructor"}
+    {value: "instructor", label: "instructor"},
+    {value: "recruiter", label: "recruiter"}
   ];
   const handleChangeEmail = (e) => {
     setEmail(e.target.value);
@@ -46,6 +47,9 @@ const LoginComponent = (props) => {
         };
         if(role == "instructor"){
           history.push("/instructor/home");
+        };
+        if(role == "recruiter"){
+          history.push("/recruiter/home");
         };
       })
       .catch((error) => {

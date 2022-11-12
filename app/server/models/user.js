@@ -86,7 +86,7 @@ const userSchema = new mongoose.Schema({
   }],
   role: {
     type: String,
-    enum: ["student", "instructor"],
+    enum: ["student", "instructor", "recruiter"],
     required: true,
   },
   enroll: [{
@@ -96,6 +96,10 @@ const userSchema = new mongoose.Schema({
   teach: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Course"  // teacher teaching courses
+  }],
+  jobs: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Job"
   }]
 });
 
@@ -104,6 +108,9 @@ userSchema.methods.isStudent = function () {
 };
 userSchema.methods.isInstructor = function () {
   return this.role == "instructor";
+};
+userSchema.methods.isRecruiter = function () {
+  return this.role == "recruiter";
 };
 
 userSchema.pre("save", async function (next) {

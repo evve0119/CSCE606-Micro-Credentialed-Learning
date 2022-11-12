@@ -12,7 +12,8 @@ const RegisterComponent = () => {
   let [message, setMessage] = useState("");
   const roles = [
     {value: "student", label: "student"},
-    {value: "instructor", label: "instructor"}
+    {value: "instructor", label: "instructor"},
+    {value: "recruiter", label: "recruiter"}
   ];
   const handleChangeUsername = (e) => {
     setUsername(e.target.value);

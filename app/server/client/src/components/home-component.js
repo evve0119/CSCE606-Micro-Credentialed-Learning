@@ -15,6 +15,12 @@ const HomeComponent = () => {
       state: {role: "instructor"}
     })
   }
+  function recruiterLogin() {
+    history.push({
+      pathname: "/login",
+      state: {role: "recruiter"}
+    })
+  }
   return (
     <main>
       <div className="container py-4">
@@ -32,9 +38,9 @@ const HomeComponent = () => {
         </div>
 
         <div className="row align-items-md-stretch">
-          <div className="col-md-6">
+          <div className="col-md-4">
             <div className="h-100 p-5 text-white bg-dark rounded-3">
-              <h2>As a student</h2>
+              <h2>As a Student</h2>
               <p>
                 Students can register in courses they like. This website is for
                 practice purpose only, so please do not provide any personal
@@ -45,7 +51,7 @@ const HomeComponent = () => {
               </button>
             </div>
           </div>
-          <div className="col-md-6">
+          <div className="col-md-4">
             <div className="h-100 p-5 bg-light border rounded-3">
               <h2>As an Instructor</h2>
               <p>
@@ -55,6 +61,20 @@ const HomeComponent = () => {
                 credit card numbers.
               </p>
               <button class="btn btn-outline-secondary" type="button" onClick={instructorLogin}>
+                Login or Register Now
+              </button>
+            </div>
+          </div>
+          <div className="col-md-4">
+            <div className="h-100 p-5 text-white bg-dark rounded-3">
+              <h2>As a Recruiter</h2>
+              <p>
+                You can become a recruiter by registering as one, and start
+                posting jobs. This website is for practice purpose only, 
+                so please do not provide any personal information, 
+                such as credit card numbers.
+              </p>
+              <button className="btn btn-outline-light" type="button" onClick={recruiterLogin}>
                 Login or Register Now
               </button>
             </div>
