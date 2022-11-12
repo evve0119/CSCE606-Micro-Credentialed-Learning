@@ -35,7 +35,7 @@ Feature: organize course
         And I am at the instructor home page
         When I click on a course
         When I click on the update button
-        Then I should be at the course description page
+        Then I should be at the view course page
     
     #Scenario: I want to delete an existing group
     #    Given I am logged in as an instructor

@@ -20,13 +20,13 @@ When('I click the add new group button', async function () {
 });
 
 When('I click on a group', async function () {
-    await this.driver.wait(until.elementLocated(By.xpath("//a[@href='/student/groups/63635d5038981757b74fb5a5']")), 1000);
-    await this.driver.findElement(By.xpath("//a[@href='/student/groups/63635d5038981757b74fb5a5']")).click();
+    await this.driver.wait(until.elementLocated(By.xpath("//a[@href='/student/groups/636ed4b2dd81161f74862414']")), 1000);
+    await this.driver.findElement(By.xpath("//a[@href='/student/groups/636ed4b2dd81161f74862414']")).click();
 });
 
 When('I click on the submit edit group button', async function () {
-    await this.driver.wait(until.elementLocated(By.xpath("//*[@id='submit']")), 1000);
-    await this.driver.findElement(By.xpath("//*[@id='submit']")).click();
+    await this.driver.wait(until.elementLocated(By.xpath("//*[@id='update']")), 1000);
+    await this.driver.findElement(By.xpath("//*[@id='update']")).click();
     await this.driver.wait(until.alertIsPresent());
     let alert = await this.driver.switchTo().alert();
     await alert.accept();
@@ -45,7 +45,7 @@ Then('I should be at the add group page', async function () {
 });
 
 Then('I should be at the edit group page', async function () {
-    let expectedUrl = "http://localhost:3000/student/groups/63635d5038981757b74fb5a5";
+    let expectedUrl = "http://localhost:3000/student/groups/636ed4b2dd81161f74862414";
     let actualUrl = await this.driver.getCurrentUrl();
     let assert = require('assert');
     assert.equal(actualUrl, expectedUrl);
@@ -91,8 +91,8 @@ When('I fill the resume name textbox with value {string}', function (resumeName)
 });
 
 When('I click the submit new resume button', async function () {
-    await this.driver.wait(until.elementLocated(By.xpath("//*[@id='root']/div/div[2]/div/div/button")), 1000);
-    await this.driver.findElement(By.xpath("//*[@id='root']/div/div[2]/div/div/button")).click();
+    await this.driver.wait(until.elementLocated(By.xpath("//*[@id='root']/div/div[2]/div/button")), 1000);
+    await this.driver.findElement(By.xpath("//*[@id='root']/div/div[2]/div/button")).click();
     await this.driver.wait(until.alertIsPresent());
     let alert = await this.driver.switchTo().alert();
     await alert.accept();
