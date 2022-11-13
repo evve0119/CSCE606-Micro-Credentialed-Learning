@@ -100,7 +100,11 @@ const userSchema = new mongoose.Schema({
   jobs: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Job"
-  }]
+  }],
+  verified: {
+    type: Boolean,
+    default: false
+  },
 });
 
 userSchema.methods.isStudent = function () {

@@ -1,10 +1,15 @@
 # CSCE606-Micro-Credentialed-Learning
 
-Webpage Link: https://micro-credential.herokuapp.com/
+Webpage Link: https://micro-credential-learning.herokuapp.com/
 
 The client directory is for react and the server directory is for express. \
-To run the project, the first step is to run `npm install` under client directory and under server directory to install all the dependencies. 
+To run the project, the first step is to run `npm install` under client directory and under server directory to install all the dependencies.
 Then, run `npm start` under client directory to execute react and run `npm start` under server directory to execute express.
+
+<h3> Remark </h3>
+
+`.env` file will no longer be update on github to protect account. \
+Please make sure that you ask for the latest `.env` in the group. Thank you!
 
 <h3> To run cucumber tests: </h3>
 
@@ -37,7 +42,7 @@ To test the app and deploy on Heroku
 `heroku login`\
 `heroku git:clone -a micro-credential`
 
-<h4>Step 2: Clone the repository on github and copy all the file to Heroku repository</h4> 
+<h4>Step 2: Clone the repository on github and copy all the file to Heroku repository</h4>
 
 Clone the repository on github `git clone git@github.com:evve0119/CSCE606-Micro-Credentialed-Learning.git`
 

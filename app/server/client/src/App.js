@@ -27,7 +27,7 @@ import JobFormComponent from "./components/recruiters/jobForm-component";
 import CourseHomePageComponent from "./components/courses/homePage-component";
 
 import JobHomePageComponent from "./components/jobs/homePage-component";
-
+import EmailVerify from "./components/EmailVerification/email-verification";
 
 function App() {
   let [currentUser, setCurrentUser] = useState(AuthService.getCurrentUser());
@@ -46,6 +46,9 @@ function App() {
             currentUser={currentUser}
             setCurrentUser={setCurrentUser}
           />
+        </Route>
+        <Route path="/user/:id/verify/:token" exact>
+          <EmailVerify/>
         </Route>
         <Route path="/student">
           <Student

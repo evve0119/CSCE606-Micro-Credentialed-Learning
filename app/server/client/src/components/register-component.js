@@ -31,7 +31,7 @@ const RegisterComponent = () => {
     AuthService.register(username, email, password, role)
       .then(() => {
         window.alert(
-          "Registration succeeds. You are now redirected to the login page."
+          "Registration succeeds. Please verify your email before login!"
         );
         // redirect to the other page
         history.push({
