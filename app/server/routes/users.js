@@ -10,7 +10,17 @@ router.route("/register")
 router.route("/login")
 .post(users.login);
 
+router.route("/forgot")
+.post(users.forgot);
+
+router.route("/resetPassword")
+.post(users.resetPassword);
+
 router.route("/:id/verify/:token")
 .get(users.verifiedEmail);
+
+router.route("/:id/reset/:token")
+.post(users.verifiedReset);
+
 
 module.exports = router;

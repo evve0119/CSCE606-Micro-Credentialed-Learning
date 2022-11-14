@@ -24,6 +24,16 @@ const loginValidation = (data) => {
   return schema.validate(data);
 };
 
+// Reset Validation
+const resetValidation = (data) => {
+  const schema = Joi.object({
+    newPassword: Joi.string().min(6).max(255).required(),
+    confirmPassword: Joi.string().min(6).max(255).required(),
+  }).unknown();
+
+  return schema.validate(data);
+};
+
 // const credentialValidation = (data) => {
 //   const schema = Joi.object({
 //     name: Joi.string().min(1).max(50).required()
@@ -33,4 +43,5 @@ const loginValidation = (data) => {
 
 module.exports.registerValidation = registerValidation;
 module.exports.loginValidation = loginValidation;
+module.exports.resetValidation = resetValidation;
 // module.exports.credentialValidation = credentialValidation;

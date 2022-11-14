@@ -98,10 +98,15 @@ const LoginComponent = (props) => {
           />
         </div>
         <br />
-        <div className="form-group">
-          <button id="login" onClick={handleLogin} className="btn btn-primary btn-block">
+        <div class="form-group d-flex justify-content-between">
+          <div>
+            <button id="login" onClick={handleLogin} className="btn btn-primary btn-block">
             <span>Login</span>
-          </button>
+            </button>
+          </div>
+          <div>
+            <a href="/forgot">Forgot your password?</a>
+          </div>
         </div>
       </div>
     </div>

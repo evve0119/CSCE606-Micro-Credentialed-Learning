@@ -4,6 +4,7 @@ import HomeComponent from "./components/home-component";
 import NavComponent from "./components/nav-component";
 import RegisterComponent from "./components/register-component";
 import LoginComponent from "./components/login-component";
+import ForgotComponent from "./components/forgot_component";
 import AuthService from "./services/auth.service";
 
 import StudentHomePageComponent from "./components/students/homePage-component";
@@ -28,6 +29,7 @@ import CourseHomePageComponent from "./components/courses/homePage-component";
 
 import JobHomePageComponent from "./components/jobs/homePage-component";
 import EmailVerify from "./components/EmailVerification/email-verification";
+import ResetPassword from "./components/EmailVerification/reset-password";
 
 function App() {
   let [currentUser, setCurrentUser] = useState(AuthService.getCurrentUser());
@@ -46,6 +48,12 @@ function App() {
             currentUser={currentUser}
             setCurrentUser={setCurrentUser}
           />
+        </Route>
+        <Route path="/forgot" exact>
+          <ForgotComponent/>
+        </Route>
+        <Route path="/user/:id/reset/:token" exact>
+          <ResetPassword/>
         </Route>
         <Route path="/user/:id/verify/:token" exact>
           <EmailVerify/>

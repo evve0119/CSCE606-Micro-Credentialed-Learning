@@ -1,3 +1,4 @@
+////email expire and includes identity information
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
