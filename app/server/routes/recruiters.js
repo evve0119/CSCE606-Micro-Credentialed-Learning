@@ -16,6 +16,12 @@ router.route("/jobs/:jobId/edit")
 .put(passport.authenticate("jwt", { session: false }), recruiters.updateJob)
 .delete(passport.authenticate("jwt", { session: false }), recruiters.deleteJob);
 
+router.route("/jobs/:jobId/applications")
+.get(passport.authenticate("jwt", { session: false }), recruiters.renderJobForm);
+
+router.route("/jobs/:jobId/applications/:resumeId")
+.get(recruiters.renderResume);
+
 /*
 router.route("/courses/:courseId/sendCredential")
 .get(passport.authenticate("jwt", { session: false }), instructors.renderSendCredential)

@@ -34,4 +34,7 @@ router.route("/resumes/:id/:resumeId")
 .put(passport.authenticate("jwt", { session: false }), isAuthor, students.updateResume)
 .delete(passport.authenticate("jwt", { session: false }), isAuthor, students.deleteResume)
 
+router.route("/application/:id")
+.post(passport.authenticate("jwt", { session: false }), students.submitResume);
+
 module.exports = router;

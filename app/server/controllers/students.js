@@ -1,6 +1,7 @@
 const Student = require("../models").User;
 const Group = require("../models").Group;
 const Resume = require("../models").Resume;
+const Job = require("../models").Job;
 
 module.exports.myHomePage = async (req, res) => {
     try{
@@ -203,5 +204,21 @@ module.exports.deleteResume = async (req, res) => {
         return res.send("Successfully delete!!!");
     } catch(err){
         return res.status(400).send("Error!! Cannot delete resume!!");
+    }
+};
+
+module.exports.submitResume = async (req, res) => {
+    try{
+        const { resumeId, jobId } = req.body;
+        const currentResume = await Resume.findById(resumeId);
+        if(req.user._id != currentResume.holder._id.toString()){
+            return res.status(400).send("You are not authorized");
+        }
+        const currentJob = await Job.findById(jobId);
+        currentJob.resumes.push(resumeId);
+        await currentJob.save();
+        return res.send("Successfully simut!!!");
+    } catch(err){
+        return res.status(400).send("Error!! Cannot sumit resume!!");
     }
 };

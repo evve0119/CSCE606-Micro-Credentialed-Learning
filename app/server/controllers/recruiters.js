@@ -1,5 +1,6 @@
 const User = require("../models").User;
 const Job = require("../models").Job;
+const Resume = require("../models").Resume;
 
 module.exports.myHomePage = async (req, res) => {
     try{
@@ -44,7 +45,7 @@ module.exports.createNewJob = async (req, res) => {
 module.exports.renderJobForm = async (req, res) => {
     try{
         //const currentJob = await Job.findById(req.params.jobId).populate("holder").populate("students");
-        const currentJob = await Job.findById(req.params.jobId).populate("holder");
+        const currentJob = await Job.findById(req.params.jobId).populate("holder").populate("resumes");
         if(req.user._id != currentJob.holder._id.toString()){
             return res.status(403).send("You are not authorized");
         }
@@ -157,3 +158,13 @@ module.exports.sendCredential = async (req, res) => {
     }
 };
 */
+
+module.exports.renderResume = async (req, res) => {
+    try{
+        console.log(req.params.resumeId);
+        const currentResume = await Resume.findById(req.params.resumeId).populate("credentials");
+        return res.send(currentResume);
+    } catch(err){
+        return res.status(400).send("Resume does not exist");
+    }
+};

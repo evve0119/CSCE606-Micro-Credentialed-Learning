@@ -26,8 +26,11 @@ const RecruiterHomePageComponent = () => {
     history.push("/instructor/courses/"+teachId+"/sendCredential");
   };
   */
-  const renderJobPage = (teachId) => { 
-    history.push("/jobs/"+teachId);
+  const renderEdit = (jobId) => {
+    history.push(`/recruiter/jobs/${jobId}/edit`);
+  };
+  const renderJobPage = (jobId) => { 
+    history.push("/jobs/"+jobId);
   };
 
   return (
@@ -61,8 +64,9 @@ const RecruiterHomePageComponent = () => {
             <div>
               {currentUser.jobs.map((jobs) => (
                 <div key={jobs._id}className="mb-3">
-                    <Link className="text-primary h3" to={`jobs/${jobs._id}/edit`}>{jobs.name}</Link> &emsp;&emsp;
-                    <button className="btn btn-warning" onClick={() => renderJobPage(jobs._id)} >View job</button> &emsp;&emsp;
+                    <Link className="text-primary h3" to={`jobs/${jobs._id}/applications`}>{jobs.name}</Link> &emsp;&emsp;
+                    <button className="btn btn-warning" onClick={() => renderEdit(jobs._id)} >Edit</button> &emsp;&emsp;
+                    <button className="btn btn-success" onClick={() => renderJobPage(jobs._id)} >View job</button> &emsp;&emsp;
                     {/* <button className="btn btn-success" onClick={() => renderSendCredential(teach._id)} >Send credentials</button> */}
                 </div>
               ))}
