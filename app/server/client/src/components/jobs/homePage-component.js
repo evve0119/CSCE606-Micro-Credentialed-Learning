@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import JobService from "../../services/job.service";
 
-const JobHomePageComponent = () => {
+const JobHomePageComponent = (props) => {
+  let { currentUser, setCurrentUser } = props;
   let [currentJob, setCurrentJob] = useState(null);
   let [currentJobId, setCurrentJobId] = useState(useParams()._id)
-  //  Get current user all information from database
+  const history = useHistory();
+  const apply = () =>{
+    history.push("/student/applications/"+currentJobId);
+  }
+
   useEffect(() => {
     JobService.renderJobPage(currentJobId)
       .then(({ data }) => {
@@ -31,16 +36,23 @@ const JobHomePageComponent = () => {
         }}
       >
         {currentJob && (
-          <div>
-            <h1>{currentJob.name}</h1>
-            <br />
-            <h4>Recruiter</h4>
-            <p>{currentJob.holder.username}</p>
-            <br />
-            <h4>Description</h4>
-            <p>{currentJob.description}</p>
-            <br />
-          </div>
+          <>
+            <div>
+              <h1>{currentJob.name}</h1>
+              <br />
+              <h4>Recruiter</h4>
+              <p>{currentJob.holder.username}</p>
+              <br />
+              <h4>Description</h4>
+              <p>{currentJob.description}</p>
+              <br />
+            </div>
+            {currentUser && currentUser.user.role == "student" && (
+              <button className="btn btn-primary" onClick={apply}>
+                Apply
+              </button>
+            )}
+          </>
         )}
       </div>
     </div>

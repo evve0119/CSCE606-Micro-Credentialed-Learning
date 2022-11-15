@@ -8,7 +8,6 @@ const sendEmail = require("../utils/sendEmail");
 const resetEmail = require("../utils/resetEmail");
 const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
-const { update } = require("tar");
 
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config(); // Read dotenv file

@@ -149,6 +149,36 @@ class RecruiterService {
         });
     }
 
+    renderApplication(jobId){
+        let token;
+        if (localStorage.getItem("user")) {
+            token = JSON.parse(localStorage.getItem("user")).token;
+        } else {
+            token = "";
+        }
+        return axios.get(API_URL + `/jobs/${jobId}/applications`,
+        {
+            headers: {
+                Authorization: token,
+            },
+        });
+    }
+
+    renderResume(jobId, resumeId){
+        let token;
+        if (localStorage.getItem("user")) {
+            token = JSON.parse(localStorage.getItem("user")).token;
+        } else {
+            token = "";
+        }
+        return axios.get(API_URL + `/jobs/${jobId}/applications/${resumeId}`,
+        {
+            headers: {
+                Authorization: token,
+            },
+        });
+    }
+
 }
 
 export default new RecruiterService();

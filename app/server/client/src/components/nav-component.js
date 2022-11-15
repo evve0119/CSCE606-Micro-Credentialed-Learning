@@ -67,6 +67,11 @@ const NavComponent = (props) => {
                         Credential
                       </Link>
                     </li>
+                    <li className="nav-item">
+                      <Link className="nav-link" to="/jobs">
+                        Jobs
+                      </Link>
+                    </li>
                   </>
                 )}
                 {/* instructor */}

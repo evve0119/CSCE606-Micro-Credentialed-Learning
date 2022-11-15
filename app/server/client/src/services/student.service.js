@@ -38,14 +38,14 @@ class StudentService {
     }
 
     //get group info function
-    renderGroupForm(_id, group_id) {
+    renderGroupForm(_id, groupId) {
         let token;
         if (localStorage.getItem("user")) {
             token = JSON.parse(localStorage.getItem("user")).token;
         } else {
             token = "";
         }
-        return axios.get(API_URL + "/groups/" + _id + "/" + group_id, {
+        return axios.get(API_URL + "/groups/" + _id + "/" + groupId, {
             headers: {
                 Authorization: token,
             },
@@ -53,14 +53,14 @@ class StudentService {
     }
 
     //update group
-    updateGroup(_id, editCredentials, group_id, newGroupName) {
+    updateGroup(_id, editCredentials, groupId, newGroupName) {
         let token;
         if (localStorage.getItem("user")) {
             token = JSON.parse(localStorage.getItem("user")).token;
         } else {
             token = "";
         }
-        return axios.put(API_URL + "/groups/" + _id + "/" + group_id,
+        return axios.put(API_URL + "/groups/" + _id + "/" + groupId,
             { editCredentials, newGroupName },
             {
                 headers: {
@@ -69,14 +69,14 @@ class StudentService {
             });
     };
 
-    deleteGroup(_id, group_id) {
+    deleteGroup(_id, groupId) {
         let token;
         if (localStorage.getItem("user")) {
             token = JSON.parse(localStorage.getItem("user")).token;
         } else {
             token = "";
         }
-        return axios.delete(API_URL + "/groups/" + _id + "/" + group_id,
+        return axios.delete(API_URL + "/groups/" + _id + "/" + groupId,
             {
                 headers: {
                     Authorization: token,
@@ -168,14 +168,14 @@ class StudentService {
     }
 
     //get resume info
-    renderResumeForm(_id, resume_id) {
+    renderResumeForm(_id, resumeId) {
         let token;
         if (localStorage.getItem("user")) {
             token = JSON.parse(localStorage.getItem("user")).token;
         } else {
             token = "";
         }
-        return axios.get(API_URL + "/resumes/" + _id + "/" + resume_id, {
+        return axios.get(API_URL + "/resumes/" + _id + "/" + resumeId, {
             headers: {
                 Authorization: token,
             },
@@ -183,14 +183,14 @@ class StudentService {
     }
 
     //update resume
-    updateResume(resumeName, addProfile, addCredentials, _id, resume_id) {
+    updateResume(resumeName, addProfile, addCredentials, _id, resumeId) {
         let token;
         if (localStorage.getItem("user")) {
             token = JSON.parse(localStorage.getItem("user")).token;
         } else {
             token = "";
         }
-        return axios.put(API_URL + "/resumes/" + _id + "/" + resume_id,
+        return axios.put(API_URL + "/resumes/" + _id + "/" + resumeId,
             { resumeName, addProfile, addCredentials },
             {
                 headers: {
@@ -199,19 +199,35 @@ class StudentService {
             });
     }
 
-    deleteResume(_id, resume_id) {
+    deleteResume(_id, resumeId) {
         let token;
         if (localStorage.getItem("user")) {
             token = JSON.parse(localStorage.getItem("user")).token;
         } else {
             token = "";
         }
-        return axios.delete(API_URL + "/resumes/" + _id + "/" + resume_id,
+        return axios.delete(API_URL + "/resumes/" + _id + "/" + resumeId,
             {
                 headers: {
                     Authorization: token,
                 },
             });
+    }
+
+    submitResume(_id, resumeId, jobId){
+        let token;
+        if (localStorage.getItem("user")) {
+            token = JSON.parse(localStorage.getItem("user")).token;
+        } else {
+            token = "";
+        }
+        return axios.post(API_URL + `/application/${_id}`,
+        { resumeId, jobId}, 
+        {
+            headers: {
+                Authorization: token,
+            },
+        });
     }
 }
 
