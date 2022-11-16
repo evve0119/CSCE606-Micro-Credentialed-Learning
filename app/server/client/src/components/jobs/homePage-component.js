@@ -40,6 +40,9 @@ const JobHomePageComponent = (props) => {
             <div>
               <h1>{currentJob.name}</h1>
               <br />
+              <h4>Company</h4>
+              <p>{currentJob.holder.company}</p>
+              <br />
               <h4>Recruiter</h4>
               <p>{currentJob.holder.username}</p>
               <br />

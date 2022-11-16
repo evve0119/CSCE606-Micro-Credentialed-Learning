@@ -4,11 +4,11 @@ import AuthService from "../../services/auth.service";
 import RecruiterService from "../../services/recruiter.service";
 
 const RecruiterHomePageComponent = () => {
-  let [ currentUser, setCurrentUser ] = useState(null);
+  let [currentUser, setCurrentUser] = useState(null);
   //  Get current user all information from database
-  useEffect(()=>{
+  useEffect(() => {
     RecruiterService.renderMyHomePage(AuthService.getCurrentUser().user._id)
-      .then(({data}) => {
+      .then(({ data }) => {
         setCurrentUser(data);
       })
       .catch((err) => {
@@ -18,7 +18,7 @@ const RecruiterHomePageComponent = () => {
 
   // render new group form
   const history = useHistory();
-  const renderNewJobForm = ()=>{
+  const renderNewJobForm = () => {
     history.push("/recruiter/jobs/new")
   }
   /*
@@ -29,9 +29,13 @@ const RecruiterHomePageComponent = () => {
   const renderEdit = (jobId) => {
     history.push(`/recruiter/jobs/${jobId}/edit`);
   };
-  const renderJobPage = (jobId) => { 
-    history.push("/jobs/"+jobId);
+  const renderJobPage = (jobId) => {
+    history.push("/jobs/" + jobId);
   };
+  const renderCompanyForm = () => {
+    history.push("/recruiter/intro")
+  }
+
 
   return (
     <div style={{ padding: "3rem" }}>
@@ -47,34 +51,40 @@ const RecruiterHomePageComponent = () => {
             <h3>
               Name: {currentUser.username}
             </h3>
-          </header>
-          <h3>
+            <h3>
               Email: {currentUser.email}
-          </h3>
+            </h3>
+            <h3>
+              Company: {currentUser.company}
+            </h3>
+          </header>
+          <button id="editCompany" className="btn btn-primary" onClick={renderCompanyForm}>
+            Edit
+          </button>
         </div>
       )}
       {/* Show all courses (if login) */}
       {currentUser && (
+        <div>
+          <h3 className="mt-5 mb-3">Jobs &emsp;
+            <button id="addNewJob" className="btn btn-primary" onClick={renderNewJobForm}>
+              Add new job
+            </button>
+          </h3>
           <div>
-            <h3 className="mt-5 mb-3">Jobs &emsp;
-              <button id="addNewJob" className="btn btn-primary" onClick={renderNewJobForm}>
-                Add new job
-              </button>
-            </h3>
-            <div>
-              {currentUser.jobs.map((jobs) => (
-                <div key={jobs._id}className="mb-3">
-                    <Link className="text-primary h3" to={`jobs/${jobs._id}/applications`}>{jobs.name}</Link> &emsp;&emsp;
-                    <button className="btn btn-warning" onClick={() => renderEdit(jobs._id)} >Edit</button> &emsp;&emsp;
-                    <button className="btn btn-success" onClick={() => renderJobPage(jobs._id)} >View job</button> &emsp;&emsp;
-                    {/* <button className="btn btn-success" onClick={() => renderSendCredential(teach._id)} >Send credentials</button> */}
-                </div>
-              ))}
-            </div>
+            {currentUser.jobs.map((jobs) => (
+              <div key={jobs._id} className="mb-3">
+                <Link className="text-primary h3" to={`jobs/${jobs._id}/applications`}>{jobs.name}</Link> &emsp;&emsp;
+                <button className="btn btn-warning" onClick={() => renderEdit(jobs._id)} >Edit</button> &emsp;&emsp;
+                <button className="btn btn-success" onClick={() => renderJobPage(jobs._id)} >View job</button> &emsp;&emsp;
+                {/* <button className="btn btn-success" onClick={() => renderSendCredential(teach._id)} >Send credentials</button> */}
+              </div>
+            ))}
           </div>
-        )}
-        {/* Add new groups (if login) */}
-        
+        </div>
+      )}
+      {/* Add new groups (if login) */}
+
     </div>
   );
 };

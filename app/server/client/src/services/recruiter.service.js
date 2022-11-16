@@ -179,6 +179,38 @@ class RecruiterService {
         });
     }
 
+    renderCompanyForm(_id) {
+        let token;
+        if (localStorage.getItem("user")) {
+            token = JSON.parse(localStorage.getItem("user")).token;
+        } else {
+            token = "";
+        }
+        return axios.get(API_URL + "/intro/" + _id, {
+            headers: {
+                Authorization: token,
+            },
+        });
+    }
+
+    // update profile
+    updateCompany(_id, editCompany) {
+        let token;
+        if (localStorage.getItem("user")) {
+            token = JSON.parse(localStorage.getItem("user")).token;
+        } else {
+            token = "";
+        }
+        return axios.put(API_URL + "/intro/" + _id ,
+            { editCompany },
+            {
+                headers: {
+                    Authorization: token,
+                },
+            });
+    }
+
+
 }
 
 export default new RecruiterService();

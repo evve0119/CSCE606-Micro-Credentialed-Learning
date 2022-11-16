@@ -16,6 +16,10 @@ router.route("/courses/:courseId/edit")
 .put(passport.authenticate("jwt", { session: false }), instructors.updateCourse)
 .delete(passport.authenticate("jwt", { session: false }), instructors.deleteCourse);
 
+router.route("/intro/:id")
+.get(passport.authenticate("jwt", { session: false }), isAuthor, instructors.renderInstituteForm)
+.put(passport.authenticate("jwt", { session: false }), isAuthor, instructors.updateInstitute)
+
 router.route("/courses/:courseId/sendCredential")
 .get(passport.authenticate("jwt", { session: false }), instructors.renderSendCredential)
 .post(passport.authenticate("jwt", { session: false }), instructors.sendCredential)

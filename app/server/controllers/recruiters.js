@@ -168,3 +168,30 @@ module.exports.renderResume = async (req, res) => {
         return res.status(400).send("Resume does not exist");
     }
 };
+
+module.exports.renderCompanyForm = async (req, res) => {
+    try{
+        const currentRecruiter = await User.findById(req.user._id);
+        if (!currentRecruiter.isRecruiter()) {
+            return res.status(403).send("You are not a recruiter");
+        }
+        return res.send(currentRecruiter.company);
+    } catch (err) {
+        return res.status(400).send("Error!! Cannot get company!!");
+    }
+
+};
+
+module.exports.updateCompany = async (req, res) => {
+    try {
+        const currentRecruiter = await User.findById(req.user._id);
+        if (!currentRecruiter.isRecruiter()) {
+            return res.status(403).send("You are not a recruiter");
+        }
+        await currentRecruiter.update({ $set: { company: req.body.editCompany } });
+        return res.send("Successfully update!!!");
+    } catch(err){
+        return res.status(400).send("Error!! Cannot update company!!");
+    }
+};
+
