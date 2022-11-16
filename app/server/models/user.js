@@ -101,6 +101,14 @@ const userSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Job"
   }],
+  company:{
+    type: String,
+    default: ""
+  },
+  institute:{
+    type: String,
+    default: ""
+  },
   verified: {
     type: Boolean,
     default: false

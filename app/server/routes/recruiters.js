@@ -22,10 +22,9 @@ router.route("/jobs/:jobId/applications")
 router.route("/jobs/:jobId/applications/:resumeId")
 .get(recruiters.renderResume);
 
-/*
-router.route("/courses/:courseId/sendCredential")
-.get(passport.authenticate("jwt", { session: false }), instructors.renderSendCredential)
-.post(passport.authenticate("jwt", { session: false }), instructors.sendCredential)
-*/
+router.route("/intro/:id")
+.get(passport.authenticate("jwt", { session: false }), isAuthor, recruiters.renderCompanyForm)
+.put(passport.authenticate("jwt", { session: false }), isAuthor, recruiters.updateCompany);
+
 
 module.exports = router;

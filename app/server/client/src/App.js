@@ -21,12 +21,14 @@ import InstructorHomePageComponent from "./components/instructors/homePage-compo
 import NewTeachFormComponent from "./components/instructors/newTeachForm-components";
 import SendCredentialComponent from "./components/instructors/sendCredential-component"
 import CourseFormComponent from "./components/instructors/courseForm-component";
+import InstituteFormComponent from "./components/instructors/instituteForm-component";
 
 import RecruiterHomePageComponent from "./components/recruiters/homePage-component";
 import NewJobFormComponent from "./components/recruiters/newJobForm-components";
 import JobFormComponent from "./components/recruiters/jobForm-component";
 import RenderApplicationComponent from "./components/recruiters/renderApplication-component";
 import RenderResumeComponent from "./components/recruiters/renderResume-component";
+import CompanyFormComponent from "./components/recruiters/CompanyForm-component";
 
 import CourseHomePageComponent from "./components/courses/homePage-component";
 
@@ -218,6 +220,12 @@ const Instructor = (props) => {
             setCurrentUser={props.setCurrentUser}
           />
         </Route>
+        <Route path="/instructor/intro" exact>
+          <InstituteFormComponent
+            currentUser={props.currentUser}
+            setCurrentUser={props.setCurrentUser}
+          />
+        </Route>
       </Switch>
     </>
   )
@@ -268,6 +276,12 @@ const Recruiter = (props) => {
         </Route>
         <Route path="/recruiter/jobs/:_id/applications/:resumeId" exact>
           <RenderResumeComponent
+            currentUser={props.currentUser}
+            setCurrentUser={props.setCurrentUser}
+          />
+        </Route>
+        <Route path="/recruiter/intro" exact>
+          <CompanyFormComponent
             currentUser={props.currentUser}
             setCurrentUser={props.setCurrentUser}
           />

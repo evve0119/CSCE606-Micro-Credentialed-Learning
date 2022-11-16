@@ -29,6 +29,22 @@ class JobService {
             },
         });
     }
+
+    searchJobByTitle(searchedJobs){
+        let token;
+        if (localStorage.getItem("user")) {
+            token = JSON.parse(localStorage.getItem("user")).token;
+        } else {
+            token = "";
+        }
+        return axios.post(API_URL + "/search", 
+            {searchedJobs},
+            {
+            headers: {
+                Authorization: token,
+            },
+        });
+    }
 };
 
 export default new JobService();

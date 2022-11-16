@@ -111,6 +111,37 @@ class InstructorService {
             });
     }
 
+    renderInstituteForm(_id) {
+        let token;
+        if (localStorage.getItem("user")) {
+            token = JSON.parse(localStorage.getItem("user")).token;
+        } else {
+            token = "";
+        }
+        return axios.get(API_URL + "/intro/" + _id, {
+            headers: {
+                Authorization: token,
+            },
+        });
+    }
+
+    // update profile
+    updateInstitute(_id, editInstitute) {
+        let token;
+        if (localStorage.getItem("user")) {
+            token = JSON.parse(localStorage.getItem("user")).token;
+        } else {
+            token = "";
+        }
+        return axios.put(API_URL + "/intro/" + _id ,
+            { editInstitute },
+            {
+                headers: {
+                    Authorization: token,
+                },
+            });
+    }
+
 }
 
 export default new InstructorService();

@@ -44,7 +44,7 @@ const ApplicationComponent = (props) => {
         window.alert("Resume is submitted!")
         history.push("/student/home")
       }).catch((err) => {
-        setMessage(err.response.data)
+        console.log(err.response.data)
       });
     }
   }

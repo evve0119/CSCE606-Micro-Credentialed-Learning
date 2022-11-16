@@ -141,3 +141,29 @@ module.exports.sendCredential = async (req, res) => {
         return res.status(404).send("Course does not exist");
     }
 };
+
+module.exports.renderInstituteForm = async (req, res) => {
+    try{
+        const currentInstructor = await User.findById(req.user._id);
+        if (!currentInstructor.isInstructor()) {
+            return res.status(403).send("You are not an instructor");
+        }
+        return res.send(currentInstructor.institute);
+    } catch (err) {
+        return res.status(400).send("Error!! Cannot get institute!!");
+    }
+
+};
+
+module.exports.updateInstitute = async (req, res) => {
+    try {
+        const currentInstructor = await User.findById(req.user._id);
+        if (!currentInstructor.isInstructor()) {
+            return res.status(403).send("You are not an instructor");
+        }
+        await currentInstructor.update({ $set: { institute: req.body.editInstitute } });
+        return res.send("Successfully update!!!");
+    } catch(err){
+        return res.status(400).send("Error!! Cannot update institute!!");
+    }
+};
