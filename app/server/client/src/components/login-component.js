@@ -36,6 +36,7 @@ const LoginComponent = (props) => {
 
         /// jwt in local storage
         if (response.data.token) {
+          console.log(response.data)
           localStorage.setItem("user", JSON.stringify(response.data));
         }
         window.alert(
