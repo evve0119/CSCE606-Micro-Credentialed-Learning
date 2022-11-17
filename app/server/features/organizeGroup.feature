@@ -28,17 +28,17 @@ Feature: organize group
         When I click on the submit edit group button
         Then I should be at the student home page
 
-    Scenario: I want to edit my profile
+    Scenario: I want to edit my student profile
         Given I am logged in as a student
         And I am at the student home page
-        When I click the edit profile button
-        Then I should be at the edit profile page
+        When I click the edit student profile button
+        Then I should be at the edit student profile page
 
-    Scenario: I want to submit changes to my profile
+    Scenario: I want to submit changes to my student profile
         Given I am logged in as a student
         And I am at the student home page
-        When I click the edit profile button
-        When I click on the submit edit profile button
+        When I click the edit student profile button
+        When I click on the submit edit student profile button
         Then I should be at the student home page
 
     Scenario: I want to add a new resume
@@ -52,4 +52,19 @@ Feature: organize group
         When I click the add new resume button
         When I fill the resume name textbox with value 'test'
         And I click the submit new resume button
+        Then I should be at the student home page
+
+    Scenario: I want to view all jobs
+        Given I am logged in as a student
+        When I click the jobs tab
+        Then I should be at the all jobs page
+
+    Scenario: I want to apply for a job
+        Given I am logged in as a student
+        And I am at the all jobs page
+        When I click on a job to apply
+        And I click the apply button
+        And I select a resume
+        # Need to ignore warning
+        And I click the apply confirm button
         Then I should be at the student home page

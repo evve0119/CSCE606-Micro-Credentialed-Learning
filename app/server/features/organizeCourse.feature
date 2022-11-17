@@ -12,7 +12,7 @@ Feature: organize course
         Given I am logged in as an instructor
         And I am at the add new course page
         When I fill the course name textbox with value 'test'
-        And I fill the description textbox with value 'test'
+        And I fill the job description textbox with value 'test'
         And I fill the add student by email textbox with value 'testStudent@gmail.com'
         And I search and add the student
         And I click the submit new course button
@@ -34,14 +34,14 @@ Feature: organize course
         Given I am logged in as an instructor
         And I am at the instructor home page
         When I click on a course
-        When I click on the update button
+        When I click on the update course button
         Then I should be at the view course page
     
     #Scenario: I want to delete an existing group
     #    Given I am logged in as an instructor
     #    And I am at the add new course page
     #    When I fill the course name textbox with value 'test'
-    #    And I fill the description textbox with value 'test'
+    #    And I fill the job description textbox with value 'test'
     #    And I fill the add student by email textbox with value 'testStudent@gmail.com'
     #    And I search and add the student
     #    And I click the submit button
