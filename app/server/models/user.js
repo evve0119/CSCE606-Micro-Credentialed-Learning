@@ -10,6 +10,14 @@ const credentialSchema = new mongoose.Schema({
   instructor:{
     type: mongoose.Schema.Types.ObjectId,
     ref: "User"
+  },
+  institute:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  },
+  issuedDateTime:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
   }
 });
 

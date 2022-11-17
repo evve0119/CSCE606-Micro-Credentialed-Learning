@@ -29,7 +29,7 @@ When('I fill the login password textbox with value {string}', function (password
 });
 
 When('I click the login button', async function () {
-    await this.driver.wait(until.elementLocated(By.xpath("//*[@id='login']")), 1000);
+    await this.driver.wait(until.elementLocated(By.xpath("//*[@id='login']")), 10000);
     await this.driver.findElement(By.xpath("//*[@id='login']")).click();
     await this.driver.wait(until.alertIsPresent());
     let alert = await this.driver.switchTo().alert();
