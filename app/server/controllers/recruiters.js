@@ -35,7 +35,7 @@ module.exports.createNewJob = async (req, res) => {
             await currentStudent.save();
         });
         */
-        return res.send("Successfully add new credential");
+        return res.send("Successfully add new job");
         
     } catch (err) {
         return res.status(400).send("Failed to create");
@@ -51,7 +51,7 @@ module.exports.renderJobForm = async (req, res) => {
         }
         return res.send(currentJob);
     } catch(err){
-        return res.status(400).send("Course does not exist");
+        return res.status(400).send("Job does not exist");
     }
 };
 
