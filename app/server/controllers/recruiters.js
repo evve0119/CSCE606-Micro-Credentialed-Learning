@@ -36,7 +36,7 @@ module.exports.createNewJob = async (req, res) => {
         });
         */
         return res.send("Successfully add new job");
-        
+
     } catch (err) {
         return res.status(400).send("Failed to create");
     }

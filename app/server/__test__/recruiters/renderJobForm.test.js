@@ -4,7 +4,7 @@ const User = require("../../models").User
 const Job = require("../../models").Job
 const {renderJobForm} = require("../../controllers/recruiters")
 
-describe("testing renderCourseForm", function () {
+describe("testing renderJobForm", function () {
     let student;
     let recruiter;
     let job;
