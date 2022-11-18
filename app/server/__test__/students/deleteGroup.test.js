@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const mongoURL = "mongodb://localhost:27017/csce606"
 const User = require("../../models").User
-const Credential = require("../../models").Credential
 const Group = require("../../models").Group
 const {deleteGroup} = require("../../controllers/students")
 

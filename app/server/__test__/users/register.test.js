@@ -23,8 +23,8 @@ describe("testing register", function () {
     test("register successfully", async() => {
         const account = {username: "aaa", password: "aaaaaa", email: "aa@gmail.com", role: "student"};
         const res = await request(app).post("/api/user/register").send(account);
-        expect(res.statusCode).toBe(200);
-        expect(res.text).toEqual("success");
+        expect(res.statusCode).toBe(201);
+        expect(res.text).toEqual("An Email sent to your account, please verify");
     });
     // username
     test("register without username", async() => {
@@ -101,6 +101,6 @@ describe("testing register", function () {
         const account = {username: "aaa", password: "aaaaaa", email: "aa@gmail.com", role: "engineer"};
         const res = await request(app).post("/api/user/register").send(account);
         expect(res.statusCode).toBe(400);
-        expect(res.text).toEqual("\"role\" must be one of [student, instructor]");
+        expect(res.text).toEqual("\"role\" must be one of [student, instructor, recruiter]");
     });
 });
