@@ -145,7 +145,7 @@ module.exports.createNewResume = async (req, res) => {
             return res.status(403).send("You are not a student");
         }
         const { resumeName, addProfile, addCredentials } = req.body;
-        const currentResume = new Resume({ name: resumeName, profile: addProfile , credentials: addCredentials, holder: req.params.id });
+        const currentResume = new Resume({ name: resumeName, profile: addProfile , credentials: addCredentials, holder: req.user._id });
         await currentResume.save();
         // push group to this user
         currentStudent.resumes.push(currentResume._id);
@@ -217,8 +217,8 @@ module.exports.submitResume = async (req, res) => {
         const currentJob = await Job.findById(jobId);
         currentJob.resumes.push(resumeId);
         await currentJob.save();
-        return res.send("Successfully simut!!!");
+        return res.send("Successfully submit!!!");
     } catch(err){
-        return res.status(400).send("Error!! Cannot sumit resume!!");
+        return res.status(400).send("Error!! Cannot submit resume!!");
     }
 };
