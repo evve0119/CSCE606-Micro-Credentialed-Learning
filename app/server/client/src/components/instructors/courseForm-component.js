@@ -4,9 +4,8 @@ import InstructorService from "../../services/instructor.service";
 import StudentService from "../../services/student.service";
 
 const CourseFormComponent = (props) => {
-    const courseId = useParams()._id;
+    const courseId = useParams().courseId;
     const history = useHistory();
-    const currentUser = props.currentUser;
 
     let [message, setMessage] = useState(null);
     let [currentCourse, setCurrentCourse] = useState(null);
@@ -34,11 +33,6 @@ const CourseFormComponent = (props) => {
 
             });
     }, []);
-
-    // If not holder go to login
-    const handleTakeToLogin = () => {
-        history.push("/login");
-    };
 
     // Handle new course name
     const handleChangeCourseName = (e) => {
@@ -92,9 +86,10 @@ const CourseFormComponent = (props) => {
 
     // Update course
     const updateCourse = () => {
-        InstructorService.updateCourse(currentCourse._id, newCourseName, newCourseDescription, editStudents).then(() => {
+        InstructorService.updateCourse(currentCourse._id, newCourseName, newCourseDescription, editStudents)
+        .then(() => {
             window.alert("Course is updated!");
-            history.push("/courses/" + courseId);
+            history.push(`/courses/${courseId}`);
         }).catch((err) => {
             setMessage(err.response.data);
         });
@@ -102,7 +97,8 @@ const CourseFormComponent = (props) => {
 
     // Delete course
     const deleteCourse = () => {
-        InstructorService.deleteCourse(courseId).then(()=>{
+        InstructorService.deleteCourse(courseId)
+        .then(()=>{
             window.alert("Course is deleted!");
             history.push("/instructor/home");
         }).catch((err)=>{
@@ -114,100 +110,99 @@ const CourseFormComponent = (props) => {
 
     return (
         <div style={{ padding: "3rem" }}>
-            {/* If not holder */}
-            {!currentUser && (
-                <div>
-                    <p>You don't have the permission</p>
-                    <button
-                        onClick={handleTakeToLogin}
-                        className="btn btn-primary btn-lg"
-                    >
-                        Take me to login page
-                    </button>
-                </div>
+            {/* If not login*/}
+            {!props.currentRole && (
+                <h1>Please Login</h1>
             )}
+            {/* If not instructor*/}
+            {props.currentRole && props.currentRole !== "instructor" && (
+                <h1>You Are Not an Instructor</h1>
+            )}
+            {/* If login and instructor */}
+            {props.currentRole && props.currentRole === "instructor" && (
+                <>
+                {currentCourse && (
+                    <div
+                        className="form-group"
+                        style={{
+                            position: "absolute",
+                            background: "#fff",
+                            top: "10%",
+                            left: "10%",
+                            right: "10%",
+                            padding: 15,
+                            border: "2px solid #444"
+                        }}
+                    >
+                        {/* Course name */}
+                        <h1>Edit {currentCourse.name}</h1>
+                        <br />
+                        <label className="h5" htmlFor="courseName">Name</label>
+                        <input
+                            name="courseName"
+                            type="text"
+                            className="form-control mt-2"
+                            id="courseName"
+                            defaultValue={currentCourse.name}
+                            onChange={handleChangeCourseName}
+                        />
+                        <br />
 
-            {/* If holder */}
-            {currentCourse && (
-                <div
-                    className="form-group"
-                    style={{
-                        position: "absolute",
-                        background: "#fff",
-                        top: "10%",
-                        left: "10%",
-                        right: "10%",
-                        padding: 15,
-                        border: "2px solid #444"
-                    }}
-                >
-                    {/* Course name */}
-                    <h1>Edit {currentCourse.name}</h1>
-                    <br />
-                    <label className="h5" htmlFor="courseName">Name</label>
-                    <input
-                        name="courseName"
-                        type="text"
-                        className="form-control mt-2"
-                        id="courseName"
-                        defaultValue={currentCourse.name}
-                        onChange={handleChangeCourseName}
-                    />
-                    <br />
+                        {/* Course description */}
+                        <label className="h5" htmlFor="courseDescription">Description</label>
+                        <input
+                            name="courseDescription"
+                            type="text"
+                            className="form-control mt-2"
+                            id="courseDescription"
+                            defaultValue={currentCourse.description}
+                            onChange={handleChangeCourseDescription}
+                        />
+                        <br />
 
-                    {/* Course description */}
-                    <label className="h5" htmlFor="courseDescription">Description</label>
-                    <input
-                        name="courseDescription"
-                        type="text"
-                        className="form-control mt-2"
-                        id="courseDescription"
-                        defaultValue={currentCourse.description}
-                        onChange={handleChangeCourseDescription}
-                    />
-                    <br />
-
-                    {/* Current enrolled students */}
-                    <h5>Enrolled students</h5>
-                    {currentCourse.students && (currentCourse.students.map((student) => (
-                        <div>
-                            <input className="h5" type="checkbox" name="students" value={student._id} onChange={handleChange} defaultChecked />
-                            <label className="p" htmlFor={student._id}>&emsp;{student.email}</label>
-                        </div>
-                    )))}
-                    <br />
-
-
-
-                    {/* Search student by email */}
-                    <h5 className="mt-3">Add student by email &emsp; <button className="btn btn-warning btn-sm" onClick={searchEmail}>Search and add</button></h5>
-                    <input
-                        name="StudentEmail"
-                        type="text"
-                        className="form-control mt-3"
-                        id="StudentEmail"
-                        onChange={handleChangeSearchedStudentEmail}
-                    />
-                    <br />
-                    {/* new students */}
-                    <h5>New students</h5>
-                    {addStudentsEmail && (addStudentsEmail.map((email, index) => (
-                        <p>{email}</p>
-                    )))}
-                    <br />
-
-
-                    {/* Update and delete button */}
-                    <p><button id="update" className="btn btn-primary" onClick={updateCourse} >Update</button> <button id="delete" className="btn btn-danger" onClick={deleteCourse} >Delete</button></p>
+                        {/* Current enrolled students */}
+                        <h5>Enrolled students</h5>
+                        {currentCourse.students && (currentCourse.students.map((student) => (
+                            <div>
+                                <input className="h5" type="checkbox" name="students" value={student._id} onChange={handleChange} defaultChecked />
+                                <label className="p" htmlFor={student._id}>&emsp;{student.email}</label>
+                            </div>
+                        )))}
+                        <br />
 
 
 
-                    {message && (
-                        <div className="alert alert-warning mt-3" role="alert">
-                            {message}
-                        </div>
-                    )}
-                </div>
+                        {/* Search student by email */}
+                        <h5 className="mt-3">Add student by email &emsp; <button className="btn btn-warning btn-sm" onClick={searchEmail}>Search and add</button></h5>
+                        <input
+                            name="StudentEmail"
+                            type="text"
+                            className="form-control mt-3"
+                            id="StudentEmail"
+                            onChange={handleChangeSearchedStudentEmail}
+                        />
+                        <br />
+                        {/* new students */}
+                        <h5>New students</h5>
+                        {addStudentsEmail && (addStudentsEmail.map((email, index) => (
+                            <p>{email}</p>
+                        )))}
+                        <br />
+
+
+                        {/* Update and delete button */}
+                        <p><button id="update" className="btn btn-primary" onClick={updateCourse} >Update</button> <button id="delete" className="btn btn-danger" onClick={deleteCourse} >Delete</button></p>
+
+
+
+                        {message && (
+                            <div className="alert alert-warning mt-3" role="alert">
+                                {message}
+                            </div>
+                        )}
+                    </div>
+                )}
+                </>
             )}
         </div>
     );

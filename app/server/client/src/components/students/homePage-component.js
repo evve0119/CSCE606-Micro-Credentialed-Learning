@@ -1,23 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useHistory, Link } from "react-router-dom";
-import AuthService from "../../services/auth.service";
 import StudentService from "../../services/student.service";
 
-const StudentHomePageComponent = () => {
+const StudentHomePageComponent = (props) => {
   let [currentUser, setCurrentUser] = useState(null);
-  //  Get current user all information from database
-  useEffect(() => {
-    StudentService.renderMyHomePage(AuthService.getCurrentUser().user._id)
-      .then(({ data }) => {
-        setCurrentUser(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
-  // render new group form
   const history = useHistory();
+
   const renderNewGroupForm = () => {
     history.push("/student/groups/new")
   }
@@ -28,36 +16,53 @@ const StudentHomePageComponent = () => {
     history.push("/student/resumes/new")
   }
 
+  useEffect(() => {
+    StudentService.renderMyHomePage()
+    .then(({ data }) => {
+      setCurrentUser(data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }, []);
+
   return (
     <div style={{ padding: "3rem" }}>
-      {/* If not login or not student*/}
-      {!currentUser && (
-        <h1>You are not authorized</h1>
+      {/* If not login*/}
+      {!props.currentRole && (
+        <h1>Please Login</h1>
+      )}
+      {/* If not student*/}
+      {props.currentRole && props.currentRole !== "student" && (
+        <h1>You Are Not a Student</h1>
       )}
       {/* If login and student */}
-      {currentUser && (
+      {props.currentRole && props.currentRole === "student" && (
         <>
-        <Profile 
-          currentUser={currentUser}
-          renderProfileForm={renderProfileForm}
-        />
-        <Group 
-          currentUser={currentUser}
-          renderNewGroupForm={renderNewGroupForm}
-        />
-        <Resume
-          currentUser={currentUser}
-          renderNewResume={renderNewResume}
-        />
-      </>
+        {currentUser && (
+          <>
+          <Profile 
+            currentUser={currentUser}
+            renderProfileForm={renderProfileForm}
+          />
+          <Group 
+            currentUser={currentUser}
+            renderNewGroupForm={renderNewGroupForm}
+          />
+          <Resume
+            currentUser={currentUser}
+            renderNewResume={renderNewResume}
+          />
+        </>
+        )}
+        </>
       )}
     </div>
   );
 };
 
 const Profile = (props) => {
-  const currentUser = props.currentUser
-  const profile = currentUser.profile;
+  const profile = props.currentUser.profile;
   return(
     <div>
       <h3 className="mb-3">Profile  &emsp;&emsp;

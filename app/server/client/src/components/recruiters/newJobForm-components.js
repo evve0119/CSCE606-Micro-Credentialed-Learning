@@ -1,16 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import RecruiterService from "../../services/recruiter.service";
-//import StudentService from "../../services/student.service"
 
 const NewJobFormComponent = (props) => {
-    let { currentUser, setCurrentUser } = props;
-    // If no current user go to login
     const history = useHistory();
-    const handleTakeToLogin = () => {
-        history.push("/login");
-    };
-
 
     let [message, setMessage] = useState(null);
     // Set new group name
@@ -36,7 +29,7 @@ const NewJobFormComponent = (props) => {
     // Post new credential
     const postJob = () => {
         //InstructorService.createNewCourse(courseName, description, addStudentsId, currentUser.user._id).then(() => {
-        RecruiterService.createNewJob(jobName, description, currentUser.user._id).then(() => {
+        RecruiterService.createNewJob(jobName, description).then(() => {
             window.alert("New job is created!")
             history.push("/recruiter/home")
         }).catch((err) => {
@@ -70,26 +63,16 @@ const NewJobFormComponent = (props) => {
 
     return (
         <div style={{ padding: "3rem" }}>
-            {/* If not login */}
-            {!currentUser && (
-                <div>
-                    <p>You must login before seeing your courses.</p>
-                    <button
-                        onClick={handleTakeToLogin}
-                        className="btn btn-primary btn-lg"
-                    >
-                        Take me to login page
-                    </button>
-                </div>
+            {/* If not login*/}
+            {!props.currentRole && (
+                <h1>Please Login</h1>
             )}
-            {/* If not student */}
-            {(currentUser.user.role != "recruiter") && (
-                <div>
-                    <p>You are not authorized</p>
-                </div>
+            {/* If not recruiter*/}
+            {props.currentRole && props.currentRole !== "recruiter" && (
+                <h1>You Are Not a Recruiter</h1>
             )}
-            {/* If login and student */}
-            {currentUser && (currentUser.user.role == "recruiter") && (
+            {/* If login and recruiter */}
+            {props.currentRole && props.currentRole === "recruiter" && (
                 <div className="form-course">
                     {/* Button to submit all form */}
                     <h1>Add new job <button className="btn btn-primary" onClick={postJob}>Submit</button></h1>

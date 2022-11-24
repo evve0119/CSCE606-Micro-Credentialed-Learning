@@ -3,7 +3,7 @@ import { Link,  useHistory } from "react-router-dom";
 import AuthService from "../services/auth.service";
 
 const NavComponent = (props) => {
-  let { currentUser, setCurrentUser } = props;
+  let { currentRole, setCurrentRole } = props;
   const history = useHistory();
   const handleLogin = () => {
     history.push({
@@ -14,7 +14,7 @@ const NavComponent = (props) => {
   const handleLogout = () => {
     AuthService.logout();
     window.alert("Logout Successfully, now you are redirected to the homepage.");
-    setCurrentUser(null);
+    setCurrentRole(null);
     history.push("/");
   };
   return (
@@ -25,7 +25,7 @@ const NavComponent = (props) => {
             <div className="collapse navbar-collapse" id="navbarNav">
               <ul className="navbar-nav">
                 {/* root not login */}
-                {!currentUser && (
+                {!currentRole && (
                   <>
                     <li className="nav-item">
                       <Link className="nav-link" to="/">
@@ -38,14 +38,14 @@ const NavComponent = (props) => {
                       </Link>
                     </li>
                     <li className="nav-item">
-                      <Link onClick={handleLogin} className="nav-link">
+                      <Link onClick={handleLogin} className="nav-link" to="#">
                         Login
                       </Link>
                     </li>
                   </>
                 )}
                 {/* all role after login */}
-                {currentUser && (
+                {currentRole && (
                   <>
                     <li className="nav-item">
                       <Link onClick={handleLogout} className="nav-link" to="#">
@@ -55,7 +55,7 @@ const NavComponent = (props) => {
                   </>
                 )}
                 {/* student */}
-                {currentUser && (currentUser.user.role == "student") &&(
+                {currentRole && (currentRole === "student") &&(
                   <>
                     <li className="nav-item">
                       <Link className="nav-link" to="/student/home">
@@ -75,7 +75,7 @@ const NavComponent = (props) => {
                   </>
                 )}
                 {/* instructor */}
-                {currentUser && (currentUser.user.role == "instructor") &&(
+                {currentRole && (currentRole === "instructor") &&(
                   <>
                     <li className="nav-item">
                       <Link className="nav-link" to="/instructor/home">
@@ -85,7 +85,7 @@ const NavComponent = (props) => {
                   </>
                 )}
                 {/* instructor */}
-                {currentUser && (currentUser.user.role == "recruiter") &&(
+                {currentRole && (currentRole === "recruiter") &&(
                   <>
                     <li className="nav-item">
                       <Link className="nav-link" to="/recruiter/home">

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import InstructorService from "../../services/instructor.service";
 
 const InstituteForm = (props) => {
@@ -17,15 +17,10 @@ const InstituteForm = (props) => {
 };
 
 const InstituteFormComponent = (props) => {
-    const { currentUser, setCurrentUser } = props;
     const [currentInstitute, setInstitute] = useState("");
     let [message, setMessage] = useState(null);
 
-    // If not holder go to login
     const history = useHistory();
-    const handleTakeToLogin = () => {
-        history.push("/login");
-    };
 
     const handleChangeInstitute = (e) => {
         setInstitute(e.target.value);
@@ -33,24 +28,19 @@ const InstituteFormComponent = (props) => {
 
     // // Get user's credentials and group info
     useEffect(() => {
-        let _id;
-        if (currentUser) {
-            _id = currentUser.user._id;
-        } else {
-            _id = "";
-        }
-        InstructorService.renderInstituteForm(_id)
-            .then(({ data }) => {
-                setInstitute(data);
-            })
-            .catch((err) => {
-                setMessage(err.response.data);
-            });
+        InstructorService.renderInstituteForm()
+        .then(({ data }) => {
+            setInstitute(data);
+        })
+        .catch((err) => {
+            setMessage(err.response.data);
+        });
     }, []);
 
     // Update institute
     const updateInstitute = () => {
-        InstructorService.updateInstitute(currentUser.user._id, currentInstitute).then(() => {
+        InstructorService.updateInstitute(currentInstitute)
+        .then(() => {
             window.alert("Institute is updated!");
             history.push("/instructor/home");
         }).catch((err) => {
@@ -60,46 +50,43 @@ const InstituteFormComponent = (props) => {
 
     return (
         <div style={{ padding: "3rem" }}>
-            {/* If not holder */}
-            {!currentUser && (
-                <div>
-                    <p>You don't have the permission</p>
-                    <button
-                        onClick={handleTakeToLogin}
-                        className="btn btn-primary btn-lg"
-                    >
-                        Take me to login page
-                    </button>
+            {/* If not login*/}
+            {!props.currentRole && (
+            <h1>Please Login</h1>
+            )}
+            {/* If not instructor*/}
+            {props.currentRole && props.currentRole !== "instructor" && (
+            <h1>You Are Not an Instructor</h1>
+            )}
+            {/* If login and instructor */}
+            {props.currentRole && props.currentRole === "instructor" && (
+                <div
+                    className="form-group"
+                    style={{
+                        position: "absolute",
+                        background: "#fff",
+                        top: "10%",
+                        left: "10%",
+                        right: "10%",
+                        padding: 15,
+                        border: "2px solid #444"
+                    }}
+                >
+                    <h1>Edit institute</h1>
+                    <InstituteForm
+                        name={"Institute"}
+                        defaultValue={currentInstitute}
+                        onChange={handleChangeInstitute}
+                    />
+                    <button id="submit" className="btn btn-primary" onClick={updateInstitute}>Submit</button>
+                    <br />
+                    {message && (
+                        <div className="alert alert-warning mt-3" role="alert">
+                            {message}
+                        </div>
+                    )}
                 </div>
             )}
-            {/* If holder */}
-            <div
-                className="form-group"
-                style={{
-                    position: "absolute",
-                    background: "#fff",
-                    top: "10%",
-                    left: "10%",
-                    right: "10%",
-                    padding: 15,
-                    border: "2px solid #444"
-                }}
-            >
-                <h1>Edit institute</h1>
-                <InstituteForm
-                    name={"Institute"}
-                    defaultValue={currentInstitute}
-                    onChange={handleChangeInstitute}
-                />
-                <button id="submit" className="btn btn-primary" onClick={updateInstitute}>Submit</button>
-                <br />
-                {message && (
-                    <div className="alert alert-warning mt-3" role="alert">
-                        {message}
-                    </div>
-                )}
-            </div>
-
         </div>
     );
 };

@@ -15,7 +15,7 @@ module.exports.myHomePage = async (req, res) => {
         .populate("resumes")
         .populate("credentials");
         if (!currentStudent.isStudent()) {
-            return res.status(403).send("You are not a student");
+            return res.status(403).send("You are not authorized");
         }
         return res.send(currentStudent);
     } catch (err) {
@@ -28,10 +28,10 @@ module.exports.createNewGroup = async (req, res) => {
     try {
         const currentStudent = await Student.findById(req.user._id);
         if (!currentStudent.isStudent()) {
-            return res.status(403).send("You are not a student");
+            return res.status(403).send("You are not authorized");
         }
         const { groupName, addCredentials } = req.body;
-        const currentGroup = new Group({ name: groupName, holder: req.params.id, credentials: addCredentials });
+        const currentGroup = new Group({ name: groupName, holder: req.user._id, credentials: addCredentials });
         await currentGroup.save();
         // push group to this user
         currentStudent.groups.push(currentGroup._id);
@@ -45,11 +45,10 @@ module.exports.createNewGroup = async (req, res) => {
 
 module.exports.renderGroupForm = async (req, res) => {
     try{
-        const currentStudent = await Student.findById(req.user._id);
-        if (!currentStudent.isStudent()) {
-            return res.status(403).send("You are not a student");
-        }
         const currentGroup = await Group.findById(req.params.groupId).populate("credentials");
+        if(req.user._id != currentGroup.holder._id.toString()){
+            return res.status(403).send("You are not authorized");
+        }
         return res.send(currentGroup);
     } catch (err) {
         return res.status(400).send("Error!! Cannot get GroupForm!!");
@@ -59,11 +58,10 @@ module.exports.renderGroupForm = async (req, res) => {
 
 module.exports.updateGroup = async (req, res) => {
     try {
-        const currentStudent = await Student.findById(req.user._id);
-        if (!currentStudent.isStudent()) {
-            return res.status(403).send("You are not a student");
-        }
         const currentGroup = await Group.findById(req.params.groupId)
+        if(req.user._id != currentGroup.holder._id.toString()){
+            return res.status(403).send("You are not authorized");
+        }
         await currentGroup.update({ $set: { credentials: req.body.editCredentials, name: req.body.newGroupName } });
         return res.send("Successfully update!!!");
     } catch(err){
@@ -91,7 +89,7 @@ module.exports.renderAllCredentials = async (req, res) => {
     try {
         const currentStudent = await Student.findById(req.user._id).populate('credentials');
         if (!currentStudent.isStudent()) {
-            return res.status(403).send("You are not a student");
+            return res.status(403).send("You are not authorized");
         }
         return res.send(currentStudent.credentials);
     } catch (err) {
@@ -115,7 +113,7 @@ module.exports.renderProfileForm = async (req, res) => {
     try{
         const currentStudent = await Student.findById(req.user._id);
         if (!currentStudent.isStudent()) {
-            return res.status(403).send("You are not a student");
+            return res.status(403).send("You are not authorized");
         }
         return res.send(currentStudent.profile);
     } catch (err) {
@@ -128,7 +126,7 @@ module.exports.updateProfile = async (req, res) => {
     try {
         const currentStudent = await Student.findById(req.user._id);
         if (!currentStudent.isStudent()) {
-            return res.status(403).send("You are not a student");
+            return res.status(403).send("You are not authorized");
         }
         await currentStudent.update({ $set: { profile: req.body.editProfile } });
         return res.send("Successfully update!!!");
@@ -142,7 +140,7 @@ module.exports.createNewResume = async (req, res) => {
     try {
         const currentStudent = await Student.findById(req.user._id);
         if (!currentStudent.isStudent()) {
-            return res.status(403).send("You are not a student");
+            return res.status(403).send("You are not authorized");
         }
         const { resumeName, addProfile, addCredentials } = req.body;
         const currentResume = new Resume({ name: resumeName, profile: addProfile , credentials: addCredentials, holder: req.user._id });
@@ -159,11 +157,10 @@ module.exports.createNewResume = async (req, res) => {
 
 module.exports.renderResumeForm = async (req, res) => {
     try{
-        const currentStudent = await Student.findById(req.user._id);
-        if (!currentStudent.isStudent()) {
-            return res.status(403).send("You are not a student");
-        }
         const currentResume = await Resume.findById(req.params.resumeId).populate("credentials");
+        if(req.user._id != currentResume.holder._id.toString()){
+            return res.status(403).send("You are not authorized");
+        }
         return res.send(currentResume);
     } catch (err) {
         return res.status(400).send("Error!! Cannot get resume!!");
@@ -173,11 +170,10 @@ module.exports.renderResumeForm = async (req, res) => {
 
 module.exports.updateResume = async (req, res) => {
     try {
-        const currentStudent = await Student.findById(req.user._id);
-        if (!currentStudent.isStudent()) {
-            return res.status(403).send("You are not a student");
-        }
         const currentResume = await Resume.findById(req.params.resumeId)
+        if(req.user._id != currentResume.holder._id.toString()){
+            return res.status(403).send("You are not authorized");
+        }
         const { resumeName, addProfile, addCredentials } = req.body;
         await currentResume.update({ 
             $set: { 
@@ -196,7 +192,7 @@ module.exports.deleteResume = async (req, res) => {
     try{
         const currentResume = await Resume.findById(req.params.resumeId);
         if(req.user._id != currentResume.holder._id.toString()){
-            return res.status(400).send("You are not authorized");
+            return res.status(403).send("You are not authorized");
         }
         const currentStudent = await Student.findById(req.user._id);
         await currentStudent.update({ $pull: { resumes: req.params.resumeId } });
@@ -212,7 +208,7 @@ module.exports.submitResume = async (req, res) => {
         const { resumeId, jobId } = req.body;
         const currentResume = await Resume.findById(resumeId);
         if(req.user._id != currentResume.holder._id.toString()){
-            return res.status(400).send("You are not authorized");
+            return res.status(403).send("You are not authorized");
         }
         const currentJob = await Job.findById(jobId);
         currentJob.resumes.push(resumeId);
