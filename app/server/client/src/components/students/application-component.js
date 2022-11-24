@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useHistory, Link, useParams } from "react-router-dom";
-import AuthService from "../../services/auth.service";
 import StudentService from "../../services/student.service";
 
 const ApplicationComponent = (props) => {
-  let [currentUser, setCurrentUser] = useState(props.currentUser.user);
+  let [currentUser, setCurrentUser] = useState(null);
   const [currentResume, setResume] = useState(null);
-  const jobId = useParams()._id;
-  //  Get current user all information from database
+  const jobId = useParams().jobId;
+
   useEffect(() => {
-    StudentService.renderMyHomePage(AuthService.getCurrentUser().user._id)
-      .then(({ data }) => {
-        setCurrentUser(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    StudentService.renderMyHomePage()
+    .then(({ data }) => {
+      setCurrentUser(data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   }, []);
 
   // render new group form
@@ -27,10 +26,10 @@ const ApplicationComponent = (props) => {
   const handleChange = (e) => {
     const { value, checked } = e.target;
     if (checked) {
-        setResume(value);
+      setResume(value);
     }
     else {
-        setResume(null);
+      setResume(null);
     }
   };
 
@@ -39,7 +38,7 @@ const ApplicationComponent = (props) => {
       window.alert("Please choose a resume!")
     }
     else{
-      StudentService.submitResume(currentUser._id, currentResume, jobId)
+      StudentService.submitResume(currentResume, jobId)
       .then(() => {
         window.alert("Resume is submitted!")
         history.push("/student/home")
@@ -52,32 +51,40 @@ const ApplicationComponent = (props) => {
   return (
     <div style={{ padding: "3rem" }}>
       {/* If not login or not student*/}
-      {!currentUser && (
-        <h1>You are not authorized</h1>
+      {!props.currentRole && (
+        <h1>Please Login</h1>
+      )}
+      {/* If not student*/}
+      {props.currentRole && props.currentRole !== "student" && (
+        <h1>You Are Not a Student</h1>
       )}
       {/* If login and student */}
-      {currentUser && (
+      {props.currentRole && props.currentRole === "student" && (
         <>
-        <h3 className="mb-3">Resumes &emsp;&emsp;
-        <button id="addNewResume" className="btn btn-primary" onClick={renderNewResume}>
-          Add
-        </button>
-        </h3>
-        <div>
-          {currentUser.resumes.map((resume) => (
-            <div key={resume._id} className="mb-3">
-              <input className="h3" type="checkbox" name="chooseResume" 
-                    value={resume._id} checked={currentResume === resume._id} onChange={handleChange}/>
-              <label className="h3" htmlFor={resume._id}>
-                <Link className="text-primary h5" to={`/student/resumes/${resume._id}`}>{resume.name}</Link>
-              </label>
-            </div>
-          ))}
-          <button className="btn btn-primary" onClick={apply}>
-            Apply
+        {currentUser && (
+          <>
+          <h3 className="mb-3">Resumes &emsp;&emsp;
+          <button id="addNewResume" className="btn btn-primary" onClick={renderNewResume}>
+            Add
           </button>
-        </div>
-        </>
+          </h3>
+          <div>
+            {currentUser.resumes.map((resume) => (
+              <div key={resume._id} className="mb-3">
+                <input className="h3" type="checkbox" name="chooseResume" 
+                  value={resume._id} checked={currentResume === resume._id} onChange={handleChange}/>
+                <label className="h3" htmlFor={resume._id}>
+                  <Link className="text-primary h5" to={`/student/resumes/${resume._id}`}>{resume.name}</Link>
+                </label>
+              </div>
+            ))}
+            <button className="btn btn-primary" onClick={apply}>
+              Apply
+            </button>
+          </div>
+          </>
+        )}
+      </>
       )}
     </div>
   );

@@ -5,7 +5,6 @@ import Select from 'react-select';
 import { useLocation } from "react-router-dom";
 
 const LoginComponent = (props) => {
-  let { currentUser, setCurrentUser } = props;
   const history = useHistory();
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
@@ -36,13 +35,12 @@ const LoginComponent = (props) => {
 
         /// jwt in local storage
         if (response.data.token) {
-          console.log(response.data)
           localStorage.setItem("user", JSON.stringify(response.data));
         }
         window.alert(
           "Login successfully, you are now redirected to the profile page."
         );
-        setCurrentUser(AuthService.getCurrentUser());
+        props.setCurrentRole(AuthService.getCurrentRole());
         if(role == "student"){
           history.push("/student/home");
         };
@@ -99,7 +97,7 @@ const LoginComponent = (props) => {
           />
         </div>
         <br />
-        <div class="form-group d-flex justify-content-between">
+        <div className="form-group d-flex justify-content-between">
           <div>
             <button id="login" onClick={handleLogin} className="btn btn-primary btn-block">
             <span>Login</span>

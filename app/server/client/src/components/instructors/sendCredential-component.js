@@ -3,21 +3,14 @@ import { useHistory, useParams } from "react-router-dom";
 import InstructorService from "../../services/instructor.service"
 
 const SendCredentialComponent = (props) => {
-    // If not holder go to login
-
-    let { currentUser, setCurrentUser } = props;
     const history = useHistory();
-    const handleTakeToLogin = () => {
-        history.push("/login");
-    };
-
     // // get group_id from url
-    const course_id = useParams()._id;
+    const courseId = useParams().courseId;
 
     // // Get user's credentials and group info
     let [currentCourse, setCurrentCourse] = useState(null)
     useEffect(() => {
-        InstructorService.renderSendCredentialForm(course_id)
+        InstructorService.renderSendCredentialForm(courseId)
             .then(({ data }) => {
                 setCurrentCourse(data);
             })
@@ -30,7 +23,7 @@ const SendCredentialComponent = (props) => {
 
     // Send Credential
     const sendCredential = () => {
-        InstructorService.sendCredential(course_id, addStudents).then(({data}) => {
+        InstructorService.sendCredential(courseId, addStudents).then(({data}) => {
             window.alert(data);
             history.push("/instructor/home");
         }).catch((err) => {
@@ -55,41 +48,41 @@ const SendCredentialComponent = (props) => {
 
     return (
         <div style={{ padding: "3rem" }}>
-            {/* If not holder */}
-            {!currentUser && (
-                <div>
-                    <p>You don't have the permission</p>
-                    <button
-                        onClick={handleTakeToLogin}
-                        className="btn btn-primary btn-lg"
-                    >
-                        Take me to login page
-                    </button>
-                </div>
+            {/* If not login*/}
+            {!props.currentRole && (
+                <h1>Please Login</h1>
             )}
-            {/* If holder */}
-            {currentCourse && (
-                <div className="form-group">
-                    <h1>Send Credential of {currentCourse.name}</h1>
-                    <br />
-                    {/* All credentials */}
+            {/* If not instructor*/}
+            {props.currentRole && props.currentRole !== "instructor" && (
+                <h1>You Are Not an Instructor</h1>
+            )}
+            {/* If login and instructor */}
+            {props.currentRole && props.currentRole === "instructor" && (
+                <>
+                {currentCourse && (
+                    <div className="form-group">
+                        <h1>Send Credential of {currentCourse.name}</h1>
+                        <br />
+                        {/* All credentials */}
 
-                    {currentCourse && (currentCourse.students.map((student) => (
-                        <div key={student._id} className="mb-5">
-                                <div>
-                                    <input className="h3" type="checkbox" name="studentEmail" value={student._id} onChange={handleChange} />
-                                    <label className="h3" htmlFor={student._id}>{student.email}</label>
-                                </div>
-                        </div>
-                    )))}
-                    <button className="btn btn-primary" onClick={sendCredential}>Submit</button>
-                    <br />
-                    {message && (
-                        <div className="alert alert-warning mt-3" role="alert">
-                            {message}
-                        </div>
-                    )}
-                </div>
+                        {currentCourse && (currentCourse.students.map((student) => (
+                            <div key={student._id} className="mb-5">
+                                    <div>
+                                        <input className="h3" type="checkbox" name="studentEmail" value={student._id} onChange={handleChange} />
+                                        <label className="h3" htmlFor={student._id}>{student.email}</label>
+                                    </div>
+                            </div>
+                        )))}
+                        <button className="btn btn-primary" onClick={sendCredential}>Submit</button>
+                        <br />
+                        {message && (
+                            <div className="alert alert-warning mt-3" role="alert">
+                                {message}
+                            </div>
+                        )}
+                    </div>
+                )}
+                </>
             )}
         </div>
     );

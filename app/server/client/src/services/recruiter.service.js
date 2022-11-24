@@ -3,14 +3,14 @@ const API_URL = "http://localhost:8080/api/recruiters";
 
 class RecruiterService {
 
-    renderMyHomePage(_id) {
+    renderMyHomePage() {
         let token;
         if (localStorage.getItem("user")) {
             token = JSON.parse(localStorage.getItem("user")).token;
         } else {
             token = "";
         }
-        return axios.get(API_URL + "/home/" + _id, {
+        return axios.get(API_URL + "/home", {
             headers: {
                 Authorization: token,
             },
@@ -36,7 +36,7 @@ class RecruiterService {
     }
     */
 
-    createNewJob(jobName, description, _id) {
+    createNewJob(jobName, description) {
         let token;
         if (localStorage.getItem("user")) {
             token = JSON.parse(localStorage.getItem("user")).token;
@@ -92,7 +92,7 @@ class RecruiterService {
         } else {
             token = "";
         }
-        return axios.get(API_URL + "/jobs/" + jobId + "/edit",
+        return axios.get(API_URL + `/jobs/${jobId}/edit`,
             {
                 headers: {
                     Authorization: token,
@@ -125,7 +125,7 @@ class RecruiterService {
         } else {
             token = "";
         }
-        return axios.put(API_URL + "/jobs/" + jobId + "/edit",
+        return axios.put(API_URL + `/jobs/${jobId}/edit`,
         {jobName, jobDescription},
         {
             headers: {
@@ -141,7 +141,7 @@ class RecruiterService {
         } else {
             token = "";
         }
-        return axios.delete(API_URL + "/jobs/" + jobId + "/edit",
+        return axios.delete(API_URL + `/jobs/${jobId}/edit`,
         {
             headers: {
                 Authorization: token,
@@ -179,14 +179,14 @@ class RecruiterService {
         });
     }
 
-    renderCompanyForm(_id) {
+    renderCompanyForm() {
         let token;
         if (localStorage.getItem("user")) {
             token = JSON.parse(localStorage.getItem("user")).token;
         } else {
             token = "";
         }
-        return axios.get(API_URL + "/intro/" + _id, {
+        return axios.get(API_URL + "/intro", {
             headers: {
                 Authorization: token,
             },
@@ -194,14 +194,14 @@ class RecruiterService {
     }
 
     // update profile
-    updateCompany(_id, editCompany) {
+    updateCompany(editCompany) {
         let token;
         if (localStorage.getItem("user")) {
             token = JSON.parse(localStorage.getItem("user")).token;
         } else {
             token = "";
         }
-        return axios.put(API_URL + "/intro/" + _id ,
+        return axios.put(API_URL + "/intro",
             { editCompany },
             {
                 headers: {

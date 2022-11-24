@@ -31,25 +31,34 @@ const RenderAllJobComponent = (props) => {
 
   return (
     <div style={{ padding: "3rem" }}>
-      <h1>Jobs</h1>
+      {/* If not login*/}
+      {!props.currentRole && (
+        <h1>Please Login</h1>
+      )}
+      {/* If login*/}
+      {props.currentRole && (
+        <>
+        <h1>Jobs</h1>
 
-      <label htmlFor="searchedJob">Title</label>
-      <input
-        name="searchedJob"
-        type="text"
-        className="form-control"
-        id="searchedJob"
-        onChange={handleChangeSearchedJobs}
-      />
-      <br />  
-      <button className="btn btn-primary mb-3" onClick={searchJobs}>Search</button>
-      <br />
+        <label htmlFor="searchedJob">Title</label>
+        <input
+          name="searchedJob"
+          type="text"
+          className="form-control"
+          id="searchedJob"
+          onChange={handleChangeSearchedJobs}
+        />
+        <br />  
+        <button className="btn btn-primary mb-3" onClick={searchJobs}>Search</button>
+        <br />
 
-      {jobs.map((job) => (
-        <li key={job._id}>
-          <Link className="text-primary h3" to={`jobs/${job._id}`}>{job.holder.company} - {job.name}</Link>
-        </li>
-      ))}
+        {jobs.map((job) => (
+          <li key={job._id}>
+            <Link className="text-primary h3" to={`jobs/${job._id}`}>{job.holder.company} - {job.name}</Link>
+          </li>
+        ))}
+        </>
+      )}
     </div>
   );
 };

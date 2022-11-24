@@ -188,9 +188,9 @@ module.exports.login = async (req, res) => {
 
             if (err) return res.status(400).send(err);
             if (isMatch) {
-              const tokenObject = { _id: user._id, email: user.email };
+              const tokenObject = { _id: user._id, role: user.role };
               const token = jwt.sign(tokenObject, process.env.PASSPORT_SECRET);
-              res.send({ success: true, token: "JWT " + token, user });
+              res.send({ token: "JWT " + token, user });
             } else {
               res.status(400).send("Wrong password.");
             };

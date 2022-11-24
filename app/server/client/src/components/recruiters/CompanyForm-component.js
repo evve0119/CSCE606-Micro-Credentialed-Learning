@@ -17,15 +17,10 @@ const CompanyForm = (props) => {
 };
 
 const CompanyFormComponent = (props) => {
-    const { currentUser, setCurrentUser } = props;
     const [currentCompany, setCompany] = useState("");
     let [message, setMessage] = useState(null);
 
-    // If not holder go to login
     const history = useHistory();
-    const handleTakeToLogin = () => {
-        history.push("/login");
-    };
 
     const handleChangeCompany = (e) => {
         setCompany(e.target.value);
@@ -33,13 +28,7 @@ const CompanyFormComponent = (props) => {
 
     // // Get user's credentials and group info
     useEffect(() => {
-        let _id;
-        if (currentUser) {
-            _id = currentUser.user._id;
-        } else {
-            _id = "";
-        }
-        RecruiterService.renderCompanyForm(_id)
+        RecruiterService.renderCompanyForm()
             .then(({ data }) => {
                 setCompany(data);
             })
@@ -50,7 +39,7 @@ const CompanyFormComponent = (props) => {
 
     // Update company
     const updateCompany = () => {
-        RecruiterService.updateCompany(currentUser.user._id, currentCompany).then(() => {
+        RecruiterService.updateCompany(currentCompany).then(() => {
             window.alert("Company is updated!");
             history.push("/recruiter/home");
         }).catch((err) => {
@@ -60,46 +49,43 @@ const CompanyFormComponent = (props) => {
 
     return (
         <div style={{ padding: "3rem" }}>
-            {/* If not holder */}
-            {!currentUser && (
-                <div>
-                    <p>You don't have the permission</p>
-                    <button
-                        onClick={handleTakeToLogin}
-                        className="btn btn-primary btn-lg"
-                    >
-                        Take me to login page
-                    </button>
+            {/* If not login*/}
+            {!props.currentRole && (
+                <h1>Please Login</h1>
+            )}
+            {/* If not recruiter*/}
+            {props.currentRole && props.currentRole !== "recruiter" && (
+                <h1>You Are Not a Recruiter</h1>
+            )}
+            {/* If login and recruiter */}
+            {props.currentRole && props.currentRole === "recruiter" && (
+                <div
+                    className="form-group"
+                    style={{
+                        position: "absolute",
+                        background: "#fff",
+                        top: "10%",
+                        left: "10%",
+                        right: "10%",
+                        padding: 15,
+                        border: "2px solid #444"
+                    }}
+                >
+                    <h1>Edit company</h1>
+                    <CompanyForm
+                        name={"Company"}
+                        defaultValue={currentCompany}
+                        onChange={handleChangeCompany}
+                    />
+                    <button id="submit" className="btn btn-primary" onClick={updateCompany}>Submit</button>
+                    <br />
+                    {message && (
+                        <div className="alert alert-warning mt-3" role="alert">
+                            {message}
+                        </div>
+                    )}
                 </div>
             )}
-            {/* If holder */}
-            <div
-                className="form-group"
-                style={{
-                    position: "absolute",
-                    background: "#fff",
-                    top: "10%",
-                    left: "10%",
-                    right: "10%",
-                    padding: 15,
-                    border: "2px solid #444"
-                }}
-            >
-                <h1>Edit company</h1>
-                <CompanyForm
-                    name={"Company"}
-                    defaultValue={currentCompany}
-                    onChange={handleChangeCompany}
-                />
-                <button id="submit" className="btn btn-primary" onClick={updateCompany}>Submit</button>
-                <br />
-                {message && (
-                    <div className="alert alert-warning mt-3" role="alert">
-                        {message}
-                    </div>
-                )}
-            </div>
-
         </div>
     );
 };

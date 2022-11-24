@@ -1,4 +1,5 @@
 import axios from "axios";
+import jwt_decode from "jwt-decode";
 const API_URL = "http://localhost:8080/api/user";
 // const API_URL = "/api/user";
 
@@ -24,6 +25,15 @@ class AuthService {
   //get current user function
   getCurrentUser() {
     return JSON.parse(localStorage.getItem("user"));
+  }
+  getCurrentRole() {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if(user){
+      return jwt_decode(user.token).role;
+    }
+    else{
+      return null;
+    }
   }
 }
 

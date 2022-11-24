@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import RecruiterService from "../../services/recruiter.service";
-//import StudentService from "../../services/student.service";
 
 const JobFormComponent = (props) => {
-    const jobId = useParams()._id;
+    const jobId = useParams().jobId;
     const history = useHistory();
-    const currentUser = props.currentUser;
 
     let [message, setMessage] = useState(null);
     let [currentJob, setCurrentJob] = useState(null);
@@ -119,70 +117,69 @@ const JobFormComponent = (props) => {
 
     return (
         <div style={{ padding: "3rem" }}>
-            {/* If not holder */}
-            {!currentUser && (
-                <div>
-                    <p>You don't have the permission</p>
-                    <button
-                        onClick={handleTakeToLogin}
-                        className="btn btn-primary btn-lg"
-                    >
-                        Take me to login page
-                    </button>
-                </div>
+            {/* If not login*/}
+            {!props.currentRole && (
+                <h1>Please Login</h1>
             )}
+            {/* If not recruiter*/}
+            {props.currentRole && props.currentRole !== "recruiter" && (
+                <h1>You Are Not a Recruiter</h1>
+            )}
+            {/* If login and recruiter */}
+            {props.currentRole && props.currentRole === "recruiter" && (
+                <>
+                {currentJob && (
+                    <div
+                        className="form-group"
+                        style={{
+                            position: "absolute",
+                            background: "#fff",
+                            top: "10%",
+                            left: "10%",
+                            right: "10%",
+                            padding: 15,
+                            border: "2px solid #444"
+                        }}
+                    >
+                        {/* Course name */}
+                        <h1>Edit {currentJob.name}</h1>
+                        <br />
+                        <label className="h5" htmlFor="courseName">Name</label>
+                        <input
+                            name="jobName"
+                            type="text"
+                            className="form-control mt-2"
+                            id="jobName"
+                            defaultValue={currentJob.name}
+                            onChange={handleChangeJobName}
+                        />
+                        <br />
 
-            {/* If holder */}
-            {currentJob && (
-                <div
-                    className="form-group"
-                    style={{
-                        position: "absolute",
-                        background: "#fff",
-                        top: "10%",
-                        left: "10%",
-                        right: "10%",
-                        padding: 15,
-                        border: "2px solid #444"
-                    }}
-                >
-                    {/* Course name */}
-                    <h1>Edit {currentJob.name}</h1>
-                    <br />
-                    <label className="h5" htmlFor="courseName">Name</label>
-                    <input
-                        name="jobName"
-                        type="text"
-                        className="form-control mt-2"
-                        id="jobName"
-                        defaultValue={currentJob.name}
-                        onChange={handleChangeJobName}
-                    />
-                    <br />
+                        {/* Job description */}
+                        <label className="h5" htmlFor="jobDescription">Description</label>
+                        <input
+                            name="jobDescription"
+                            type="text"
+                            className="form-control mt-2"
+                            id="jobDescription"
+                            defaultValue={currentJob.description}
+                            onChange={handleChangeJobDescription}
+                        />
+                        <br />
 
-                    {/* Job description */}
-                    <label className="h5" htmlFor="jobDescription">Description</label>
-                    <input
-                        name="jobDescription"
-                        type="text"
-                        className="form-control mt-2"
-                        id="jobDescription"
-                        defaultValue={currentJob.description}
-                        onChange={handleChangeJobDescription}
-                    />
-                    <br />
-
-                    {/* Update and delete button */}
-                    <p><button id="update" className="btn btn-primary" onClick={updateJob} >Update</button> <button id="delete" className="btn btn-danger" onClick={deleteJob} >Delete</button></p>
+                        {/* Update and delete button */}
+                        <p><button id="update" className="btn btn-primary" onClick={updateJob} >Update</button> <button id="delete" className="btn btn-danger" onClick={deleteJob} >Delete</button></p>
 
 
 
-                    {message && (
-                        <div className="alert alert-warning mt-3" role="alert">
-                            {message}
-                        </div>
-                    )}
-                </div>
+                        {message && (
+                            <div className="alert alert-warning mt-3" role="alert">
+                                {message}
+                            </div>
+                        )}
+                    </div>
+                )}
+                </>
             )}
         </div>
     );

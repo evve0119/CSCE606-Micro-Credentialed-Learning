@@ -38,10 +38,10 @@ import EmailVerify from "./components/EmailVerification/email-verification";
 import ResetPassword from "./components/EmailVerification/reset-password";
 
 function App() {
-  let [currentUser, setCurrentUser] = useState(AuthService.getCurrentUser());
+  const [currentRole, setCurrentRole] = useState(AuthService.getCurrentRole());
   return (
     <div>
-      <NavComponent currentUser={currentUser} setCurrentUser={setCurrentUser} />
+      <NavComponent currentRole={currentRole} setCurrentRole={setCurrentRole} />
       <Switch>
         <Route path="/" exact>
           <HomeComponent />
@@ -50,10 +50,7 @@ function App() {
           <RegisterComponent />
         </Route>
         <Route path="/login" exact>
-          <LoginComponent
-            currentUser={currentUser}
-            setCurrentUser={setCurrentUser}
-          />
+          <LoginComponent setCurrentRole={setCurrentRole}/>
         </Route>
         <Route path="/forgot" exact>
           <ForgotComponent/>
@@ -65,34 +62,19 @@ function App() {
           <EmailVerify/>
         </Route>
         <Route path="/student">
-          <Student
-            currentUser={currentUser}
-            setCurrentUser={setCurrentUser}
-          />
+          <Student currentRole={currentRole}/>
         </Route>
         <Route path="/instructor">
-          <Instructor
-            currentUser={currentUser}
-            setCurrentUser={setCurrentUser}
-          />
+          <Instructor currentRole={currentRole}/>
         </Route>
         <Route path="/courses">
-          <Course
-            currentUser={currentUser}
-            setCurrentUser={setCurrentUser}
-          />
+          <Course currentRole={currentRole}/>
         </Route>
         <Route path="/recruiter">
-          <Recruiter
-            currentUser={currentUser}
-            setCurrentUser={setCurrentUser}
-          />
+          <Recruiter currentRole={currentRole}/>
         </Route>
         <Route path="/jobs">
-          <Job
-            currentUser={currentUser}
-            setCurrentUser={setCurrentUser}
-          />
+          <Job currentRole={currentRole}/>
         </Route>
       </Switch>
     </div>
@@ -104,40 +86,22 @@ const Student = (props) => {
     <>
       <Switch>
         <Route path="/student/home">
-          <StudentHomePageComponent
-            currentUser={props.currentUser}
-            setCurrentUser={props.setCurrentUser}
-          />
+          <StudentHomePageComponent currentRole={props.currentRole}/>
         </Route>
         <Route path="/student/credentials">
-          <CredentialComponent
-            currentUser={props.currentUser}
-            setCurrentUser={props.setCurrentUser}
-          />
+          <CredentialComponent currentRole={props.currentRole}/>
         </Route>
         <Route path="/student/intro">
-          <ProfileFormComponent
-            currentUser={props.currentUser}
-            setCurrentUser={props.setCurrentUser}
-          />
+          <ProfileFormComponent currentRole={props.currentRole}/>
         </Route>
         <Route path="/student/groups">
-          <Group
-            currentUser={props.currentUser}
-            setCurrentUser={props.setCurrentUser}
-          />
+          <Group currentRole={props.currentRole}/>
         </Route>
         <Route path="/student/resumes">
-          <Resume
-            currentUser={props.currentUser}
-            setCurrentUser={props.setCurrentUser}
-          />
+          <Resume currentRole={props.currentRole}/>
         </Route>
-        <Route path="/student/applications/:_id">
-          <ApplicationComponent
-            currentUser={props.currentUser}
-            setCurrentUser={props.setCurrentUser}
-          />
+        <Route path="/student/applications/:jobId">
+          <ApplicationComponent currentRole={props.currentRole}/>
         </Route>
       </Switch>
     </>
@@ -149,16 +113,10 @@ const Group = (props) => {
     <>
       <Switch>
         <Route path="/student/groups/new">
-          <NewGroupFormComponent
-            currentUser={props.currentUser}
-            setCurrentUser={props.setCurrentUser}
-          />
+          <NewGroupFormComponent currentRole={props.currentRole}/>
         </Route>
-        <Route path="/student/groups/:_id">
-          <GroupFormComponent
-            currentUser={props.currentUser}
-            setCurrentUser={props.setCurrentUser}
-          />
+        <Route path="/student/groups/:groupId">
+          <GroupFormComponent currentRole={props.currentRole}/>
         </Route>
       </Switch>
     </>
@@ -170,22 +128,13 @@ const Resume = (props) => {
     <>
       <Switch>
         <Route path="/student/resumes/new">
-          <NewResumeFormComponent
-            currentUser={props.currentUser}
-            setCurrentUser={props.setCurrentUser}
-          />
+          <NewResumeFormComponent currentRole={props.currentRole}/>
         </Route>
-        <Route path="/student/resumes/:_id" exact>
-          <ResumeFormComponent
-            currentUser={props.currentUser}
-            setCurrentUser={props.setCurrentUser}
-          />
+        <Route path="/student/resumes/:resumeId" exact>
+          <ResumeFormComponent currentRole={props.currentRole}/>
         </Route>
-        <Route path="/student/resumes/:_id/edit">
-          <EditResumeFormComponent
-            currentUser={props.currentUser}
-            setCurrentUser={props.setCurrentUser}
-          />
+        <Route path="/student/resumes/:resumeId/edit">
+          <EditResumeFormComponent currentRole={props.currentRole}/>
         </Route>
       </Switch>
     </>
@@ -197,34 +146,19 @@ const Instructor = (props) => {
     <>
       <Switch>
         <Route path="/instructor/home" exact>
-          <InstructorHomePageComponent
-            currentUser={props.currentUser}
-            setCurrentUser={props.setCurrentUser}
-          />
+          <InstructorHomePageComponent currentRole={props.currentRole}/>
         </Route>
         <Route path="/instructor/courses/new" exact>
-          <NewTeachFormComponent
-            currentUser={props.currentUser}
-            setCurrentUser={props.setCurrentUser}
-          />
+          <NewTeachFormComponent currentRole={props.currentRole}/>
         </Route>
-        <Route path="/instructor/courses/:_id/edit" exact>
-          <CourseFormComponent
-            currentUser={props.currentUser}
-            setCurrentUser={props.setCurrentUser}
-          />
+        <Route path="/instructor/courses/:courseId/edit" exact>
+          <CourseFormComponent currentRole={props.currentRole}/>
         </Route>
-        <Route path="/instructor/courses/:_id/sendCredential" exact>
-          <SendCredentialComponent
-            currentUser={props.currentUser}
-            setCurrentUser={props.setCurrentUser}
-          />
+        <Route path="/instructor/courses/:courseId/sendCredential" exact>
+          <SendCredentialComponent currentRole={props.currentRole}/>
         </Route>
         <Route path="/instructor/intro" exact>
-          <InstituteFormComponent
-            currentUser={props.currentUser}
-            setCurrentUser={props.setCurrentUser}
-          />
+          <InstituteFormComponent currentRole={props.currentRole}/>
         </Route>
       </Switch>
     </>
@@ -236,10 +170,7 @@ const Course = (props) => {
     <>
       <Switch>
         <Route path="/courses/:_id">
-          <CourseHomePageComponent
-            currentUser={props.currentUser}
-            setCurrentUser={props.setCurrentUser}
-          />
+          <CourseHomePageComponent currentRole={props.currentRole}/>
         </Route>
       </Switch>
     </>
@@ -251,40 +182,22 @@ const Recruiter = (props) => {
     <>
       <Switch>
         <Route path="/recruiter/home" exact>
-          <RecruiterHomePageComponent
-            currentUser={props.currentUser}
-            setCurrentUser={props.setCurrentUser}
-          />
+          <RecruiterHomePageComponent currentRole={props.currentRole}/>
         </Route>
         <Route path="/recruiter/jobs/new" exact>
-          <NewJobFormComponent
-            currentUser={props.currentUser}
-            setCurrentUser={props.setCurrentUser}
-          />
+          <NewJobFormComponent currentRole={props.currentRole}/>
         </Route>
-        <Route path="/recruiter/jobs/:_id/edit" exact>
-          <JobFormComponent
-            currentUser={props.currentUser}
-            setCurrentUser={props.setCurrentUser}
-          />
+        <Route path="/recruiter/jobs/:jobId/edit" exact>
+          <JobFormComponent currentRole={props.currentRole}/>
         </Route>
-        <Route path="/recruiter/jobs/:_id/applications" exact>
-          <RenderApplicationComponent
-            currentUser={props.currentUser}
-            setCurrentUser={props.setCurrentUser}
-          />
+        <Route path="/recruiter/jobs/:jobId/applications" exact>
+          <RenderApplicationComponent currentRole={props.currentRole}/>
         </Route>
-        <Route path="/recruiter/jobs/:_id/applications/:resumeId" exact>
-          <RenderResumeComponent
-            currentUser={props.currentUser}
-            setCurrentUser={props.setCurrentUser}
-          />
+        <Route path="/recruiter/jobs/:jobId/applications/:resumeId" exact>
+          <RenderResumeComponent currentRole={props.currentRole}/>
         </Route>
         <Route path="/recruiter/intro" exact>
-          <CompanyFormComponent
-            currentUser={props.currentUser}
-            setCurrentUser={props.setCurrentUser}
-          />
+          <CompanyFormComponent currentRole={props.currentRole}/>
         </Route>
       </Switch>
     </>
@@ -296,16 +209,10 @@ const Job = (props) => {
     <>
       <Switch>
       <Route path="/jobs/" exact>
-          <AllJobComponent
-            currentUser={props.currentUser}
-            setCurrentUser={props.setCurrentUser}
-          />
+          <AllJobComponent currentRole={props.currentRole}/>
         </Route>
         <Route path="/jobs/:_id">
-          <JobHomePageComponent
-            currentUser={props.currentUser}
-            setCurrentUser={props.setCurrentUser}
-          />
+          <JobHomePageComponent currentRole={props.currentRole}/>
         </Route>
       </Switch>
     </>

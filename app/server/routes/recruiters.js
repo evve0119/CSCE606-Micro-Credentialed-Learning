@@ -3,10 +3,9 @@ const router = express.Router();
 const recruiters = require("../controllers/recruiters");
 const passport = require("passport");
 require("../config/passport")(passport); // Validate user by passport
-const {isAuthor} = require("../middleware");
 
-router.route("/home/:id")
-.get(passport.authenticate("jwt", { session: false }), isAuthor, recruiters.myHomePage)
+router.route("/home")
+.get(passport.authenticate("jwt", { session: false }), recruiters.myHomePage)
 
 router.route("/jobs/new")
 .post(passport.authenticate("jwt", { session: false }), recruiters.createNewJob)
@@ -22,9 +21,9 @@ router.route("/jobs/:jobId/applications")
 router.route("/jobs/:jobId/applications/:resumeId")
 .get(recruiters.renderResume);
 
-router.route("/intro/:id")
-.get(passport.authenticate("jwt", { session: false }), isAuthor, recruiters.renderCompanyForm)
-.put(passport.authenticate("jwt", { session: false }), isAuthor, recruiters.updateCompany);
+router.route("/intro")
+.get(passport.authenticate("jwt", { session: false }), recruiters.renderCompanyForm)
+.put(passport.authenticate("jwt", { session: false }), recruiters.updateCompany);
 
 
 module.exports = router;
