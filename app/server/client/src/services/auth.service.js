@@ -14,12 +14,16 @@ class AuthService {
     localStorage.removeItem("user");
   }
   //register function
-  register(username, email, password, role) {
+  register(username, email, password, role, firstname, lastname) {
     return axios.post(API_URL + "/register", {
       username,
       email,
       password,
       role,
+      profile: {
+        firstname,
+        lastname
+      }
     });
   }
   //get current user function
@@ -28,10 +32,10 @@ class AuthService {
   }
   getCurrentRole() {
     const user = JSON.parse(localStorage.getItem("user"));
-    if(user){
+    if (user) {
       return jwt_decode(user.token).role;
     }
-    else{
+    else {
       return null;
     }
   }

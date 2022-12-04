@@ -61,9 +61,9 @@ const ResumeFormComponent = (props) => {
                       <div class="modal-body">
                         <p>
                           Credential ID: {credential._id} <br></br>
-                          Holder: {credential.holderUsername} <br></br>
-                          Instructor: {credential.instructorUsername} <br></br>
-                          Institute: {credential.institute} <br></br>
+                          Holder: {credential.holder.profile.firstName} {credential.holder.profile.lastName}<br></br>
+                          Instructor: {credential.instructor.profile.firstName} {credential.instructor.profile.lastName} <br></br>
+                          Institute: {credential.instructor.institute} <br></br>
                           Issued date: {new Date(credential.issuedDate).toDateString().slice(4)} 
                         </p>
                       </div>
@@ -76,9 +76,6 @@ const ResumeFormComponent = (props) => {
               </div>
             )))}
           </div>
-          <br />
-          <button className="btn btn-primary" onClick={renderEditResumeForm}>Edit</button>
-          <br />
           {message && (
             <div className="alert alert-warning mt-3" role="alert">
               {message}

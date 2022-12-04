@@ -17,25 +17,6 @@ class RecruiterService {
         });
     }
 
-    /*
-    createNewCourse(courseName, description, addStudentsId, _id) {
-        let token;
-        if (localStorage.getItem("user")) {
-            token = JSON.parse(localStorage.getItem("user")).token;
-        } else {
-            token = "";
-        }
-        return axios.post(API_URL + "/courses/new",
-            { courseName, description, addStudentsId },
-            {
-                headers: {
-                    Authorization: token,
-                },
-            }
-        );
-    }
-    */
-
     createNewJob(jobName, description) {
         let token;
         if (localStorage.getItem("user")) {
@@ -53,38 +34,6 @@ class RecruiterService {
         );
     }
 
-    /*
-    renderSendCredentialForm(courseId) {
-        let token;
-        if (localStorage.getItem("user")) {
-            token = JSON.parse(localStorage.getItem("user")).token;
-        } else {
-            token = "";
-        }
-        return axios.get(API_URL + "/courses/" + courseId + "/sendCredential", {
-            headers: {
-                Authorization: token,
-            },
-        });
-    }
-
-    sendCredential(courseId, addStudents) {
-        let token;
-        if (localStorage.getItem("user")) {
-            token = JSON.parse(localStorage.getItem("user")).token;
-        } else {
-            token = "";
-        }
-        return axios.post(API_URL + "/courses/" + courseId + "/sendCredential",
-            { addStudents },
-            {
-                headers: {
-                    Authorization: token,
-                },
-            });
-    }
-    */
-
     renderJobForm(jobId) {
         let token;
         if (localStorage.getItem("user")) {
@@ -99,24 +48,6 @@ class RecruiterService {
                 },
             });
     }
-
-    /*
-    updateCourse(courseId, courseName, courseDescription, editStudents) {
-        let token;
-        if (localStorage.getItem("user")) {
-            token = JSON.parse(localStorage.getItem("user")).token;
-        } else {
-            token = "";
-        }
-        return axios.put(API_URL + "/courses/" + courseId + "/edit",
-            {courseName, courseDescription, editStudents},
-            {
-                headers: {
-                    Authorization: token,
-                },
-            });
-    }
-    */
 
     updateJob(jobId, jobName, jobDescription) {
         let token;
@@ -179,7 +110,7 @@ class RecruiterService {
         });
     }
 
-    renderCompanyForm() {
+    renderProfileForm() {
         let token;
         if (localStorage.getItem("user")) {
             token = JSON.parse(localStorage.getItem("user")).token;
@@ -194,7 +125,7 @@ class RecruiterService {
     }
 
     // update profile
-    updateCompany(editCompany) {
+    updateProfile(editProfile,editCompany) {
         let token;
         if (localStorage.getItem("user")) {
             token = JSON.parse(localStorage.getItem("user")).token;
@@ -202,7 +133,7 @@ class RecruiterService {
             token = "";
         }
         return axios.put(API_URL + "/intro",
-            { editCompany },
+            { editProfile, editCompany },
             {
                 headers: {
                     Authorization: token,

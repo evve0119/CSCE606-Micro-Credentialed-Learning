@@ -1,46 +1,49 @@
 /* background*/
-.bg{
+.bg {
     background: #e9ecef;
     min-height: 100vh;
 }
-.nav-bg{
-    background: #adb5bd;
-    height: 8vh;
-}
-.profile-bg{
+
+.profile-bg {
     background: #343a40;
-    min-height: 92vh;
+    width: auto;
     padding-top: 1rem;
     padding-left: 3rem;
     padding-right: 3rem;
     color: #f8f9fa;
 }
-.card-bg{
+
+.card-bg {
     background: #f8f9fa;
     box-shadow: 0 0 2em #cfd0d3;
+    width: auto;
     margin: 3rem;
     padding-top: 1rem;
     padding-left: 3rem;
     padding-right: 3rem;
     border-radius: 20px;
 }
+
 /* nav bar */
-.nav-link{
+.nav-link {
     font-size: 20px;
     color: #343a40;
 }
-.nav-link:hover{
+
+.nav-link:hover {
     color: #e9ecef;
     text-decoration: none;
 }
-.nav-link:focus{
+
+.nav-link:focus {
     color: #343a40;
 }
 
 /* button */
-.btn:focus { 
+.btn:focus {
     box-shadow: none !important;
 }
+
 .btn-round {
     height: 40px;
     width: 40px;
@@ -48,9 +51,11 @@
     background: none;
     margin-left: 0.5rem;
 }
-.btn-round:hover { 
+
+.btn-round:hover {
     background-color: #e9ecef;
 }
+
 .btn-profile {
     height: 40px;
     width: 40px;
@@ -58,7 +63,8 @@
     background: none;
     margin-left: 0.5rem;
 }
-.btn-profile:hover { 
+
+.btn-profile:hover {
     background-color: #4e4f51;
 }
 
@@ -66,54 +72,65 @@
 .accordion-item {
     position: relative;
     background-color: #f8f9fa !important;
-    width: 40%; 
+    width: 40%;
 }
+
 .accordion-button {
-    background-color: #f8f9fa !important; 
-    position:relative;
+    background-color: #f8f9fa !important;
+    position: relative;
     font-size: 20px;
     color: #343a40 !important;
     padding-left: 0px !important;
 }
+
 .accordion-button:after {
     background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%343a40'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>") !important;
-  }
+}
+
 .accordion-button:focus {
     box-shadow: none !important;
 }
-.accordion-button:not(.collapsed){
+
+.accordion-button:not(.collapsed) {
     border-bottom: 1px solid #cccc;
 }
 
 /* icon */
-i{ -webkit-text-stroke: 2px; }
-.icon-profile{
+i {
+    -webkit-text-stroke: 2px;
+}
+
+.icon-profile {
     color: #f8f9fa;
     font-size: 80px;
 }
-.icon-profile-edit{
+
+.icon-profile-edit {
     color: #f8f9fa;
 }
-.icon-n{
+
+.icon-n {
     -webkit-text-stroke: 0px;
 }
 
 /* table */
-tr{
+tr {
     height: 70px;
     vertical-align: middle;
     font-size: 20px;
 }
-.td-title{
+
+.td-title {
     width: 80%;
 }
-.td-icon{
+
+.td-icon {
     vertical-align: middle;
     text-align: center;
 }
 
 /* preformatted text */
-pre{
+pre {
     font-size: 18px;
 }
 
@@ -128,12 +145,10 @@ pre{
 }
 
 .register {
-    overflow-y: hidden;
     display: flex;
     justify-content: center;
-    align-items: center;
     background: #e9ecef;
-    height: 110vh;
+    height: auto;
 }
 
 .screen-1 .logo {
@@ -151,16 +166,73 @@ pre{
     border-radius: 20px;
     color: black;
 }
+
 .screen-1 .username input {
     outline: none;
     border: none;
     width: 94%;
 }
+
 .screen-1 .username input::placeholder {
     color: gray;
     font-size: 0.9em;
 }
+
 .screen-1 .username ion-icon {
+    color: #4d4d4d;
+    margin-bottom: -0.2em;
+}
+
+.screen-1 .firstname {
+    background: white;
+    box-shadow: 0 0 2em #e6e9f9;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    border-radius: 20px;
+    color: black;
+}
+
+.screen-1 .firstname input {
+    outline: none;
+    border: none;
+    width: 94%;
+}
+
+.screen-1 .firstname input::placeholder {
+    color: gray;
+    font-size: 0.9em;
+}
+
+.screen-1 .firstname ion-icon {
+    color: #4d4d4d;
+    margin-bottom: -0.2em;
+}
+
+.screen-1 .lastname {
+    background: white;
+    box-shadow: 0 0 2em #e6e9f9;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    border-radius: 20px;
+    color: black;
+}
+
+.screen-1 .lastname input {
+    outline: none;
+    border: none;
+    width: 94%;
+}
+
+.screen-1 .lastname input::placeholder {
+    color: gray;
+    font-size: 0.9em;
+}
+
+.screen-1 .lastname ion-icon {
     color: #4d4d4d;
     margin-bottom: -0.2em;
 }
@@ -175,15 +247,18 @@ pre{
     border-radius: 20px;
     color: black;
 }
+
 .screen-1 .email input {
     outline: none;
     border: none;
     width: 94%;
 }
+
 .screen-1 .email input::placeholder {
     color: gray;
     font-size: 0.9em;
 }
+
 .screen-1 .email ion-icon {
     color: #4d4d4d;
     margin-bottom: -0.2em;
@@ -199,19 +274,23 @@ pre{
     border-radius: 20px;
     color: black;
 }
+
 .screen-1 .password input {
     outline: none;
     border: none;
     width: 87.5%;
 }
+
 .screen-1 .password input::placeholder {
     color: gray;
     font-size: 0.9em;
 }
+
 .screen-1 .password ion-icon {
     color: #4d4d4d;
     margin-bottom: -0.2em;
 }
+
 .screen-1 .password .show-hide {
     margin-right: -5em;
 }
@@ -224,6 +303,7 @@ pre{
     border-radius: 20px;
     font-weight: 600;
 }
+
 .screen-1 .loginButton {
     padding: 1em;
     background: #343a40;
@@ -233,6 +313,7 @@ pre{
     padding: 10px 185px;
     font-weight: 600;
 }
+
 .screen-1 .registerButton {
     padding: 1em;
     background: #343a40;
@@ -242,6 +323,7 @@ pre{
     padding: 10px 185px;
     font-weight: 600;
 }
+
 .screen-1 .footer {
     display: flex;
     font-size: 0.9em;
@@ -250,18 +332,43 @@ pre{
     padding-bottom: 10em;
 }
 
-a:link { 
+a:link {
     color: #4d4d4d;
     background-color: transparent;
-    text-decoration: none; 
+    text-decoration: none;
 }
+
 a:visited {
     color: #4d4d4d;
     background-color: transparent;
-    text-decoration: none; 
+    text-decoration: none;
 }
+
 a:hover {
     color: #4d4d4d;
     background-color: transparent;
     text-decoration: underline;
+}
+
+@media (max-width: 575.5px) {
+    .profile-bg{
+        background: #e9ecef;
+    }
+    .phone-profile-bg {
+        background: #343a40;
+        box-shadow: 0 0 2em #cfd0d3;
+        width: auto;
+        height: auto;
+        margin: 3rem;
+        padding-top: 1rem;
+        padding-left: 3rem;
+        padding-right: 3rem;
+        border-radius: 20px;
+    }
+    .phone-header{
+        font-size: 15px
+    }
+    .phone-body{
+        font-size: 15px
+    }
 }

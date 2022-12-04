@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import RecruiterService from "../../services/recruiter.service";
+import {Modal, Form, Button} from "react-bootstrap";
 
-const CompanyForm = (props) => {
+
+const ProfileForm = (props) => {
     return (
         <><label htmlFor={props.name}>{props.name}</label>
             <input
@@ -17,34 +19,82 @@ const CompanyForm = (props) => {
 };
 
 const CompanyFormComponent = (props) => {
+    const [currentFirstName, setFirstName] = useState("");
+    const [currentLastName, setLastName] = useState("");
+    const [currentAddress, setAddress] = useState("");
+    const [currentPhone, setPhone] = useState("");
+    const [currentEmail, setEmail] = useState("");
+    const [currentDescription, setDescription] = useState("");
     const [currentCompany, setCompany] = useState("");
     let [message, setMessage] = useState(null);
 
     const history = useHistory();
 
+    const handleChangeFirstName = (e) => {
+        setFirstName(e.target.value);
+    };
+    const handleChangeLastName = (e) => {
+        setLastName(e.target.value);
+    };
+    const handleChangeAddress = (e) => {
+        setAddress(e.target.value);
+    };
+    const handleChangePhone = (e) => {
+        setPhone(e.target.value);
+    };
+    const handleChangeEmail = (e) => {
+        setEmail(e.target.value);
+    };
+    const handleChangeDescription = (e) => {
+        setDescription(e.target.value);
+    };
     const handleChangeCompany = (e) => {
         setCompany(e.target.value);
     };
+    const handleClose = e => {
+        history.push("/recruiter/home");
+    };
 
-    // // Get user's credentials and group info
     useEffect(() => {
-        RecruiterService.renderCompanyForm()
+        RecruiterService.renderProfileForm()
             .then(({ data }) => {
-                setCompany(data);
+                setFirstName(data.profile.firstName);
+                setLastName(data.profile.lastName);
+                setAddress(data.profile.address);
+                setPhone(data.profile.phone);
+                setEmail(data.profile.email)
+                setDescription(data.profile.description);
+                setCompany(data.company);
             })
             .catch((err) => {
                 setMessage(err.response.data);
             });
     }, []);
 
-    // Update company
-    const updateCompany = () => {
-        RecruiterService.updateCompany(currentCompany).then(() => {
-            window.alert("Company is updated!");
-            history.push("/recruiter/home");
-        }).catch((err) => {
-            setMessage(err.response.data);
-        });
+    // Update profile
+    const updateProfile = () => {
+        if (currentFirstName === "") {
+            setMessage("First name is not allowed to be empty!");
+        }
+        else if (currentLastName === "") {
+            setMessage("Last name is not allowed to be empty!");
+        }
+        else {
+            const editProfile = {
+                firstName: currentFirstName,
+                lastName: currentLastName,
+                address: currentAddress,
+                phone: currentPhone,
+                email: currentEmail,
+                description: currentDescription,
+            };
+            RecruiterService.updateProfile(editProfile, currentCompany).then(() => {
+                window.alert("Profile is updated!")
+                history.push("/recruiter/home")
+            }).catch((err) => {
+                setMessage(err.response.data)
+            });
+        }
     }
 
     return (
@@ -59,32 +109,68 @@ const CompanyFormComponent = (props) => {
             )}
             {/* If login and recruiter */}
             {props.currentRole && props.currentRole === "recruiter" && (
-                <div
-                    className="form-group"
-                    style={{
-                        position: "absolute",
-                        background: "#fff",
-                        top: "10%",
-                        left: "10%",
-                        right: "10%",
-                        padding: 15,
-                        border: "2px solid #444"
-                    }}
-                >
-                    <h1>Edit company</h1>
-                    <CompanyForm
-                        name={"Company"}
-                        defaultValue={currentCompany}
-                        onChange={handleChangeCompany}
-                    />
-                    <button id="submit" className="btn btn-primary" onClick={updateCompany}>Submit</button>
-                    <br />
-                    {message && (
-                        <div className="alert alert-warning mt-3" role="alert">
-                            {message}
-                        </div>
-                    )}
-                </div>
+                <Modal show={true} centered scrollable backdrop="static" onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Profile</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form>
+                            <ProfileForm
+                                name={"First Name"}
+                                defaultValue={currentFirstName}
+                                onChange={handleChangeFirstName}
+                            />
+                            <ProfileForm
+                                name={"Last Name"}
+                                defaultValue={currentLastName}
+                                onChange={handleChangeLastName}
+                            />
+                            <ProfileForm
+                                name={"Email"}
+                                defaultValue={currentEmail}
+                                onChange={handleChangeEmail}
+                            />
+                            <ProfileForm
+                                name={"Phone"}
+                                defaultValue={currentPhone}
+                                onChange={handleChangePhone}
+                            />
+                            <ProfileForm
+                                name={"Address"}
+                                defaultValue={currentAddress}
+                                onChange={handleChangeAddress}
+                            />
+                            <ProfileForm
+                                name={"Company"}
+                                defaultValue={currentCompany}
+                                onChange={handleChangeCompany}
+                            />
+                            <Form.Group
+                                className="mb-3"
+                                controlId="exampleForm.ControlTextarea1"
+                            >
+                                <Form.Label>Description</Form.Label>
+                                <Form.Control as="textarea" rows={3}
+                                    value={currentDescription}
+                                    onChange={handleChangeDescription}
+                                />
+                            </Form.Group>
+                        </Form>
+                        {message && (
+                            <div className="alert alert-warning mt-3" role="alert">
+                                {message}
+                            </div>
+                        )}
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleClose}>
+                            Close
+                        </Button>
+                        <Button variant="primary" onClick={updateProfile}>
+                            Update
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             )}
         </div>
     );

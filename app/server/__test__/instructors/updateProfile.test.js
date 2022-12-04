@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 const mongoURL = "mongodb://localhost:27017/csce606"
 const User = require("../../models").User
-const { updateCompany } = require("../../controllers/recruiters");
+const { updateProfile } = require("../../controllers/instructors");
 
-describe("testing updateCompany", function () {
-    let recruiter
+describe("testing renderProfileForm", function () {
+    let instructor
     let student
     const res = {
         text: "",
@@ -17,14 +17,14 @@ describe("testing updateCompany", function () {
         mongoose.connect(mongoURL);
         mongoose.connection.once('open', () => { });
         mongoose.connection.on('error', (error) => console.error('database error', error));
-        recruiter = new User({
+        instructor = new User({
             email: "bb@gmail.com",
             username: "bbb",
             password: "bbbbbb",
-            role: "recruiter",
-            company: "Meta QQ"
+            role: "instructor",
+            institute: "Texas A&M University"
         });
-        await recruiter.save();
+        await instructor.save();
         student = new User({
             email: "aa@gmail.com",
             username: "aaa",
@@ -38,23 +38,23 @@ describe("testing updateCompany", function () {
         await mongoose.connection.close()
     });
 
-    test("owner change company", async () => {
-        const req = { user: { _id: recruiter._id }, body: {editCompany: "Amazon TT"} };
-        await updateCompany(req, res);
-        const currentRecruiter = await User.findById(req.user._id);
-        expect(currentRecruiter.company).toEqual(req.body.editCompany)
+    test("owner change profile", async () => {
+        const req = { user: { _id: instructor._id }, body: { editInstitute: "Purdue University" } };
+        await updateProfile(req, res);
+        const currentInstructor = await User.findById(instructor._id)
+        expect(currentInstructor.institute).toEqual(req.body.editInstitute)
     });
 
-    test("other roles change company", async () => {
+    test("other roles render profile form", async () => {
         const req = { user: { _id: student._id } };
-        await updateCompany(req, res);
-        expect(res.text).toEqual("You are not a recruiter")
+        await updateProfile(req, res);
+        expect(res.text).toEqual("You are not an instructor")
     });
 
     test("no login render company form", async () => {
         const req = { user: { _id: "aaaaa" } };
-        await updateCompany(req, res);
-        expect(res.text).toEqual("Error!! Cannot update company!!")
+        await updateProfile(req, res);
+        expect(res.text).toEqual("Error!! Cannot update profile!!")
     });
 
 })

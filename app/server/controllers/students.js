@@ -87,13 +87,15 @@ module.exports.deleteGroup = async (req, res) => {
 
 module.exports.renderAllCredentials = async (req, res) => {
     try {
-        const currentStudent = await Student.findById(req.user._id).populate("credentials");
+        const currentStudent = await Student.findById(req.user._id).populate({
+            path: "credentials",
+            populate: [{ path: "holder" }, { path: "instructor" }]
+        });
         if (!currentStudent.isStudent()) {
             return res.status(403).send("You are not authorized");
         }
         return res.send(currentStudent.credentials);
     } catch (err) {
-        console.log(err)
         return res.status(400).send("Error!! Cannot get credential!!");
     }
 };
@@ -158,7 +160,12 @@ module.exports.createNewResume = async (req, res) => {
 
 module.exports.renderResumeForm = async (req, res) => {
     try {
-        const currentResume = await Resume.findById(req.params.resumeId).populate("credentials");
+        const currentResume = await Resume.findById(req.params.resumeId).populate({
+            path: "credentials",
+            populate: [{ path: "holder" }, { path: "instructor" }]
+        });
+
+        console.log(currentResume.credentials[0])
         return res.send(currentResume);
     } catch (err) {
         console.log(err)

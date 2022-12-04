@@ -137,13 +137,9 @@ module.exports.sendCredential = async (req, res) => {
                     holder: studentId,
                     instructor: currentCourse.holder,
                     name: currentCourse.name,
-                    instructorUsername: currentCourse.holder.username,
-                    holderUsername: currentStudent.username,
-                    institute: currentCourse.holder.institute,
                     issuedDate: Date.now()
                 });
             await currentCredential.save();
-            // console.log(typeof(currentCredential.sendDate.toLocaleDateString()));
             // push group to this user
             currentStudent.credentials.push(currentCredential._id);
             await currentStudent.save();
@@ -154,28 +150,28 @@ module.exports.sendCredential = async (req, res) => {
     }
 };
 
-module.exports.renderInstituteForm = async (req, res) => {
+module.exports.renderProfileForm = async (req, res) => {
     try {
         const currentInstructor = await User.findById(req.user._id);
         if (!currentInstructor.isInstructor()) {
             return res.status(403).send("You are not an instructor");
         }
-        return res.send(currentInstructor.institute);
+        return res.send(currentInstructor);
     } catch (err) {
-        return res.status(400).send("Error!! Cannot get institute!!");
+        return res.status(400).send("Error!! Cannot get profile!!");
     }
 
 };
 
-module.exports.updateInstitute = async (req, res) => {
+module.exports.updateProfile = async (req, res) => {
     try {
         const currentInstructor = await User.findById(req.user._id);
         if (!currentInstructor.isInstructor()) {
             return res.status(403).send("You are not an instructor");
         }
-        await currentInstructor.update({ $set: { institute: req.body.editInstitute } });
+        await currentInstructor.update({ $set: { institute: req.body.editInstitute, profile: req.body.editProfile} });
         return res.send("Successfully update!!!");
     } catch (err) {
-        return res.status(400).send("Error!! Cannot update institute!!");
+        return res.status(400).send("Error!! Cannot update profile!!");
     }
 };
