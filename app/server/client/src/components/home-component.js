@@ -24,18 +24,13 @@ const HomeComponent = () => {
   return (
     <main>
       <div className="container py-4">
-        {/* <div className="p-5 mb-4 bg-light rounded-3 border"> */}
-          <div className="container-fluid py-5">
-            <h1 className="display-5 fw-bold">Microcredentialed-Learning System</h1>
-            <p className="col-md-8 fs-4">
-              This system is using React.js as front-end framework, and Node.js,
-              MongoDB as backend server.
-            </p>
-            {/* <button className="btn btn-primary btn-lg" type="button">
-              See how it works.
-            </button> */}
-          </div>
-        {/* </div> */}
+        <div className="container-fluid py-5">
+          <h1 className="display-5 fw-bold">Microcredentialed-Learning System</h1>
+          <p className="col-md-8 fs-4">
+            This system is using React.js as front-end framework, and Node.js,
+            MongoDB as backend server.
+          </p>
+        </div>
 
         <div className="row align-items-md-stretch">
           <div className="col-md-4">

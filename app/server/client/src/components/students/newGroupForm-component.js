@@ -2,13 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import StudentService from "../../services/student.service"
 import Select from 'react-select';
-import Modal from "react-bootstrap/Modal";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
+import {Modal, Form, Button} from "react-bootstrap";
 
 const NewGroupFormComponent = (props) => {
   const [message, setMessage] = useState(null);
-  const [groupName, setGroupName] = useState(null);
+  const [groupName, setGroupName] = useState("");
   const [credentialData, setCredentialData] = useState(null);
   const [addCredentials, setAddCredentials] = useState([])
   const history = useHistory();
@@ -25,17 +23,21 @@ const NewGroupFormComponent = (props) => {
   };
 
   const postGroup = () => {
-    const addCred = [];
-    addCredentials.map((credential) => {
-      addCred.push(credential.value);
-    });
-    StudentService.createNewGroup(groupName, addCred).then(() => {
-      window.alert("New group is created!")
-      history.push("/student/home")
-    }).catch((err) => {
-      setMessage(err.response.data);
-      console.log(err.response.data);
-    });
+    if(groupName === ""){
+      setMessage("Group name is not allowed to be empty!");
+    }
+    else{
+      const addCred = [];
+      addCredentials.map((credential) => {
+        addCred.push(credential.value);
+      });
+      StudentService.createNewGroup(groupName, addCred).then(() => {
+        window.alert("New group is created!")
+        history.push("/student/home")
+      }).catch((err) => {
+        setMessage(err.response.data);
+      });
+    }
   }
   
   useEffect(() => {
@@ -56,20 +58,19 @@ const NewGroupFormComponent = (props) => {
     <div>
       {/* If login and student */}
       {props.currentRole && props.currentRole === "student" &&(
-        <>
-        <Modal show={true} onHide={handleClose} backdrop="static">
+        <Modal show={true} centered scrollable backdrop="static" onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Creat New Group</Modal.Title>
+            <Modal.Title>Create New Group</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form>
-            <Form.Group className="mb-3" controlId="groupName">
-              <Form.Label>Group Name</Form.Label>
-              <Form.Control
-                type="groupName"
-                onChange={handleChangeGroupName}
-              />
-            </Form.Group>
+              <Form.Group className="mb-3" controlId="groupName">
+                <Form.Label>Group Name</Form.Label>
+                <Form.Control
+                  type="groupName"
+                  onChange={handleChangeGroupName}
+                />
+              </Form.Group>
             </Form>
             <p>Credentials</p>
             <Select
@@ -97,7 +98,6 @@ const NewGroupFormComponent = (props) => {
             </Button>
           </Modal.Footer>
         </Modal>
-        </>
       )}
     </div>
   );

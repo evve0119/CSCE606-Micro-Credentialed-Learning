@@ -34,14 +34,6 @@ const resetValidation = (data) => {
   return schema.validate(data);
 };
 
-// Student Group/Resume Validation
-const nameValidation = (data) => {
-  const schema = Joi.object({
-    groupName: Joi.required(),
-  });
-  return schema.validate(data);
-};
-
 // const credentialValidation = (data) => {
 //   const schema = Joi.object({
 //     name: Joi.string().min(1).max(50).required()
@@ -52,5 +44,4 @@ const nameValidation = (data) => {
 module.exports.registerValidation = registerValidation;
 module.exports.loginValidation = loginValidation;
 module.exports.resetValidation = resetValidation;
-module.exports.nameValidation = nameValidation;
 // module.exports.credentialValidation = credentialValidation;
