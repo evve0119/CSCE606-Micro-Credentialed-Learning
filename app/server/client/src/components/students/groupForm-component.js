@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import StudentService from "../../services/student.service";
 import Select from 'react-select';
+import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 
 const GroupFormComponent = (props) => {
   const groupId = useParams().groupId;
@@ -17,6 +20,10 @@ const GroupFormComponent = (props) => {
   };
   const handleChange = (value) => {
     setEditCredentials(value);
+  };
+
+  const handleClose = e => {
+    history.push("/student/home");
   };
 
   // Update group
@@ -73,60 +80,63 @@ const GroupFormComponent = (props) => {
   return (
     <div style={{ padding: "3rem" }}>
       {/* If not login or not student*/}
-      {!props.currentRole && (
+      {/* {!props.currentRole && (
         <h1>Please Login</h1>
-      )}
+      )} */}
       {/* If not student*/}
-      {props.currentRole && props.currentRole !== "student" && (
+      {/* {props.currentRole && props.currentRole !== "student" && (
         <h1>You Are Not a Student</h1>
-      )}
+      )} */}
       {/* If login and student */}
       {props.currentRole && props.currentRole === "student" && (
         <>
         {currentGroup && (
-          <div 
-            className="form-group"
-            style={{
-              position: "absolute",
-              background: "#fff",
-              top: "10%",
-              left: "10%",
-              right: "10%",
-              padding: 15,
-              border: "2px solid #444"
-            }}
-          >
-            <h1>Edit {currentGroup.name}</h1>
-            <label htmlFor="groupName">Name</label>
-            <input
-              name="groupName"
-              type="text"
-              className="form-control mt-2"
-              id="groupName"
-              defaultValue={currentGroup.name}
-              onChange={handleChangeGroupName}
-            />
-            <br />
-            <p>Credentials</p>
-            <Select
-              name="credentials"
-              className="basic-multi-select"
-              classNamePrefix="select"
-              options={credentialData}
-              value={editCredentials}
-              isMulti
-              closeMenuOnSelect={false}
-              onChange={handleChange}
-            />
-            <br />
-            <button id="update" className="btn btn-primary" onClick={updateGroup} >Update</button> <button id="delete" className="btn btn-danger" onClick={deleteGroup} >Delete</button>
-            <br />
-            {message && (
-              <div className="alert alert-warning mt-3" role="alert">
-                {message}
-              </div>
-            )}
-          </div>
+          <>
+          <Modal show={true} onHide={handleClose} backdrop="static">
+            <Modal.Header closeButton>
+              <Modal.Title>Edit</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form>
+              <Form.Group className="mb-3" controlId="groupName">
+                <Form.Label>Group Name</Form.Label>
+                <Form.Control
+                  type="groupName"
+                  defaultValue={currentGroup.name}
+                  onChange={handleChangeGroupName}
+                />
+              </Form.Group>
+              </Form>
+              <p>Credentials</p>
+              <Select
+                name="credentials"
+                className="basic-multi-select"
+                classNamePrefix="select"
+                options={credentialData}
+                value={editCredentials}
+                isMulti
+                closeMenuOnSelect={false}
+                onChange={handleChange}
+              />
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                Close
+              </Button>
+              <Button variant="danger" onClick={deleteGroup}>
+                Delete
+              </Button>
+              <Button variant="primary" onClick={updateGroup}>
+                Update
+              </Button>
+            </Modal.Footer>
+          </Modal>
+          {message && (
+            <div className="alert alert-warning mt-3" role="alert">
+              {message}
+            </div>
+          )}
+          </>
         )}
         </>
       )}

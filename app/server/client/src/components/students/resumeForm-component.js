@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams, useLocation } from "react-router-dom";
 import StudentService from "../../services/student.service"
 
 const ResumeFormComponent = (props) => {
@@ -13,6 +13,7 @@ const ResumeFormComponent = (props) => {
   const [ description, setDescription ] = useState("");
   const [ credentials, setCredentials ] = useState([]);
   const history = useHistory();
+  const location = useLocation();
 
   const renderEditResumeForm = ()=> {
     history.push(`/student/resumes/${resumeId}/edit`);
@@ -27,12 +28,12 @@ const ResumeFormComponent = (props) => {
       setPhone(data.profile.phone);
       setEmail(data.profile.email);
       setDescription(data.profile.description);
-      setCredentials([...credentials, ...data.credentials]);
+      setCredentials(data.credentials);
     })
     .catch((err) => {
       console.log(err);
     });
-  }, []);
+  }, [location]);
 
   return (
     <div style={{ padding: "3rem" }}>

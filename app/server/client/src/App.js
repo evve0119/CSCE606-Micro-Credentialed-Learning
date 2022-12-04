@@ -40,7 +40,7 @@ import ResetPassword from "./components/EmailVerification/reset-password";
 function App() {
   const [currentRole, setCurrentRole] = useState(AuthService.getCurrentRole());
   return (
-    <div>
+    <div className="h-100">
       <NavComponent currentRole={currentRole} setCurrentRole={setCurrentRole} />
       <Switch>
         <Route path="/" exact>
@@ -92,13 +92,27 @@ const Student = (props) => {
           <CredentialComponent currentRole={props.currentRole}/>
         </Route>
         <Route path="/student/intro">
+          <StudentHomePageComponent currentRole={props.currentRole}/>
           <ProfileFormComponent currentRole={props.currentRole}/>
         </Route>
-        <Route path="/student/groups">
-          <Group currentRole={props.currentRole}/>
+        <Route path="/student/groups/new">
+          <StudentHomePageComponent currentRole={props.currentRole}/>
+          <NewGroupFormComponent currentRole={props.currentRole}/>
         </Route>
-        <Route path="/student/resumes">
-          <Resume currentRole={props.currentRole}/>
+        <Route path="/student/groups/:groupId">
+          <StudentHomePageComponent currentRole={props.currentRole}/>
+          <GroupFormComponent currentRole={props.currentRole}/>
+        </Route>
+        <Route path="/student/resumes/new">
+          <StudentHomePageComponent currentRole={props.currentRole}/>
+          <NewResumeFormComponent currentRole={props.currentRole}/>
+        </Route>
+        <Route path="/student/resumes/:resumeId" exact>
+          <ResumeFormComponent currentRole={props.currentRole}/>
+        </Route>
+        <Route path="/student/resumes/:resumeId/edit">
+          <ResumeFormComponent currentRole={props.currentRole}/>
+          <EditResumeFormComponent currentRole={props.currentRole}/>
         </Route>
         <Route path="/student/applications/:jobId">
           <ApplicationComponent currentRole={props.currentRole}/>
@@ -128,12 +142,14 @@ const Resume = (props) => {
     <>
       <Switch>
         <Route path="/student/resumes/new">
+          <StudentHomePageComponent currentRole={props.currentRole}/>
           <NewResumeFormComponent currentRole={props.currentRole}/>
         </Route>
         <Route path="/student/resumes/:resumeId" exact>
           <ResumeFormComponent currentRole={props.currentRole}/>
         </Route>
         <Route path="/student/resumes/:resumeId/edit">
+          <StudentHomePageComponent currentRole={props.currentRole}/>
           <EditResumeFormComponent currentRole={props.currentRole}/>
         </Route>
       </Switch>

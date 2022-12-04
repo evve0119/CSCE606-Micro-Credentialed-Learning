@@ -20,7 +20,7 @@ const NavComponent = (props) => {
   return (
     <div>
       <nav>
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <nav className="navbar navbar-expand-lg navbar-light" style={{background: "#adb5bd"}}>
           <div className="container-fluid">
             <div className="collapse navbar-collapse" id="navbarNav">
               <ul className="navbar-nav">
@@ -32,7 +32,7 @@ const NavComponent = (props) => {
                         Micro-Credentials
                       </Link>
                     </li>
-                    <li className="nav-item">
+                    {/* <li className="nav-item">
                       <Link className="nav-link" to="/register">
                         Register
                       </Link>
@@ -41,7 +41,7 @@ const NavComponent = (props) => {
                       <Link onClick={handleLogin} className="nav-link" to="#">
                         Login
                       </Link>
-                    </li>
+                    </li> */}
                   </>
                 )}
                 {/* all role after login */}

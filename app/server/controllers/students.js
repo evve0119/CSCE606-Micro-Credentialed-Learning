@@ -2,6 +2,7 @@ const Student = require("../models").User;
 const Group = require("../models").Group;
 const Resume = require("../models").Resume;
 const Job = require("../models").Job;
+const nameValidation = require("../validation").nameValidation;
 
 module.exports.myHomePage = async (req, res) => {
     try{
@@ -26,6 +27,8 @@ module.exports.myHomePage = async (req, res) => {
 module.exports.createNewGroup = async (req, res) => {
     // save new group
     try {
+        const { error } = nameValidation(req.body);
+        if (error) return res.status(400).send(error.details[0].message);
         const currentStudent = await Student.findById(req.user._id);
         if (!currentStudent.isStudent()) {
             return res.status(403).send("You are not authorized");

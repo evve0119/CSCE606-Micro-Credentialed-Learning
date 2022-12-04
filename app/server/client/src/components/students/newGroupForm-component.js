@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import StudentService from "../../services/student.service"
 import Select from 'react-select';
+import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 
 const NewGroupFormComponent = (props) => {
   const [message, setMessage] = useState(null);
@@ -17,6 +20,10 @@ const NewGroupFormComponent = (props) => {
     setAddCredentials(value);
   };
 
+  const handleClose = e => {
+    history.push("/student/home");
+  };
+
   const postGroup = () => {
     const addCred = [];
     addCredentials.map((credential) => {
@@ -26,7 +33,8 @@ const NewGroupFormComponent = (props) => {
       window.alert("New group is created!")
       history.push("/student/home")
     }).catch((err) => {
-      setMessage(err.response.data)
+      setMessage(err.response.data);
+      console.log(err.response.data);
     });
   }
   
@@ -45,59 +53,51 @@ const NewGroupFormComponent = (props) => {
   }, []);
 
   return (
-    <div style={{ padding: "3rem" }}>
-      {/* If not login or not student*/}
-      {!props.currentRole && (
-        <h1>Please Login</h1>
-      )}
-      {/* If not student*/}
-      {props.currentRole && props.currentRole !== "student" && (
-        <h1>You Are Not a Student</h1>
-      )}
+    <div>
       {/* If login and student */}
       {props.currentRole && props.currentRole === "student" &&(
-        <div 
-          className="form-group"
-          style={{
-          position: "absolute",
-          background: "#fff",
-          top: "10%",
-          left: "10%",
-          right: "10%",
-          padding: 15,
-          border: "2px solid #444"
-          }}
-        >
-          <h1>Add New Group</h1>
-          <label htmlFor="groupName">Group name</label>
-          <input
-            name="groupName"
-            type="text"
-            className="form-control"
-            id="groupName"
-            onChange={handleChangeGroupName}
-          />
-          <br />
-          <p>Credentials</p>
-          <Select
-            name="credentials"
-            className="basic-multi-select"
-            classNamePrefix="select"
-            options={credentialData}
-            value={addCredentials}
-            isMulti
-            closeMenuOnSelect={false}
-            onChange={handleChange}
-          />
-          <br />
-          <button className="btn btn-primary" onClick={postGroup}>Add</button>
-          <br />
-          {message && (
-            <div className="alert alert-warning mt-3" role="alert">
-              {message}
-            </div>
-          )}
-        </div>
+        <>
+        <Modal show={true} onHide={handleClose} backdrop="static">
+          <Modal.Header closeButton>
+            <Modal.Title>Creat New Group</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+            <Form.Group className="mb-3" controlId="groupName">
+              <Form.Label>Group Name</Form.Label>
+              <Form.Control
+                type="groupName"
+                onChange={handleChangeGroupName}
+              />
+            </Form.Group>
+            </Form>
+            <p>Credentials</p>
+            <Select
+              name="credentials"
+              className="basic-multi-select"
+              classNamePrefix="select"
+              options={credentialData}
+              value={addCredentials}
+              isMulti
+              closeMenuOnSelect={false}
+              onChange={handleChange}
+            />
+            {message && (
+              <div className="alert alert-warning mt-3" role="alert">
+                {message}
+              </div>
+            )}
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={postGroup}>
+              Create
+            </Button>
+          </Modal.Footer>
+        </Modal>
+        </>
       )}
     </div>
   );
