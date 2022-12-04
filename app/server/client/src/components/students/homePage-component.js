@@ -12,18 +12,21 @@ const StudentHomePageComponent = (props) => {
   const renderProfileForm = () => {
     history.push("/student/intro")
   }
-  const renderNewResume = () =>{
+  const renderNewResume = () => {
     history.push("/student/resumes/new")
+  }
+  const renderEditResumeForm = (resumeId) => {
+    history.push(`/student/resumes/${resumeId}/edit`);
   }
 
   useEffect(() => {
     StudentService.renderMyHomePage()
-    .then(({ data }) => {
-      setCurrentUser(data);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+      .then(({ data }) => {
+        setCurrentUser(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   return (
@@ -39,22 +42,23 @@ const StudentHomePageComponent = (props) => {
       {/* If login and student */}
       {props.currentRole && props.currentRole === "student" && (
         <>
-        {currentUser && (
-          <>
-          <Profile 
-            currentUser={currentUser}
-            renderProfileForm={renderProfileForm}
-          />
-          <Group 
-            currentUser={currentUser}
-            renderNewGroupForm={renderNewGroupForm}
-          />
-          <Resume
-            currentUser={currentUser}
-            renderNewResume={renderNewResume}
-          />
-        </>
-        )}
+          {currentUser && (
+            <>
+              <Profile
+                currentUser={currentUser}
+                renderProfileForm={renderProfileForm}
+              />
+              <Group
+                currentUser={currentUser}
+                renderNewGroupForm={renderNewGroupForm}
+              />
+              <Resume
+                currentUser={currentUser}
+                renderNewResume={renderNewResume}
+                renderEditResumeForm={renderEditResumeForm}
+              />
+            </>
+          )}
         </>
       )}
     </div>
@@ -63,12 +67,12 @@ const StudentHomePageComponent = (props) => {
 
 const Profile = (props) => {
   const profile = props.currentUser.profile;
-  return(
+  return (
     <div>
       <h3 className="mb-3">Profile  &emsp;&emsp;
-      <button id="editProfile" className="btn btn-primary" onClick={props.renderProfileForm}>
+        <button id="editProfile" className="btn btn-primary" onClick={props.renderProfileForm}>
           Edit
-      </button>
+        </button>
       </h3>
       {profile.firstName && (
         <h5>{profile.firstName} {profile.lastName}</h5>
@@ -83,12 +87,12 @@ const Profile = (props) => {
 };
 
 const Group = (props) => {
-  return(
+  return (
     <div>
       <h3 className="mt-5 mb-3">Groups &emsp;&emsp;
-      <button id="addNewGroup" className="btn btn-primary" onClick={props.renderNewGroupForm}>
+        <button id="addNewGroup" className="btn btn-primary" onClick={props.renderNewGroupForm}>
           Add
-      </button>
+        </button>
       </h3>
       <div>
         {props.currentUser.groups.map((group) => (
@@ -105,17 +109,18 @@ const Group = (props) => {
 };
 
 const Resume = (props) => {
-  return(
+  return (
     <div>
       <h3 className="mt-5 mb-3">Resumes &emsp;&emsp;
-      <button id="addNewResume" className="btn btn-primary" onClick={props.renderNewResume}>
+        <button id="addNewResume" className="btn btn-primary" onClick={props.renderNewResume}>
           Add
-      </button>
+        </button>
       </h3>
       <div>
         {props.currentUser.resumes.map((resume) => (
           <div key={resume._id} className="mb-3">
             <Link className="text-primary h5" to={`resumes/${resume._id}`}>{resume.name}</Link>
+            <button className="btn btn-primary" onClick={() => props.renderEditResumeForm(resume._id)}>Edit</button>
           </div>
         ))}
       </div>
