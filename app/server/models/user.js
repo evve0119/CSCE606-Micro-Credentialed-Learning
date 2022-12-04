@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+const { string } = require("joi");
 
 const credentialSchema = new mongoose.Schema({
-  name: String,
   holder: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User"
@@ -11,14 +11,11 @@ const credentialSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User"
   },
-  institute:{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User"
-  },
-  issuedDateTime:{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User"
-  }
+  name: String,
+  instructorUsername: String,
+  holderUsername: String,
+  institute: String,
+  issuedDate: Date
 });
 
 const groupSchema = new mongoose.Schema({

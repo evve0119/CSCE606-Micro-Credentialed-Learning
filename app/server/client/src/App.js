@@ -27,7 +27,6 @@ import RecruiterHomePageComponent from "./components/recruiters/homePage-compone
 import NewJobFormComponent from "./components/recruiters/newJobForm-components";
 import JobFormComponent from "./components/recruiters/jobForm-component";
 import RenderApplicationComponent from "./components/recruiters/renderApplication-component";
-import RenderResumeComponent from "./components/recruiters/renderResume-component";
 import CompanyFormComponent from "./components/recruiters/CompanyForm-component";
 
 import CourseHomePageComponent from "./components/courses/homePage-component";
@@ -208,9 +207,6 @@ const Recruiter = (props) => {
         </Route>
         <Route path="/recruiter/jobs/:jobId/applications" exact>
           <RenderApplicationComponent currentRole={props.currentRole}/>
-        </Route>
-        <Route path="/recruiter/jobs/:jobId/applications/:resumeId" exact>
-          <RenderResumeComponent currentRole={props.currentRole}/>
         </Route>
         <Route path="/recruiter/intro" exact>
           <CompanyFormComponent currentRole={props.currentRole}/>

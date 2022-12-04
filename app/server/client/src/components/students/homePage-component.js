@@ -21,6 +21,7 @@ const StudentHomePageComponent = (props) => {
   const renderGroupForm = (groupId)=> {
     history.push(`/student/groups/${groupId}`);
   }
+
   const renderNewResume = () =>{
     history.push("/student/resumes/new");
   }
@@ -28,6 +29,9 @@ const StudentHomePageComponent = (props) => {
     history.push(`/student/resumes/${resumeId}`);
   }
   const renderEditResumeForm = (resumeId)=> {
+    history.push(`/student/resumes/${resumeId}/edit`);
+  }
+  const renderEditResumeForm = (resumeId) => {
     history.push(`/student/resumes/${resumeId}/edit`);
   }
 
@@ -41,7 +45,6 @@ const StudentHomePageComponent = (props) => {
     });
   }, [location]);
 
-  console.log(history);
   return (
     <div>
       {/* If not login*/}

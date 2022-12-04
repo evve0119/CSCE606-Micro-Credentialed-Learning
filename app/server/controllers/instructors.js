@@ -27,10 +27,10 @@ module.exports.createNewCourse = async (req, res) => {
         // push group to this user
         currentInstructor.teach.push(currentCourse._id);
         await currentInstructor.save();
-        
-        await Promise.all( addStudentsId.map(async (studentId) => {
+
+        await Promise.all(addStudentsId.map(async (studentId) => {
             const currentStudent = await User.findById(studentId);
-            
+
             currentStudent.enroll.push(currentCourse._id);
             await currentStudent.save();
         }));
@@ -126,14 +126,24 @@ module.exports.renderSendCredential = async (req, res) => {
 
 module.exports.sendCredential = async (req, res) => {
     try {
-        const currentCourse = await Course.findById(req.params.courseId);
+        const currentCourse = await Course.findById(req.params.courseId).populate("holder");
         if (req.user._id != currentCourse.holder._id.toString()) {
             return res.status(400).send("You are not authorized");
         }
         await Promise.all(req.body.addStudents.map(async (studentId) => {
             const currentStudent = await User.findById(studentId);
-            const currentCredential = new Credential({ name: currentCourse.name, holder: studentId, instructor: currentCourse.holder });
+            const currentCredential = new Credential(
+                {
+                    holder: studentId,
+                    instructor: currentCourse.holder,
+                    name: currentCourse.name,
+                    instructorUsername: currentCourse.holder.username,
+                    holderUsername: currentStudent.username,
+                    institute: currentCourse.holder.institute,
+                    issuedDate: Date.now()
+                });
             await currentCredential.save();
+            // console.log(typeof(currentCredential.sendDate.toLocaleDateString()));
             // push group to this user
             currentStudent.credentials.push(currentCredential._id);
             await currentStudent.save();
