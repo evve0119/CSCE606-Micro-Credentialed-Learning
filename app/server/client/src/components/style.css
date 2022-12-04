@@ -91,3 +91,152 @@ tr{height: 70px;}
 pre{
     font-size: 18px;
 }
+
+/* login page */
+.login {
+    overflow-y: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #e9ecef;
+    height: 110vh;
+}
+
+.register {
+    overflow-y: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #e9ecef;
+    height: 110vh;
+}
+
+.screen-1 .logo {
+    color: black;
+    font-size: 32px;
+}
+
+.screen-1 .username {
+    background: white;
+    box-shadow: 0 0 2em #e6e9f9;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    border-radius: 20px;
+    color: black;
+}
+.screen-1 .username input {
+    outline: none;
+    border: none;
+    width: 94%;
+}
+.screen-1 .username input::placeholder {
+    color: gray;
+    font-size: 0.9em;
+}
+.screen-1 .username ion-icon {
+    color: #4d4d4d;
+    margin-bottom: -0.2em;
+}
+
+.screen-1 .email {
+    background: white;
+    box-shadow: 0 0 2em #e6e9f9;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    border-radius: 20px;
+    color: black;
+}
+.screen-1 .email input {
+    outline: none;
+    border: none;
+    width: 94%;
+}
+.screen-1 .email input::placeholder {
+    color: gray;
+    font-size: 0.9em;
+}
+.screen-1 .email ion-icon {
+    color: #4d4d4d;
+    margin-bottom: -0.2em;
+}
+
+.screen-1 .password {
+    background: white;
+    box-shadow: 0 0 2em #e6e9f9;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    border-radius: 20px;
+    color: black;
+}
+.screen-1 .password input {
+    outline: none;
+    border: none;
+    width: 94%;
+}
+.screen-1 .password input::placeholder {
+    color: gray;
+    font-size: 0.9em;
+}
+.screen-1 .password ion-icon {
+    color: #4d4d4d;
+    margin-bottom: -0.2em;
+}
+.screen-1 .password .show-hide {
+    margin-right: -5em;
+}
+
+.screen-1 .button {
+    padding: 1em;
+    background: #343a40;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-weight: 600;
+}
+.screen-1 .loginButton {
+    padding: 1em;
+    background: #343a40;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 10px 185px;
+    font-weight: 600;
+}
+.screen-1 .registerButton {
+    padding: 1em;
+    background: #343a40;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 10px 185px;
+    font-weight: 600;
+}
+.screen-1 .footer {
+    display: flex;
+    font-size: 0.9em;
+    color: #5e5e5e;
+    gap: 14em;
+    padding-bottom: 10em;
+}
+
+a:link { 
+    color: #4d4d4d;
+    background-color: transparent;
+    text-decoration: none; 
+}
+a:visited {
+    color: #4d4d4d;
+    background-color: transparent;
+    text-decoration: none; 
+}
+a:hover {
+    color: #4d4d4d;
+    background-color: transparent;
+    text-decoration: underline;
+}

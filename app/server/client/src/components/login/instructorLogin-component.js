@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useHistory } from "react-router";
 import AuthService from "../../services/auth.service";
 import { useLocation } from "react-router-dom";
+import "../style.css";
+import "https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
 
 const InstructorLoginComponent = (props) => {
   const history = useHistory();
@@ -41,48 +43,47 @@ const InstructorLoginComponent = (props) => {
 
 
   return (
-    <div style={{ padding: "3rem" }} className="col-md-12">
-      <div>
-        {message && (
-          <div className="alert alert-danger" role="alert">
-            {message}
-          </div>
-        )}
-        <h2>Instructor Login Portal</h2>
-        <div className="form-group">
-          <label htmlFor="username">Email</label>
-          <input
-            onChange={handleChangeEmail}
-            type="text"
-            className="form-control"
-            name="email"
-          />
-        </div>
-        <br />
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
-          <input
-            onChange={handleChangePassword}
-            type="password"
-            className="form-control"
-            name="password"
-          />
-        </div>
-        <br />
-        <div className="form-group d-flex justify-content-between">
-          <div>
-            <button id="login" onClick={handleLogin} className="btn btn-primary btn-block">
-            <span>Login</span>
-            </button>
-          </div>
-          <div>
-            <a href="/register/instructor">Register</a>
-          </div>
-          <div>
-            <a href="/forgot">Forgot your password?</a>
-          </div>
-        </div>
-      </div>
+    <div style={{ padding: "3rem" }} className="login">
+      	<div className="screen-1">
+		  	{message && ( <div className="alert alert-danger" role="alert">{message}</div>)}
+        	<center><span className="logo">Instructor Login Portal</span></center>
+			<br />
+			<div className="email">
+				<label htmlFor="email">Email</label>
+				<div className="sec-2">
+					<ion-icon name="mail-outline"></ion-icon>
+					&nbsp;
+					<input
+						onChange={handleChangeEmail}
+						type="text"
+						name="email"
+						placeholder="username@email.com"
+					/>
+				</div>
+			</div>
+			<br />
+			<div className="password">
+				<label htmlFor="password">Password</label>
+				<div className="sec-2">
+					<ion-icon name="lock-closed-outline"></ion-icon>
+					&nbsp;
+					<input
+						onChange={handleChangePassword}
+						type="password"
+						name="password"
+						placeholder=".........."
+					/>
+				</div>
+			</div>
+			<br />
+			<button className="loginButton" id="login" onClick={handleLogin}>Login</button>
+			<br />
+			<br />
+			<div class="footer">
+				<a href="/register/instructor">Register</a>
+				<a href="/forgot">Forgot your password?</a>
+			</div>
+		</div>
     </div>
   );
 };

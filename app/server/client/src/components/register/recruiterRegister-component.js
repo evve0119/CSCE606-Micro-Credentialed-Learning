@@ -36,36 +36,62 @@ const RecruiterRegisterComponent = () => {
       });
   };
   return (
-    <div style={{ padding: "3rem" }} className="col-md-12">
-      <div>
-        {message && <div className="alert alert-danger">{message}</div>}
-        <h2>Recruiter Register Portal</h2>
-        <div>
-          <label htmlFor="username">Username</label>
-          <input onChange={handleChangeUsername} type="text" className="form-control" name="username" />
-        </div>
-        <br />
-        <div className="form-group">
-          <label htmlFor="email">Email</label>
-          <input onChange={handleChangeEmail} type="text" className="form-control" name="email" />
-        </div>
-        <br />
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
-          <input onChange={handleChangePassword} type="password" className="form-control" name="password" />
-        </div>
-        <br />
-        <div className="form-group d-flex justify-content-between">
-            <button id="register" onClick={handleRegister} className="btn btn-primary">
-                <span>Register</span>
-            </button>
-            <div>
+    <div style={{ padding: "3rem" }} className="register">
+        <div className="screen-1">
+            {message && <div className="alert alert-danger">{message}</div>}
+            <center><span className="logo">Recruiter Registration Portal</span></center>
+            <br />
+            <div className="username">
+                <label htmlFor="username">Username</label>
+                <div className="sec-2">
+                    <ion-icon name="person-circle-outline"></ion-icon>
+                    &nbsp;
+                    <input 
+                        onChange={handleChangeUsername} 
+                        type="text" 
+                        name="username"
+                        placeholder="username"
+                    />
+                </div>
+            </div>
+            <br />
+            <div className="email">
+                <label htmlFor="email">Email</label>
+                <div className="sec-2">
+                    <ion-icon name="mail-outline"></ion-icon>
+                    &nbsp;
+                    <input 
+                        onChange={handleChangeEmail} 
+                        type="text" 
+                        name="email"
+                        placeholder="username@email.com" 
+                    />
+                </div>
+            </div>
+            <br />
+            <div className="password">
+                <label htmlFor="password">Password</label>
+                <div className="sec-2">
+                    <ion-icon name="lock-closed-outline"></ion-icon>
+                    &nbsp;
+                    <input 
+                        onChange={handleChangePassword} 
+                        type="password" 
+                        name="password"
+                        placeholder="........." 
+                    />
+                </div>
+             </div>
+            <br />
+            <button className="registerButton" id="register" onClick={handleRegister}>Register</button>
+            <br />
+            <br />
+            <div class="footer">
                 <a href="/login/recruiter">Login</a>
             </div>
         </div>
-      </div>
     </div>
-  );
+);
 };
 
 export default RecruiterRegisterComponent;
