@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import StudentService from "../../services/student.service";
 import Select from 'react-select';
-import Modal from "react-bootstrap/Modal";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
+import {Modal, Form, Button} from "react-bootstrap";
 
 const GroupFormComponent = (props) => {
   const groupId = useParams().groupId;
@@ -28,16 +26,21 @@ const GroupFormComponent = (props) => {
 
   // Update group
   const updateGroup = () => {
-    const editCred = [];
-    editCredentials.map((credential) => {
-      editCred.push(credential.value);
-    });
-    StudentService.updateGroup(editCred, currentGroup._id, newGroupName).then(() => {
-      window.alert("Group is updated!")
-      history.push("/student/home")
-    }).catch((err) => {
-      setMessage(err.response.data)
-    });
+    if(newGroupName === ""){
+      setMessage("Group name is not allowed to be empty!")
+    }
+    else{
+      const editCred = [];
+      editCredentials.map((credential) => {
+        editCred.push(credential.value);
+      });
+      StudentService.updateGroup(editCred, currentGroup._id, newGroupName).then(() => {
+        window.alert("Group is updated!")
+        history.push("/student/home")
+      }).catch((err) => {
+        setMessage(err.response.data)
+      });
+    }
   };
 
   const deleteGroup = () => {
@@ -78,34 +81,25 @@ const GroupFormComponent = (props) => {
   }, []);
 
   return (
-    <div style={{ padding: "3rem" }}>
-      {/* If not login or not student*/}
-      {/* {!props.currentRole && (
-        <h1>Please Login</h1>
-      )} */}
-      {/* If not student*/}
-      {/* {props.currentRole && props.currentRole !== "student" && (
-        <h1>You Are Not a Student</h1>
-      )} */}
+    <div>
       {/* If login and student */}
       {props.currentRole && props.currentRole === "student" && (
         <>
         {currentGroup && (
-          <>
-          <Modal show={true} onHide={handleClose} backdrop="static">
+          <Modal show={true} centered scrollable backdrop="static" onHide={handleClose}>
             <Modal.Header closeButton>
-              <Modal.Title>Edit</Modal.Title>
+              <Modal.Title>Edit Group</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <Form>
-              <Form.Group className="mb-3" controlId="groupName">
-                <Form.Label>Group Name</Form.Label>
-                <Form.Control
-                  type="groupName"
-                  defaultValue={currentGroup.name}
-                  onChange={handleChangeGroupName}
-                />
-              </Form.Group>
+                <Form.Group className="mb-3" controlId="groupName">
+                  <Form.Label>Group Name</Form.Label>
+                  <Form.Control
+                    type="groupName"
+                    defaultValue={currentGroup.name}
+                    onChange={handleChangeGroupName}
+                  />
+                </Form.Group>
               </Form>
               <p>Credentials</p>
               <Select
@@ -118,6 +112,11 @@ const GroupFormComponent = (props) => {
                 closeMenuOnSelect={false}
                 onChange={handleChange}
               />
+              {message && (
+                <div className="alert alert-warning mt-3" role="alert">
+                  {message}
+                </div>
+              )}
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleClose}>
@@ -131,12 +130,6 @@ const GroupFormComponent = (props) => {
               </Button>
             </Modal.Footer>
           </Modal>
-          {message && (
-            <div className="alert alert-warning mt-3" role="alert">
-              {message}
-            </div>
-          )}
-          </>
         )}
         </>
       )}

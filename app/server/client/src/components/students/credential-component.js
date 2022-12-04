@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import StudentService from "../../services/student.service";
+import "../style.css"
 
 const CredentialComponent = (props) => {
   let [credentialData, setCredentialData] = useState(null);
@@ -14,7 +15,7 @@ const CredentialComponent = (props) => {
   }, []);
 
   return (
-    <div style={{ padding: "3rem" }}>
+    <div>
       {/* If not login*/}
       {!props.currentRole && (
         <h1>Please Login</h1>
@@ -27,7 +28,7 @@ const CredentialComponent = (props) => {
       {props.currentRole && props.currentRole === "student" && (
         <>
           {credentialData && (
-            <div>
+            <div class="card-bg">
               <h3>Credentials</h3>
               <table class="table">
                 <thead>
@@ -37,7 +38,7 @@ const CredentialComponent = (props) => {
                     <th scope="col">Instructor</th>
                     <th scope="col">Institute</th>
                     <th scope="col">Issued date</th>
-                    <th scope="col">ID</th>
+                    {/* <th scope="col">ID</th> */}
                   </tr>
                 </thead>
                 <tbody>
@@ -48,7 +49,7 @@ const CredentialComponent = (props) => {
                       <td>{credential.instructorUsername}</td>
                       <td>{credential.institute}</td>
                       <td>{new Date(credential.issuedDate).toDateString().slice(4)}</td>
-                      <td>{credential._id}</td>
+                      {/* <td>{credential._id}</td> */}
                     </tr>
                   ))}
                 </tbody>

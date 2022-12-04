@@ -1,40 +1,65 @@
-/* background color */
+/* background*/
 .bg{
     background: #e9ecef;
+    min-height: 100vh;
+}
+.nav-bg{
+    background: #adb5bd;
+    height: 8vh;
 }
 .profile-bg{
     background: #343a40;
+    min-height: 92vh;
+    padding-top: 1rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    color: #f8f9fa;
 }
 .card-bg{
     background: #f8f9fa;
+    box-shadow: 0 0 2em #cfd0d3;
+    margin: 3rem;
+    padding-top: 1rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    border-radius: 20px;
+}
+/* nav bar */
+.nav-link{
+    font-size: 20px;
+    color: #343a40;
+}
+.nav-link:hover{
+    color: #e9ecef;
+    text-decoration: none;
+}
+.nav-link:focus{
+    color: #343a40;
 }
 
 /* button */
 .btn:focus { 
     box-shadow: none !important;
 }
-
 .btn-round {
     height: 40px;
     width: 40px;
     border-radius: 50%;
-    background: #f8f9fa;
+    background: none;
+    margin-left: 0.5rem;
 }
 .btn-round:hover { 
-    background-color: #e9ecef
+    background-color: #e9ecef;
 }
-
-.btn-edit{
+.btn-profile {
     height: 40px;
     width: 40px;
     border-radius: 50%;
-    background: #f8f9fa;
-    /* position: absolute;
-    right: 2px; */
-    /* top: 10px; */
+    background: none;
+    margin-left: 0.5rem;
 }
-.btn-edit:hover { 
-    background-color: #e9ecef
+.btn-profile:hover { 
+    background-color: #4e4f51;
 }
 
 /* accordion*/
@@ -60,34 +85,34 @@
     border-bottom: 1px solid #cccc;
 }
 
-
 /* icon */
 i{ -webkit-text-stroke: 2px; }
 .icon-profile{
-    color: white;
+    color: #f8f9fa;
     font-size: 80px;
 }
 .icon-profile-edit{
-    color: white;
+    color: #f8f9fa;
 }
 .icon-n{
     -webkit-text-stroke: 0px;
 }
 
-tr{height: 70px;}
-.td-title{
-    width: 80%;
+/* table */
+tr{
+    height: 70px;
     vertical-align: middle;
     font-size: 20px;
 }
-.td-text{
-    margin: auto;
+.td-title{
+    width: 80%;
 }
 .td-icon{
     vertical-align: middle;
     text-align: center;
 }
 
+/* preformatted text */
 pre{
     font-size: 18px;
 }

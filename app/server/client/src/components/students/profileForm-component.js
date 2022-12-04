@@ -1,21 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import StudentService from "../../services/student.service";
-import Modal from "react-bootstrap/Modal";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
+import {Modal, Form, Button} from "react-bootstrap";
 
 const ProfileForm = (props) => {
   return(
-    // <><label htmlFor={props.name}>{props.name}</label>
-    // <input
-    //   name={props.name}
-    //   type="text"
-    //   className="form-control mt-2"
-    //   id={props.name}
-    //   defaultValue={props.defaultValue}
-    //   onChange={props.onChange}
-    // /></>
     <Form.Group className="mb-3" controlId={props.name}>
       <Form.Label>{props.name}</Form.Label>
       <Form.Control
@@ -76,27 +65,34 @@ const ProfileFormComponent = (props) => {
   }, []);
 
   const updateProfile = () => {
-    const editProfile = {
-      firstName: currentFirstName,
-      lastName: currentLastName,
-      address: currentAddress,
-      phone: currentPhone,
-      email: currentEmail,
-      description: currentDescription,
-    };
-    StudentService.updateProfile(editProfile).then(() => {
-      window.alert("Profile is updated!")
-      history.push("/student/home")
-    }).catch((err) => {
-      setMessage(err.response.data)
-    });
+    if(currentFirstName === ""){
+      setMessage("First name is not allowed to be empty!");
+    }
+    else if(currentLastName === ""){
+      setMessage("Last name is not allowed to be empty!");
+    }
+    else{
+      const editProfile = {
+        firstName: currentFirstName,
+        lastName: currentLastName,
+        address: currentAddress,
+        phone: currentPhone,
+        email: currentEmail,
+        description: currentDescription,
+      };
+      StudentService.updateProfile(editProfile).then(() => {
+        window.alert("Profile is updated!")
+        history.push("/student/home")
+      }).catch((err) => {
+        setMessage(err.response.data)
+      });
+    }
   }
 
   return (
     <div>
       {props.currentRole && props.currentRole === "student" && (
-        <>
-        <Modal show={true} onHide={handleClose} backdrop="static">
+        <Modal show={true} centered scrollable backdrop="static" onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Profile</Modal.Title>
           </Modal.Header>
@@ -138,6 +134,11 @@ const ProfileFormComponent = (props) => {
                 />
               </Form.Group>
             </Form>
+            {message && (
+              <div className="alert alert-warning mt-3" role="alert">
+                {message}
+              </div>
+            )}
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
@@ -148,62 +149,6 @@ const ProfileFormComponent = (props) => {
             </Button>
           </Modal.Footer>
         </Modal>
-        {message && (
-          <div className="alert alert-warning mt-3" role="alert">
-            {message}
-          </div>
-        )}
-        </>
-        // <div 
-        //   className="form-group"
-        //   style={{
-        //   position: "absolute",
-        //   background: "#fff",
-        //   top: "10%",
-        //   left: "10%",
-        //   right: "10%",
-        //   padding: 15,
-        //   border: "2px solid #444"
-        //   }}
-        // >
-        //   <h1>Edit Profile</h1>
-        //   <ProfileForm 
-        //     name={"First Name"}
-        //     defaultValue={currentFirstName}
-        //     onChange={handleChangeFirstName}
-        //   />
-        //   <ProfileForm 
-        //     name={"Last Name"}
-        //     defaultValue={currentLastName}
-        //     onChange={handleChangeLastName}
-        //   />
-        //   <ProfileForm 
-        //     name={"Email"}
-        //     defaultValue={currentEmail}
-        //     onChange={handleChangeEmail}
-        //   />
-        //   <ProfileForm 
-        //     name={"Phone"}
-        //     defaultValue={currentPhone}
-        //     onChange={handleChangePhone}
-        //   />
-        //   <ProfileForm 
-        //     name={"Address"}
-        //     defaultValue={currentAddress}
-        //     onChange={handleChangeAddress}
-        //   />
-        //   <p><label htmlFor="description">Description</label></p>
-        //   <textarea id="description" rows="4" cols="50"
-        //     value={currentDescription} onChange={handleChangeDescription} />
-        //   <br />
-        //   <button id="submit" className="btn btn-primary" onClick={updateProfile}>Submit</button>
-        //   <br />
-        //   {message && (
-        //     <div className="alert alert-warning mt-3" role="alert">
-        //       {message}
-        //     </div>
-        //   )}
-        // </div>
       )}  
     </div>
   );
