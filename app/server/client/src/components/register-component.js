@@ -35,7 +35,7 @@ const RegisterComponent = () => {
         );
         // redirect to the other page
         history.push({
-          pathname: "/login",
+          pathname: "/",
           state: {role: role}
         })
       })

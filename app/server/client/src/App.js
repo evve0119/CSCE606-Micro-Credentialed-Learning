@@ -7,6 +7,14 @@ import LoginComponent from "./components/login-component";
 import ForgotComponent from "./components/forgot_component";
 import AuthService from "./services/auth.service";
 
+import StudentLoginComponent from "./components/login/studentLogin-component";
+import InstructorLoginComponent from "./components/login/instructorLogin-component";
+import RecruiterLoginComponent from "./components/login/recruiterLogin-component";
+
+import StudentRegisterComponent from "./components/register/studentRegister-component";
+import InstructorRegisterComponent from "./components/register/instructorRegister-component";
+import RecruiterRegisterComponent from "./components/register/recruiterRegister-component";
+
 import StudentHomePageComponent from "./components/students/homePage-component";
 import CredentialComponent from "./components/students/credential-component";
 import ProfileFormComponent from "./components/students/profileForm-component";
@@ -45,11 +53,23 @@ function App() {
         <Route path="/" exact>
           <HomeComponent />
         </Route>
-        <Route path="/register" exact>
-          <RegisterComponent />
+        <Route path="/register/student" exact>
+          <StudentRegisterComponent />
         </Route>
-        <Route path="/login" exact>
-          <LoginComponent setCurrentRole={setCurrentRole}/>
+        <Route path="/register/instructor" exact>
+          <InstructorRegisterComponent />
+        </Route>
+        <Route path="/register/recruiter" exact>
+          <RecruiterRegisterComponent />
+        </Route>
+        <Route path="/login/student" exact>
+          <StudentLoginComponent setCurrentRole={setCurrentRole}/>
+        </Route>
+        <Route path="/login/instructor" exact>
+          <InstructorLoginComponent setCurrentRole={setCurrentRole}/>
+        </Route>
+        <Route path="/login/recruiter" exact>
+          <RecruiterLoginComponent setCurrentRole={setCurrentRole}/>
         </Route>
         <Route path="/forgot" exact>
           <ForgotComponent/>
