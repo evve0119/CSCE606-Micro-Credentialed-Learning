@@ -12,9 +12,6 @@ const credentialSchema = new mongoose.Schema({
     ref: "User"
   },
   name: String,
-  instructorUsername: String,
-  holderUsername: String,
-  institute: String,
   issuedDate: Date
 });
 
@@ -70,8 +67,8 @@ const userSchema = new mongoose.Schema({
     maxLength: 1024,
   },
   profile: {
-    firstName: {type: String, default: ""},
-    lastName: {type: String, default: ""},
+    firstName: {type: String},
+    lastName: {type: String},
     phone: {type: String, default: ""},
     email: {type: String, default: ""},
     address: {type: String, default: ""},

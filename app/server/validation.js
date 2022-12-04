@@ -10,6 +10,10 @@ const registerValidation = (data) => {
     email: Joi.string().min(6).max(100).required().email(),
     password: Joi.string().min(6).max(255).required(),
     role: Joi.string().required().valid("student", "instructor", "recruiter"),
+    profile:{
+      firstname: Joi.string().min(1).max(50).required(),
+      lastname: Joi.string().min(1).max(50).required()
+    }
   });
 
   return schema.validate(data);

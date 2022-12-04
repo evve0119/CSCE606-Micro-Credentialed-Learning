@@ -22,8 +22,8 @@ router.route("/jobs/:jobId/applications/:resumeId")
 .get(recruiters.renderResume);
 
 router.route("/intro")
-.get(passport.authenticate("jwt", { session: false }), recruiters.renderCompanyForm)
-.put(passport.authenticate("jwt", { session: false }), recruiters.updateCompany);
+.get(passport.authenticate("jwt", { session: false }), recruiters.renderProfileForm)
+.put(passport.authenticate("jwt", { session: false }), recruiters.updateProfile);
 
 
 module.exports = router;

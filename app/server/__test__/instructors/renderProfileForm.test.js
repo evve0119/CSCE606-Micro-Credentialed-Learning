@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 const mongoURL = "mongodb://localhost:27017/csce606"
 const User = require("../../models").User
-const { updateInstitute } = require("../../controllers/instructors");
+const { renderProfileForm } = require("../../controllers/instructors");
 
-describe("testing renderInstituteForm", function () {
+describe("testing renderProfileForm", function () {
     let instructor
     let student
     const res = {
@@ -33,28 +33,28 @@ describe("testing renderInstituteForm", function () {
         });
         await student.save();
     });
+    
     afterAll(async () => {
         await mongoose.connection.db.dropDatabase();
         await mongoose.connection.close()
     });
 
-    test("owner change institute", async () => {
-        const req = { user: { _id: instructor._id }, body: { editInstitute: "Purdue University" } };
-        await updateInstitute(req, res);
-        const currentInstructor = await User.findById(instructor._id)
-        expect(currentInstructor.institute).toEqual(req.body.editInstitute)
+    test("owner render profile form", async () => {
+        const req = { user: { _id: instructor._id } };
+        await renderProfileForm(req, res);
+        expect(res.text.institute).toEqual(instructor.institute)
     });
 
-    test("other roles render institute form", async () => {
+    test("other roles render profile form", async () => {
         const req = { user: { _id: student._id } };
-        await updateInstitute(req, res);
+        await renderProfileForm(req, res);
         expect(res.text).toEqual("You are not an instructor")
     });
 
     test("no login render company form", async () => {
         const req = { user: { _id: "aaaaa" } };
-        await updateInstitute(req, res);
-        expect(res.text).toEqual("Error!! Cannot update institute!!")
+        await renderProfileForm(req, res);
+        expect(res.text).toEqual("Error!! Cannot get profile!!")
     });
 
 })

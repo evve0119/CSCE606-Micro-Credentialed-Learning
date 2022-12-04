@@ -91,7 +91,7 @@ class InstructorService {
     );
   }
 
-  renderInstituteForm() {
+  renderProfileForm() {
     let token;
     if (localStorage.getItem("user")) {
       token = JSON.parse(localStorage.getItem("user")).token;
@@ -104,7 +104,7 @@ class InstructorService {
   }
 
   // update profile
-  updateInstitute(editInstitute) {
+  updateProfile(editProfile, editInstitute) {
     let token;
     if (localStorage.getItem("user")) {
       token = JSON.parse(localStorage.getItem("user")).token;
@@ -112,7 +112,7 @@ class InstructorService {
       token = "";
     }
     return axios.put(API_URL + "/intro/",
-      { editInstitute },
+      { editProfile, editInstitute },
       {headers: {Authorization: token}}
     );
   }
