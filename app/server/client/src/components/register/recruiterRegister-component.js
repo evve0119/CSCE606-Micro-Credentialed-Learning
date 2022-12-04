@@ -1,6 +1,8 @@
 import React, {useState} from "react";
 import { useHistory } from "react-router-dom";
 import AuthService from "../../services/auth.service";
+import "../style.css";
+import "https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
 
 const RecruiterRegisterComponent = () => {
   const history = useHistory();
@@ -9,6 +11,7 @@ const RecruiterRegisterComponent = () => {
   let [password, setPassword] = useState("");
   let [role, setRole] = useState("recruiter");
   let [message, setMessage] = useState("");
+  const [passwordShown, setPasswordShown] = useState(false);
 
   const handleChangeUsername = (e) => {
     setUsername(e.target.value);
@@ -19,6 +22,10 @@ const RecruiterRegisterComponent = () => {
   const handleChangePassword = (e) => {
     setPassword(e.target.value);
   };
+  const togglePassword = () => {
+    setPasswordShown(!passwordShown);
+  };
+
   const handleRegister = () => {
     AuthService.register(username, email, password, role)
       .then(() => {
@@ -74,12 +81,13 @@ const RecruiterRegisterComponent = () => {
                 <div className="sec-2">
                     <ion-icon name="lock-closed-outline"></ion-icon>
                     &nbsp;
-                    <input 
-                        onChange={handleChangePassword} 
-                        type="password" 
-                        name="password"
-                        placeholder="........." 
-                    />
+                    <input
+						onChange={handleChangePassword}
+						type={passwordShown ? "text" : "password"}
+						name="password"
+						placeholder=".........."
+					/>
+					<ion-icon onClick={togglePassword} name={passwordShown ? "eye-outline" : "eye-off-outline"}></ion-icon>
                 </div>
              </div>
             <br />

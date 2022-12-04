@@ -177,7 +177,7 @@ pre{
 .screen-1 .password input {
     outline: none;
     border: none;
-    width: 94%;
+    width: 87.5%;
 }
 .screen-1 .password input::placeholder {
     color: gray;
