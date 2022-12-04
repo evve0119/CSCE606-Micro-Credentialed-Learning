@@ -1,20 +1,15 @@
 import React, {useState} from "react";
 import { useHistory } from "react-router-dom";
-import AuthService from "../services/auth.service";
-import Select from 'react-select';
+import AuthService from "../../services/auth.service";
 
-const RegisterComponent = () => {
+const StudentRegisterComponent = () => {
   const history = useHistory();
   let [username, setUsername] = useState("");
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
-  let [role, setRole] = useState("");
+  let [role, setRole] = useState("student");
   let [message, setMessage] = useState("");
-  const roles = [
-    {value: "student", label: "student"},
-    {value: "instructor", label: "instructor"},
-    {value: "recruiter", label: "recruiter"}
-  ];
+
   const handleChangeUsername = (e) => {
     setUsername(e.target.value);
   };
@@ -23,9 +18,6 @@ const RegisterComponent = () => {
   };
   const handleChangePassword = (e) => {
     setPassword(e.target.value);
-  };
-  const handleChangeRole = (e) => {
-    setRole(e.label);
   };
   const handleRegister = () => {
     AuthService.register(username, email, password, role)
@@ -47,6 +39,7 @@ const RegisterComponent = () => {
     <div style={{ padding: "3rem" }} className="col-md-12">
       <div>
         {message && <div className="alert alert-danger">{message}</div>}
+        <h2>Student Register Portal</h2>
         <div>
           <label htmlFor="username">Username</label>
           <input onChange={handleChangeUsername} type="text" className="form-control" name="username" />
@@ -62,23 +55,17 @@ const RegisterComponent = () => {
           <input onChange={handleChangePassword} type="password" className="form-control" name="password" />
         </div>
         <br />
-        <div className="form-group">
-          <label htmlFor="password">Role</label>
-          <Select
-            options={roles}
-            onChange={handleChangeRole}
-            defaultValue={roles.find(r => {
-              return r.value === role
-            })}
-          />
+        <div className="form-group d-flex justify-content-between">
+            <button id="register" onClick={handleRegister} className="btn btn-primary">
+                <span>Register</span>
+            </button>
+            <div>
+                <a href="/login/student">Login</a>
+            </div>
         </div>
-        <br />
-        <button id="register" onClick={handleRegister} className="btn btn-primary">
-          <span>Register</span>
-        </button>
       </div>
     </div>
   );
 };
 
-export default RegisterComponent;
+export default StudentRegisterComponent;

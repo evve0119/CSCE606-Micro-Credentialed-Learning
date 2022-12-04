@@ -37,7 +37,7 @@ const JobFormComponent = (props) => {
 
     // If not holder go to login
     const handleTakeToLogin = () => {
-        history.push("/login");
+        history.push("/");
     };
 
     // Handle new course name

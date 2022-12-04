@@ -5,19 +5,19 @@ const HomeComponent = () => {
   const history = useHistory();
   function studentLogin() {
     history.push({
-      pathname: "/login",
+      pathname: "/login/student",
       state: {role: "student"}
     })
   }
   function instructorLogin() {
     history.push({
-      pathname: "/login",
+      pathname: "/login/instructor",
       state: {role: "instructor"}
     })
   }
   function recruiterLogin() {
     history.push({
-      pathname: "/login",
+      pathname: "/login/recruiter",
       state: {role: "recruiter"}
     })
   }

@@ -19,7 +19,7 @@ const ForgotComponent = () => {
         );
         // redirect to the other page
         history.push({
-          pathname: "/login"
+          pathname: "/"
         })
       })
       .catch((error) => {
