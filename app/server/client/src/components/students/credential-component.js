@@ -5,12 +5,12 @@ const CredentialComponent = (props) => {
   let [credentialData, setCredentialData] = useState(null);
   useEffect(() => {
     StudentService.renderAllCredentials()
-    .then(({ data }) => {
-      setCredentialData(data);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+      .then(({ data }) => {
+        setCredentialData(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   return (
@@ -26,14 +26,35 @@ const CredentialComponent = (props) => {
       {/* If login and student */}
       {props.currentRole && props.currentRole === "student" && (
         <>
-        {credentialData && (
-          <div>
-            <h3>Credentials</h3>
-            {credentialData.map((credential) => (
-              <li key={credential._id}>{credential.name}</li>
-            ))}
-          </div>
-        )}
+          {credentialData && (
+            <div>
+              <h3>Credentials</h3>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Instructor</th>
+                    <th scope="col">Institute</th>
+                    <th scope="col">Issued date</th>
+                    <th scope="col">ID</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {credentialData.map((credential,idx) => (
+                    <tr>
+                      <th scope="row">{idx+1}</th>
+                      <td>{credential.name}</td>
+                      <td>{credential.instructorUsername}</td>
+                      <td>{credential.institute}</td>
+                      <td>{new Date(credential.issuedDate).toDateString().slice(4)}</td>
+                      <td>{credential._id}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </>
       )}
     </div>
