@@ -2,18 +2,18 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import StudentService from "../../services/student.service"
 import Select from 'react-select';
+import {Modal, Form, Button} from 'react-bootstrap';
 
 const ProfileForm = (props) => {
   return(
-    <><label htmlFor={props.name}>{props.name}</label>
-    <input
-      name={props.name}
-      type="text"
-      className="form-control mt-2"
-      id={props.name}
-      defaultValue={props.defaultValue}
-      onChange={props.onChange}
-    /></>
+    <Form.Group className="mb-3" controlId={props.name}>
+      <Form.Label>{props.name}</Form.Label>
+      <Form.Control
+        type={props.name}
+        defaultValue={props.defaultValue}
+        onChange={props.onChange}
+      />
+    </Form.Group>
   );
 };
 
@@ -53,6 +53,9 @@ const NewResumeFormComponent = (props) => {
   };
   const handleChange = (value) => {
     setAddCredentials(value);
+  };
+  const handleClose = () => {
+    history.push("/student/home");
   };
   const postResume = () => {
     const addProfile = {
@@ -112,83 +115,84 @@ const NewResumeFormComponent = (props) => {
   }, []);
 
   return (
-    <div style={{ padding: "3rem" }}>
-      {/* If not login or not student*/}
-      {!props.currentRole && (
-        <h1>Please Login</h1>
-      )}
-      {/* If not student*/}
-      {props.currentRole && props.currentRole !== "student" && (
-        <h1>You Are Not a Student</h1>
-      )}
+    <div>
       {/* If login and student */}
       {props.currentRole && props.currentRole === "student" && (
-        <div 
-          className="form-group"
-          style={{
-            position: "absolute",
-            background: "#fff",
-            top: "10%",
-            left: "10%",
-            right: "10%",
-            padding: 15,
-            border: "2px solid #444"
-          }}
-        >
-          <h1>Add New Resume</h1>
-          <ProfileForm 
-            name={"Resume Name"}
-            defaultValue={resumeName}
-            onChange={handleChangeResumeName}
-          />
-          <ProfileForm 
-            name={"First Name"}
-            defaultValue={currentFirstName}
-            onChange={handleChangeFirstName}
-          />
-          <ProfileForm 
-            name={"Last Name"}
-            defaultValue={currentLastName}
-            onChange={handleChangeLastName}
-          />
-          <ProfileForm 
-            name={"Email"}
-            defaultValue={currentEmail}
-            onChange={handleChangeEmail}
-          />
-          <ProfileForm 
-            name={"Phone"}
-            defaultValue={currentPhone}
-            onChange={handleChangePhone}
-          />
-          <ProfileForm 
-            name={"Address"}
-            defaultValue={currentAddress}
-            onChange={handleChangeAddress}
-          />
-          <p><label htmlFor="description">Description</label></p>
-          <textarea id="description" rows="4" cols="50"
-            value={currentDescription} onChange={handleChangeDescription} />
-          <p>Credentials</p>
-          <Select
-            name="credentials"
-            className="basic-multi-select"
-            classNamePrefix="select"
-            options={credentialData}
-            value={addCredentials}
-            isMulti
-            closeMenuOnSelect={false}
-            onChange={handleChange}
-          />
-          <br />
-          <button className="btn btn-primary" onClick={postResume}>Add</button>
-          <br />
-          {message && (
-            <div className="alert alert-warning mt-3" role="alert">
-              {message}
-            </div>
-          )}
-        </div>
+        <>
+        <Modal show={true} onHide={handleClose} backdrop="static">
+          <Modal.Header closeButton>
+            <Modal.Title>Create New Resume</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <ProfileForm 
+                name={"Resume Name"}
+                defaultValue={resumeName}
+                onChange={handleChangeResumeName}
+              />
+              <ProfileForm 
+                name={"First Name"}
+                defaultValue={currentFirstName}
+                onChange={handleChangeFirstName}
+              />
+              <ProfileForm 
+                name={"Last Name"}
+                defaultValue={currentLastName}
+                onChange={handleChangeLastName}
+              />
+              <ProfileForm 
+                name={"Email"}
+                defaultValue={currentEmail}
+                onChange={handleChangeEmail}
+              />
+              <ProfileForm 
+                name={"Phone"}
+                defaultValue={currentPhone}
+                onChange={handleChangePhone}
+              />
+              <ProfileForm 
+                name={"Address"}
+                defaultValue={currentAddress}
+                onChange={handleChangeAddress}
+              />
+              <Form.Group
+                className="mb-3"
+                controlId="exampleForm.ControlTextarea1"
+              >
+                <Form.Label>Description</Form.Label>
+                <Form.Control as="textarea" rows={3} 
+                  value={currentDescription} 
+                  onChange={handleChangeDescription}
+                />
+              </Form.Group>
+            </Form>
+            <p>Credentials</p>
+            <Select
+              name="credentials"
+              className="basic-multi-select"
+              classNamePrefix="select"
+              options={credentialData}
+              value={addCredentials}
+              isMulti
+              closeMenuOnSelect={false}
+              onChange={handleChange}
+            />
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={postResume}>
+              Create
+            </Button>
+          </Modal.Footer>
+        </Modal>
+        {message && (
+          <div className="alert alert-warning mt-3" role="alert">
+            {message}
+          </div>
+        )}
+        </>
       )}
     </div>
   );

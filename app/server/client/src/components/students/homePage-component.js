@@ -1,19 +1,35 @@
 import React, { useState, useEffect } from "react";
-import { useHistory, Link } from "react-router-dom";
+import { useHistory, Link, useLocation  } from "react-router-dom";
 import StudentService from "../../services/student.service";
+import Accordion from 'react-bootstrap/Accordion';
+import "../style.css"
 
 const StudentHomePageComponent = (props) => {
+  let location = useLocation();
   let [currentUser, setCurrentUser] = useState(null);
   const history = useHistory();
 
+  const renderProfileForm = () => {
+    history.push({
+      pathname: "/student/intro",
+      state: { background: location }
+    })
+  }
   const renderNewGroupForm = () => {
     history.push("/student/groups/new")
   }
-  const renderProfileForm = () => {
-    history.push("/student/intro")
+  const renderGroupForm = (groupId)=> {
+    history.push(`/student/groups/${groupId}`);
   }
-  const renderNewResume = () => {
-    history.push("/student/resumes/new")
+
+  const renderNewResume = () =>{
+    history.push("/student/resumes/new");
+  }
+  const renderResumeForm = (resumeId)=> {
+    history.push(`/student/resumes/${resumeId}`);
+  }
+  const renderEditResumeForm = (resumeId)=> {
+    history.push(`/student/resumes/${resumeId}/edit`);
   }
   const renderEditResumeForm = (resumeId) => {
     history.push(`/student/resumes/${resumeId}/edit`);
@@ -21,16 +37,16 @@ const StudentHomePageComponent = (props) => {
 
   useEffect(() => {
     StudentService.renderMyHomePage()
-      .then(({ data }) => {
-        setCurrentUser(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    .then(({ data }) => {
+      setCurrentUser(data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }, [location]);
 
   return (
-    <div style={{ padding: "3rem" }}>
+    <div>
       {/* If not login*/}
       {!props.currentRole && (
         <h1>Please Login</h1>
@@ -42,23 +58,35 @@ const StudentHomePageComponent = (props) => {
       {/* If login and student */}
       {props.currentRole && props.currentRole === "student" && (
         <>
-          {currentUser && (
-            <>
-              <Profile
+        {currentUser && (
+          <div className="container-fluid bg h-100">
+          <div className="row">
+            <div className="col-3 d-flex flex-column pt-3 px-5 text-light profile-bg">
+              <Profile 
                 currentUser={currentUser}
                 renderProfileForm={renderProfileForm}
               />
-              <Group
-                currentUser={currentUser}
-                renderNewGroupForm={renderNewGroupForm}
-              />
-              <Resume
-                currentUser={currentUser}
-                renderNewResume={renderNewResume}
-                renderEditResumeForm={renderEditResumeForm}
-              />
-            </>
-          )}
+            </div>
+            <div className="col">
+              <div className="m-5 px-5 pt-3 border rounded-3 card-bg shadow-sm">
+                <Group 
+                  currentUser={currentUser}
+                  renderNewGroupForm={renderNewGroupForm}
+                  renderGroupForm={renderGroupForm}
+                />
+              </div>
+              <div className="m-5 px-5 pt-3 border rounded-3 card-bg shadow-sm">
+                <Resume
+                  currentUser={currentUser}
+                  renderNewResume={renderNewResume}
+                  renderResumeForm={renderResumeForm}
+                  renderEditResumeForm={renderEditResumeForm}
+                />
+              </div>
+            </div>
+          </div>
+          </div>
+        )}
         </>
       )}
     </div>
@@ -67,64 +95,126 @@ const StudentHomePageComponent = (props) => {
 
 const Profile = (props) => {
   const profile = props.currentUser.profile;
-  return (
-    <div>
-      <h3 className="mb-3">Profile  &emsp;&emsp;
-        <button id="editProfile" className="btn btn-primary" onClick={props.renderProfileForm}>
-          Edit
-        </button>
-      </h3>
+  return(
+    <>
+      <i className="bi bi-person-fill icon-profile"></i>
       {profile.firstName && (
-        <h5>{profile.firstName} {profile.lastName}</h5>
+        <h3>{profile.firstName} {profile.lastName}
+        <button id="addNewGroup" className="btn" onClick={props.renderProfileForm}>
+        <i className="bi bi-pencil-fill icon-profile-edit"></i>
+      </button></h3>
       )}
-      <h6> Email: {profile.email} </h6>
-      <h6> Phone: {profile.phone} </h6>
-      <h6> Address: {profile.address}</h6>
+      <h5> <i className="bi bi-envelope-fill icon-n"></i> {profile.email} </h5>
+      <h5> <i className="bi bi-telephone-fill icon-n"></i> {profile.phone} </h5>
+      <h5> <i className="bi bi-geo-alt-fill icon-n"></i> {profile.address}</h5>
       <pre>{profile.description}</pre>
-
-    </div>
+    </>
   )
 };
 
 const Group = (props) => {
-  return (
-    <div>
-      <h3 className="mt-5 mb-3">Groups &emsp;&emsp;
-        <button id="addNewGroup" className="btn btn-primary" onClick={props.renderNewGroupForm}>
-          Add
-        </button>
+  return(
+    <>
+      <h3>Groups &emsp;
+      <button id="addNewGroup" className="btn btn-round" onClick={props.renderNewGroupForm}>
+        <i className="bi bi-plus-lg"></i>
+      </button>
       </h3>
-      <div>
-        {props.currentUser.groups.map((group) => (
-          <div key={group._id} className="mb-3">
-            <Link className="text-primary h5" to={`groups/${group._id}`}>{group.name}</Link>
+      <table class="table table-borderless">
+        <tbody>
+      {props.currentUser.groups.map((group) => (
+        <>
+        <tr>
+          <td className="td-title"> 
+          <Accordion defaultActiveKey="0" flush alwaysOpen>
+          <Accordion.Item eventKey={group._id}>
+            <Accordion.Header>
+              {group.name}
+            </Accordion.Header> 
+            <Accordion.Body>
             {group.credentials.map((credential) => (
               <li key={credential._id}>{credential.name}</li>
             ))}
-          </div>
+            </Accordion.Body>
+          </Accordion.Item>  
+          </Accordion>
+          </td>
+          <td className="td-icon">
+            <button id="addNewGroup" className="btn btn-edit" onClick={()=>{props.renderGroupForm(group._id)}}>
+              <i class="bi bi-pencil-fill"></i>
+            </button>
+            </td>
+        </tr>
+        </>
+      ))}
+      </tbody>
+      </table>
+      {/* <Accordion defaultActiveKey="0" flush alwaysOpen>
+        {props.currentUser.groups.map((group) => (
+          <>
+          <Accordion.Item eventKey={group._id}>
+            <div className="test">
+            <Accordion.Header>
+              {group.name}
+            </Accordion.Header> 
+            <button id="addNewGroup" className="btn btn-edit" onClick={()=>{props.renderGroupForm(group._id)}}>
+              <i class="bi bi-pencil-fill"></i>
+            </button>
+            </div>
+            
+            <Accordion.Body>
+            {group.credentials.map((credential) => (
+              <li key={credential._id}>{credential.name}</li>
+            ))}
+            </Accordion.Body>
+          </Accordion.Item>  
+        
+          
+        </>
         ))}
-      </div>
-    </div>
+    </Accordion> */}
+        {/* {props.currentUser.groups.map((group) => (
+          <div key={group._id} className="mb-3">
+            <Link className="text-primary h5" to={`groups/${group._id}`}>{group.name} </Link>
+            {group.credentials.map((credential) => (
+              
+              <li key={credential._id}>{credential.name}</li>
+            ))}
+          </div>
+        ))} */}
+    </>
   )
 };
 
 const Resume = (props) => {
-  return (
-    <div>
-      <h3 className="mt-5 mb-3">Resumes &emsp;&emsp;
-        <button id="addNewResume" className="btn btn-primary" onClick={props.renderNewResume}>
-          Add
-        </button>
+  return(
+    <>
+      <h3>Resumes &emsp;
+      <button id="addNewGroup" className="btn btn-round" onClick={props.renderNewResume}>
+        <i className="bi bi-plus-lg"></i>
+      </button>
       </h3>
-      <div>
+      
+      <table class="table table-borderless">
+        <tbody>
         {props.currentUser.resumes.map((resume) => (
-          <div key={resume._id} className="mb-3">
-            <Link className="text-primary h5" to={`resumes/${resume._id}`}>{resume.name}</Link>
-            <button className="btn btn-primary" onClick={() => props.renderEditResumeForm(resume._id)}>Edit</button>
-          </div>
+            <tr>
+            <td className="td-title ">
+            <p className="td-text">{resume.name}</p>
+            </td>
+            <td className="td-icon">
+              <button id="addNewGroup" className="btn btn-edit" onClick={()=>{props.renderResumeForm(resume._id)}}>
+                <i className="bi bi-search"></i>
+              </button>
+              <button id="addNewGroup" className="btn btn-edit" onClick={()=>{props.renderEditResumeForm(resume._id)}}>
+                <i className="bi bi-pencil-fill"></i>
+              </button>
+            </td>
+            </tr>
         ))}
-      </div>
-    </div>
+        </tbody>
+      </table>
+    </>
   )
 };
 export default StudentHomePageComponent;

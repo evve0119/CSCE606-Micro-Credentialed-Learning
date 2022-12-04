@@ -1,0 +1,93 @@
+/* background color */
+.bg{
+    background: #e9ecef;
+}
+.profile-bg{
+    background: #343a40;
+}
+.card-bg{
+    background: #f8f9fa;
+}
+
+/* button */
+.btn:focus { 
+    box-shadow: none !important;
+}
+
+.btn-round {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    background: #f8f9fa;
+}
+.btn-round:hover { 
+    background-color: #e9ecef
+}
+
+.btn-edit{
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    background: #f8f9fa;
+    /* position: absolute;
+    right: 2px; */
+    /* top: 10px; */
+}
+.btn-edit:hover { 
+    background-color: #e9ecef
+}
+
+/* accordion*/
+.accordion-item {
+    position: relative;
+    background-color: #f8f9fa !important;
+    width: 40%; 
+}
+.accordion-button {
+    background-color: #f8f9fa !important; 
+    position:relative;
+    font-size: 20px;
+    color: #343a40 !important;
+    padding-left: 0px !important;
+}
+.accordion-button:after {
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%343a40'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>") !important;
+  }
+.accordion-button:focus {
+    box-shadow: none !important;
+}
+.accordion-button:not(.collapsed){
+    border-bottom: 1px solid #cccc;
+}
+
+
+/* icon */
+i{ -webkit-text-stroke: 2px; }
+.icon-profile{
+    color: white;
+    font-size: 80px;
+}
+.icon-profile-edit{
+    color: white;
+}
+.icon-n{
+    -webkit-text-stroke: 0px;
+}
+
+tr{height: 70px;}
+.td-title{
+    width: 80%;
+    vertical-align: middle;
+    font-size: 20px;
+}
+.td-text{
+    margin: auto;
+}
+.td-icon{
+    vertical-align: middle;
+    text-align: center;
+}
+
+pre{
+    font-size: 18px;
+}
