@@ -12,6 +12,7 @@ const StudentLoginComponent = (props) => {
   const location = useLocation();
   let [role, setRole] = useState("student");
   let [message, setMessage] = useState("");
+  const [passwordShown, setPasswordShown] = useState(false);
 
   const handleChangeEmail = (e) => {
     setEmail(e.target.value);
@@ -19,6 +20,10 @@ const StudentLoginComponent = (props) => {
 
   const handleChangePassword = (e) => {
     setPassword(e.target.value);
+  };
+
+  const togglePassword = () => {
+    setPasswordShown(!passwordShown);
   };
 
   const handleLogin = () => {
@@ -69,10 +74,11 @@ const StudentLoginComponent = (props) => {
 					&nbsp;
 					<input
 						onChange={handleChangePassword}
-						type="password"
+						type={passwordShown ? "text" : "password"}
 						name="password"
 						placeholder=".........."
 					/>
+					<ion-icon onClick={togglePassword} name={passwordShown ? "eye-outline" : "eye-off-outline"}></ion-icon>
 				</div>
 			</div>
 			<br />
