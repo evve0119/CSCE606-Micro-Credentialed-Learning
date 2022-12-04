@@ -31,9 +31,6 @@ const StudentHomePageComponent = (props) => {
   const renderEditResumeForm = (resumeId)=> {
     history.push(`/student/resumes/${resumeId}/edit`);
   }
-  const renderEditResumeForm = (resumeId) => {
-    history.push(`/student/resumes/${resumeId}/edit`);
-  }
 
   useEffect(() => {
     StudentService.renderMyHomePage()
