@@ -35,11 +35,11 @@ import AllJobComponent from "./components/jobs/allJob-component";
 import JobHomePageComponent from "./components/jobs/homePage-component";
 import EmailVerify from "./components/EmailVerification/email-verification";
 import ResetPassword from "./components/EmailVerification/reset-password";
-
+import "./components/style.css"
 function App() {
   const [currentRole, setCurrentRole] = useState(AuthService.getCurrentRole());
   return (
-    <div className="h-100">
+    <div className="bg">
       <NavComponent currentRole={currentRole} setCurrentRole={setCurrentRole} />
       <Switch>
         <Route path="/" exact>

@@ -56,32 +56,32 @@ const StudentHomePageComponent = (props) => {
       {props.currentRole && props.currentRole === "student" && (
         <>
         {currentUser && (
-          <div className="container-fluid bg h-100">
-          <div className="row">
-            <div className="col-3 d-flex flex-column pt-3 px-5 text-light profile-bg">
-              <Profile 
-                currentUser={currentUser}
-                renderProfileForm={renderProfileForm}
-              />
-            </div>
-            <div className="col">
-              <div className="m-5 px-5 pt-3 border rounded-3 card-bg shadow-sm">
-                <Group 
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-sm-3 pt-3 px-5 text-light profile-bg">
+                <Profile 
                   currentUser={currentUser}
-                  renderNewGroupForm={renderNewGroupForm}
-                  renderGroupForm={renderGroupForm}
+                  renderProfileForm={renderProfileForm}
                 />
               </div>
-              <div className="m-5 px-5 pt-3 border rounded-3 card-bg shadow-sm">
-                <Resume
-                  currentUser={currentUser}
-                  renderNewResume={renderNewResume}
-                  renderResumeForm={renderResumeForm}
-                  renderEditResumeForm={renderEditResumeForm}
-                />
+              <div className="col">
+                <div className="m-5 px-5 pt-3 border rounded-3 card-bg shadow-sm">
+                  <Group 
+                    currentUser={currentUser}
+                    renderNewGroupForm={renderNewGroupForm}
+                    renderGroupForm={renderGroupForm}
+                  />
+                </div>
+                <div className="m-5 px-5 pt-3 border rounded-3 card-bg shadow-sm">
+                  <Resume
+                    currentUser={currentUser}
+                    renderNewResume={renderNewResume}
+                    renderResumeForm={renderResumeForm}
+                    renderEditResumeForm={renderEditResumeForm}
+                  />
+                </div>
               </div>
             </div>
-          </div>
           </div>
         )}
         </>

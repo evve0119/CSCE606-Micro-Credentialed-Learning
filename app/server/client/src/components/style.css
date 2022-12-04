@@ -1,14 +1,26 @@
 /* background color */
 .bg{
     background: #e9ecef;
+    min-height: 100vh;
+}
+.nav-bg{
+    background: #adb5bd;
+    height: 8vh;
 }
 .profile-bg{
     background: #343a40;
+    min-height: 92vh;
 }
 .card-bg{
     background: #f8f9fa;
 }
-
+.nav-link{
+    font-size: 20px;
+    color: #343a40;
+}
+.nav-link:hover{
+    color: #e9ecef;
+}
 /* button */
 .btn:focus { 
     box-shadow: none !important;

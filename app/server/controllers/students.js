@@ -2,7 +2,6 @@ const Student = require("../models").User;
 const Group = require("../models").Group;
 const Resume = require("../models").Resume;
 const Job = require("../models").Job;
-const nameValidation = require("../validation").nameValidation;
 
 module.exports.myHomePage = async (req, res) => {
     try {
@@ -27,8 +26,6 @@ module.exports.myHomePage = async (req, res) => {
 module.exports.createNewGroup = async (req, res) => {
     // save new group
     try {
-        const { error } = nameValidation(req.body);
-        if (error) return res.status(400).send(error.details[0].message);
         const currentStudent = await Student.findById(req.user._id);
         if (!currentStudent.isStudent()) {
             return res.status(403).send("You are not authorized");
@@ -65,7 +62,7 @@ module.exports.updateGroup = async (req, res) => {
         if (req.user._id != currentGroup.holder._id.toString()) {
             return res.status(403).send("You are not authorized");
         }
-        await currentGroup.update({ $set: { credentials: req.body.editCredentials, name: req.body.newGroupName } });
+        await currentGroup.update({ $set: { credentials: req.body.editCredentials, name: req.body.groupName } });
         return res.send("Successfully update!!!");
     } catch (err) {
         return res.status(400).send("Error!! Cannot update group!!");

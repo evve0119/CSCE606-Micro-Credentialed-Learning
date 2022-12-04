@@ -8,11 +8,20 @@ const ProfileForm = (props) => {
   return(
     <Form.Group className="mb-3" controlId={props.name}>
       <Form.Label>{props.name}</Form.Label>
-      <Form.Control
+      {props.disable && (
+        <Form.Control
+        type={props.name}
+        defaultValue={props.defaultValue}
+        disabled
+      />
+      )}
+      {!props.disable && (
+        <Form.Control
         type={props.name}
         defaultValue={props.defaultValue}
         onChange={props.onChange}
       />
+      )}
     </Form.Group>
   );
 };
@@ -34,12 +43,12 @@ const EditResumeFormComponent = (props) => {
   const handleChangeResumeName = (e) => {
     setResumeName(e.target.value);
   };
-  const handleChangeFirstName = (e) => {
-    setFirstName(e.target.value);
-  };
-  const handleChangeLastName = (e) => {
-    setLastName(e.target.value);
-  };
+  // const handleChangeFirstName = (e) => {
+  //   setFirstName(e.target.value);
+  // };
+  // const handleChangeLastName = (e) => {
+  //   setLastName(e.target.value);
+  // };
   const handleChangeAddress = (e) => {
     setAddress(e.target.value);
   };
@@ -60,25 +69,30 @@ const EditResumeFormComponent = (props) => {
   };
 
   const updateResume = () => {
-    const addProfile = {
-      firstName: currentFirstName,
-      lastName: currentLastName,
-      address: currentAddress,
-      phone: currentPhone,
-      email: currentEmail,
-      description: currentDescription,
-    };
-    const addCred = [];
-    addCredentials.map((credential) => {
-      addCred.push(credential.value);
-    });
-    StudentService.updateResume(resumeName, addProfile, addCred, resumeId)
-    .then(() => {
-      window.alert("The resume is updated!");
-      history.push(`/student/resumes/${resumeId}`);
-    }).catch((err) => {
-      setMessage(err.response.data);
-    });
+    if(resumeName === ""){
+      setMessage("Resume name is not allowed to be empty!");
+    }
+    else{
+      const addProfile = {
+        firstName: currentFirstName,
+        lastName: currentLastName,
+        address: currentAddress,
+        phone: currentPhone,
+        email: currentEmail,
+        description: currentDescription,
+      };
+      const addCred = [];
+      addCredentials.map((credential) => {
+        addCred.push(credential.value);
+      });
+      StudentService.updateResume(resumeName, addProfile, addCred, resumeId)
+      .then(() => {
+        window.alert("The resume is updated!");
+        history.push(`/student/resumes/${resumeId}`);
+      }).catch((err) => {
+        setMessage(err.response.data);
+      });
+    }
   };  
 
   const deleteResume = () => {
@@ -137,7 +151,7 @@ const EditResumeFormComponent = (props) => {
         <>
         <Modal show={true} onHide={handleClose} backdrop="static">
           <Modal.Header closeButton>
-            <Modal.Title>Edit {resumeName}</Modal.Title>
+            <Modal.Title>Edit Resume</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form>
@@ -149,12 +163,12 @@ const EditResumeFormComponent = (props) => {
               <ProfileForm 
                 name={"First Name"}
                 defaultValue={currentFirstName}
-                onChange={handleChangeFirstName}
+                disable={true}
               />
               <ProfileForm 
                 name={"Last Name"}
                 defaultValue={currentLastName}
-                onChange={handleChangeLastName}
+                disable={true}
               />
               <ProfileForm 
                 name={"Email"}
@@ -193,6 +207,11 @@ const EditResumeFormComponent = (props) => {
               closeMenuOnSelect={false}
               onChange={handleChange}
             />
+            {message && (
+              <div className="alert alert-warning mt-3" role="alert">
+                {message}
+              </div>
+            )}
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
@@ -206,11 +225,6 @@ const EditResumeFormComponent = (props) => {
             </Button>
           </Modal.Footer>
         </Modal>
-        {message && (
-          <div className="alert alert-warning mt-3" role="alert">
-            {message}
-          </div>
-        )}
         </>
       )}
     </div>

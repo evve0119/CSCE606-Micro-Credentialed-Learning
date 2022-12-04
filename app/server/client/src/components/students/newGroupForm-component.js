@@ -8,7 +8,7 @@ import Button from "react-bootstrap/Button";
 
 const NewGroupFormComponent = (props) => {
   const [message, setMessage] = useState(null);
-  const [groupName, setGroupName] = useState(null);
+  const [groupName, setGroupName] = useState("");
   const [credentialData, setCredentialData] = useState(null);
   const [addCredentials, setAddCredentials] = useState([])
   const history = useHistory();
@@ -25,17 +25,21 @@ const NewGroupFormComponent = (props) => {
   };
 
   const postGroup = () => {
-    const addCred = [];
-    addCredentials.map((credential) => {
-      addCred.push(credential.value);
-    });
-    StudentService.createNewGroup(groupName, addCred).then(() => {
-      window.alert("New group is created!")
-      history.push("/student/home")
-    }).catch((err) => {
-      setMessage(err.response.data);
-      console.log(err.response.data);
-    });
+    if(groupName === ""){
+      setMessage("Group name is not allowed to be empty!");
+    }
+    else{
+      const addCred = [];
+      addCredentials.map((credential) => {
+        addCred.push(credential.value);
+      });
+      StudentService.createNewGroup(groupName, addCred).then(() => {
+        window.alert("New group is created!")
+        history.push("/student/home")
+      }).catch((err) => {
+        setMessage(err.response.data);
+      });
+    }
   }
   
   useEffect(() => {

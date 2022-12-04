@@ -28,16 +28,21 @@ const GroupFormComponent = (props) => {
 
   // Update group
   const updateGroup = () => {
-    const editCred = [];
-    editCredentials.map((credential) => {
-      editCred.push(credential.value);
-    });
-    StudentService.updateGroup(editCred, currentGroup._id, newGroupName).then(() => {
-      window.alert("Group is updated!")
-      history.push("/student/home")
-    }).catch((err) => {
-      setMessage(err.response.data)
-    });
+    if(newGroupName === ""){
+      setMessage("Group name is not allowed to be empty!")
+    }
+    else{
+      const editCred = [];
+      editCredentials.map((credential) => {
+        editCred.push(credential.value);
+      });
+      StudentService.updateGroup(editCred, currentGroup._id, newGroupName).then(() => {
+        window.alert("Group is updated!")
+        history.push("/student/home")
+      }).catch((err) => {
+        setMessage(err.response.data)
+      });
+    }
   };
 
   const deleteGroup = () => {
@@ -118,6 +123,11 @@ const GroupFormComponent = (props) => {
                 closeMenuOnSelect={false}
                 onChange={handleChange}
               />
+              {message && (
+                <div className="alert alert-warning mt-3" role="alert">
+                  {message}
+                </div>
+              )}
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleClose}>
@@ -131,11 +141,6 @@ const GroupFormComponent = (props) => {
               </Button>
             </Modal.Footer>
           </Modal>
-          {message && (
-            <div className="alert alert-warning mt-3" role="alert">
-              {message}
-            </div>
-          )}
           </>
         )}
         </>
