@@ -3,7 +3,7 @@ if (process.env.NODE_ENV !== "production") {
 };
 const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/Microcredentialed-learning'
 const mongoose = require("mongoose");
-const User = require("./models/user");
+const User = require("./models").User;
 
 mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -53,4 +53,10 @@ const seedDB = async () => {
     await testRecruiter.save();
 };
 
-seedDB().then(() => mongoose.connection.close())
+seedDB()
+.then(() => {
+    mongoose.connection.close()
+    console.log("Successfully insert")
+}).catch((err)=>{
+    console.log(err)
+})
