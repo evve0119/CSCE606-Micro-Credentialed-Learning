@@ -11,7 +11,7 @@ class StudentService {
     } else {
       token = "";
     }
-    return axios.get(API_URL + "/home", 
+    return axios.get(API_URL + "/home",
       {headers: {Authorization: token}}
     );
   }
@@ -38,7 +38,7 @@ class StudentService {
     } else {
       token = "";
     }
-    return axios.get(API_URL + `/groups/${groupId}`, 
+    return axios.get(API_URL + `/groups/${groupId}`,
       {headers: {Authorization: token}}
     );
   }
@@ -107,7 +107,7 @@ class StudentService {
     } else {
       token = "";
     }
-    return axios.get(API_URL + "/intro", 
+    return axios.get(API_URL + "/intro",
       {headers: {Authorization: token}}
     );
   }
@@ -148,7 +148,7 @@ class StudentService {
     } else {
       token = "";
     }
-    return axios.get(API_URL + `/resumes/${resumeId}`, 
+    return axios.get(API_URL + `/resumes/${resumeId}`,
       {headers: {Authorization: token}}
     );
   }
@@ -187,7 +187,7 @@ class StudentService {
       token = "";
     }
     return axios.post(API_URL + "/application",
-      {resumeId, jobId}, 
+      {resumeId, jobId},
       {headers: {Authorization: token}}
     );
   }

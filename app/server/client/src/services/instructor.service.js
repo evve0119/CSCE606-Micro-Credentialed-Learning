@@ -11,7 +11,7 @@ class InstructorService {
     } else {
       token = "";
     }
-    return axios.get(API_URL + "/home/", 
+    return axios.get(API_URL + "/home/",
       {headers: {Authorization: token}}
     );
   }
@@ -36,7 +36,7 @@ class InstructorService {
     } else {
       token = "";
     }
-    return axios.get(API_URL + `/courses/${courseId}/sendCredential`, 
+    return axios.get(API_URL + `/courses/${courseId}/sendCredential`,
      {headers: {Authorization: token}}
     );
   }

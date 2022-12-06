@@ -1,5 +1,6 @@
 import axios from "axios";
 const API_URL = "http://localhost:8080/api/jobs";
+// const API_URL = "/api/jobs";
 
 class JobService {
     renderJobPage(jobId) {
@@ -37,7 +38,7 @@ class JobService {
         } else {
             token = "";
         }
-        return axios.post(API_URL + "/search", 
+        return axios.post(API_URL + "/search",
             {searchedJobs},
             {
             headers: {

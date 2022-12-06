@@ -4,3 +4,4 @@ node_modules
 coverage
 express.log
 react.log
+dev.sh

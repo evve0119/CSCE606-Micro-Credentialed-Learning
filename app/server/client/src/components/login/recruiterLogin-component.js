@@ -3,7 +3,7 @@ import { useHistory } from "react-router";
 import AuthService from "../../services/auth.service";
 import { useLocation } from "react-router-dom";
 import "../style.css";
-import "https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+// import "https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
 
 const RecruiterLoginComponent = (props) => {
   const history = useHistory();

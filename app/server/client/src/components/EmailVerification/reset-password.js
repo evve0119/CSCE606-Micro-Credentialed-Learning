@@ -4,7 +4,6 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import PasswordService from "../../services/password.service";
 const API_URL = "http://localhost:8080/api/user";
-
 // const API_URL = "/api/user";
 
 const ResetPassword = () => {
