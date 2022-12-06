@@ -10,13 +10,10 @@ const StudentHomePageComponent = (props) => {
   const history = useHistory();
 
   const renderProfileForm = () => {
-    history.push({
-      pathname: "/student/intro",
-      state: { background: location }
-    })
+    history.push("/student/intro");
   }
   const renderNewGroupForm = () => {
-    history.push("/student/groups/new")
+    history.push("/student/groups/new");
   }
   const renderGroupForm = (groupId) => {
     history.push(`/student/groups/${groupId}`);
@@ -31,6 +28,10 @@ const StudentHomePageComponent = (props) => {
   const renderEditResumeForm = (resumeId) => {
     history.push(`/student/resumes/${resumeId}/edit`);
   }
+  const copyUrl = (resumeId) => {
+    let url = window.location.href.replace("home", `resumes/${resumeId}`);
+    navigator.clipboard.writeText(url);
+  }
 
   useEffect(() => {
     StudentService.renderMyHomePage()
@@ -41,16 +42,16 @@ const StudentHomePageComponent = (props) => {
         console.log(err);
       });
   }, [location]);
-
+  
   return (
-    <div>
+    <>
       {/* If not login*/}
       {!props.currentRole && (
-        <h1>Please Login</h1>
+        <div><h1>Please Login</h1></div>
       )}
       {/* If not student*/}
       {props.currentRole && props.currentRole !== "student" && (
-        <h1>You Are Not a Student</h1>
+        <div><h1>You Are Not a Student</h1></div>
       )}
       {/* If login and student */}
       {props.currentRole && props.currentRole === "student" && (
@@ -80,6 +81,7 @@ const StudentHomePageComponent = (props) => {
                       renderNewResume={renderNewResume}
                       renderResumeForm={renderResumeForm}
                       renderEditResumeForm={renderEditResumeForm}
+                      copyUrl={copyUrl}
                     />
                   </div>
                 </div>
@@ -88,7 +90,7 @@ const StudentHomePageComponent = (props) => {
           )}
         </>
       )}
-    </div>
+    </>
   );
 };
 
@@ -173,6 +175,9 @@ const Resume = (props) => {
                 </button>
                 <button className="btn btn-round" onClick={() => { props.renderEditResumeForm(resume._id) }}>
                   <i className="bi bi-pencil-fill"></i>
+                </button>
+                <button className="btn btn-round justify-content-center align-items-center" onClick={() => {props.copyUrl(resume._id)}}> 
+                  <i className="bi bi-link-45deg icon-link"></i>
                 </button>
               </td>
             </tr>

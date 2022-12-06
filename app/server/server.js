@@ -4,8 +4,8 @@ if (process.env.NODE_ENV !== "production") {
 
 const app = require("./app")
 const mongoose = require('mongoose');
-const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/Microcredentialed-learning'
-
+//const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/Microcredentialed-learning'
+const dbUrl = 'mongodb://localhost:27017/Microcredentialed-learning'
 mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const db = mongoose.connection;                 // Mongoose connect and handle error

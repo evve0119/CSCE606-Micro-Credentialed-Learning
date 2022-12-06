@@ -49,7 +49,7 @@ const ApplicationComponent = (props) => {
   }
 
   return (
-    <div style={{ padding: "3rem" }}>
+    <div>
       {/* If not login or not student*/}
       {!props.currentRole && (
         <h1>Please Login</h1>
@@ -62,19 +62,15 @@ const ApplicationComponent = (props) => {
       {props.currentRole && props.currentRole === "student" && (
         <>
         {currentUser && (
-          <>
-          <h3 className="mb-3">Resumes &emsp;&emsp;
-          <button id="addNewResume" className="btn btn-primary" onClick={renderNewResume}>
-            Add
-          </button>
-          </h3>
+          <div className="card-bg pb-3">
+          <h3 className="mb-4">Resumes</h3>
           <div>
             {currentUser.resumes.map((resume) => (
               <div key={resume._id} className="mb-3">
                 <input className="h3" type="checkbox" name="chooseResume" 
                   value={resume._id} checked={currentResume === resume._id} onChange={handleChange}/>
                 <label className="h3" htmlFor={resume._id}>
-                  <Link className="text-primary h5" to={`/student/resumes/${resume._id}`}>{resume.name}</Link>
+                  <Link className="text-primary h4" to={`/student/resumes/${resume._id}`}>{resume.name}</Link>
                 </label>
               </div>
             ))}
@@ -82,7 +78,7 @@ const ApplicationComponent = (props) => {
               Apply
             </button>
           </div>
-          </>
+          </div>
         )}
       </>
       )}

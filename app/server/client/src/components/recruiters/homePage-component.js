@@ -26,7 +26,7 @@ const RecruiterHomePageComponent = (props) => {
   };
 
   const renderResumeForm = (resumeId) => {
-    history.push(`/student/resumes/${resumeId}`);
+    history.push(`/student/resumes/${resumeId}?share=true`);
   };
 
   /*

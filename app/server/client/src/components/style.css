@@ -3,10 +3,15 @@
     background: #e9ecef;
     min-height: 100vh;
 }
-
+.nav-bg{
+    background: #adb5bd;
+    height: 8vh;
+}
 .profile-bg {
     background: #343a40;
+    min-width: 50vh;
     width: auto;
+    min-height: 92vh;
     padding-top: 1rem;
     padding-left: 3rem;
     padding-right: 3rem;
@@ -38,6 +43,15 @@
 .nav-link:focus {
     color: #343a40;
 }
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(52,58,64, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+}
+.navbar-toggler:focus,
+.navbar-toggler:active,
+.navbar-toggler-icon:focus {
+    outline: none;
+    box-shadow: none;
+}
 
 /* button */
 .btn:focus {
@@ -50,6 +64,7 @@
     border-radius: 50%;
     background: none;
     margin-left: 0.5rem;
+    padding: 1px;
 }
 
 .btn-round:hover {
@@ -99,7 +114,10 @@
 i {
     -webkit-text-stroke: 2px;
 }
-
+.icon-link{
+    -webkit-text-stroke: 1px;
+    font-size: 25px;
+}
 .icon-profile {
     color: #f8f9fa;
     font-size: 80px;
@@ -131,6 +149,10 @@ tr {
 
 /* preformatted text */
 pre {
+    font-size: 18px;
+}
+
+a{
     font-size: 18px;
 }
 
@@ -359,6 +381,7 @@ a:hover {
         box-shadow: 0 0 2em #cfd0d3;
         width: auto;
         height: auto;
+        min-height: auto;
         margin: 3rem;
         padding-top: 1rem;
         padding-left: 3rem;

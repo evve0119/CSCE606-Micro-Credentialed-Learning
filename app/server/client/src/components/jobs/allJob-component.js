@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import JobService from "../../services/job.service";
-
+import "../style.css"
 const RenderAllJobComponent = (props) => {
   let [jobs, setJobs] = useState([]);
   let [searchedJobs, setSearchedJobs] = useState("");
@@ -30,15 +30,15 @@ const RenderAllJobComponent = (props) => {
   }
 
   return (
-    <div style={{ padding: "3rem" }}>
+    <div>
       {/* If not login*/}
       {!props.currentRole && (
         <h1>Please Login</h1>
       )}
       {/* If login*/}
       {props.currentRole && (
-        <>
-        <h1>Jobs</h1>
+        <div className="card-bg pb-3">
+        <h3>Jobs</h3>
 
         <label htmlFor="searchedJob">Title</label>
         <input
@@ -54,10 +54,10 @@ const RenderAllJobComponent = (props) => {
 
         {jobs.map((job) => (
           <li key={job._id}>
-            <Link className="text-primary h3" to={`jobs/${job._id}`}>{job.holder.company} - {job.name}</Link>
+            <Link className="text-primary h4" to={`jobs/${job._id}`}>{job.holder.company} - {job.name}</Link>
           </li>
         ))}
-        </>
+        </div>
       )}
     </div>
   );
