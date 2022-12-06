@@ -59,7 +59,6 @@ const StudentRegisterComponent = () => {
     <div style={{ padding: "3rem" }} className="register">
       <div className="screen-1">
         <center><span className="logo">Student Registration Portal</span></center>
-        <br />
         {message && <div className="alert alert-danger">{message}</div>}
         <br />
         <div className="username">
