@@ -273,7 +273,7 @@ a{
 .screen-1 .email input {
     outline: none;
     border: none;
-    width: 95%;
+    width: 94%;
 }
 
 .screen-1 .email input::placeholder {
