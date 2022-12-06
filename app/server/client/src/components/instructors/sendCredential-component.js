@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import InstructorService from "../../services/instructor.service"
+import InstructorService from "../../services/instructor.service";
+import {Modal, Form, Button} from "react-bootstrap";
 
 const SendCredentialComponent = (props) => {
     const history = useHistory();
@@ -29,7 +30,12 @@ const SendCredentialComponent = (props) => {
         }).catch((err) => {
             setMessage(err.response.data)
         });
-    }
+    };
+
+    const handleClose = e => {
+        history.push("/instructor/home");
+    };
+
     // // Handle checked and unchecked credentials
     let [addStudents, setAddStudents] = useState([])
     const handleChange = (e) => {
@@ -47,7 +53,7 @@ const SendCredentialComponent = (props) => {
 
 
     return (
-        <div style={{ padding: "3rem" }}>
+        <div>
             {/* If not login*/}
             {!props.currentRole && (
                 <h1>Please Login</h1>
@@ -60,32 +66,71 @@ const SendCredentialComponent = (props) => {
             {props.currentRole && props.currentRole === "instructor" && (
                 <>
                 {currentCourse && (
-                    <div className="form-group">
-                        <h1>Send Credential of {currentCourse.name}</h1>
-                        <br />
-                        {/* All credentials */}
+                    <div>
+                    <Modal show={true} centered scrollable backdrop="static" onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Send Credential of {currentCourse.name} </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
 
                         {currentCourse && (currentCourse.students.map((student) => (
-                            <div key={student._id} className="mb-5">
-                                    <div>
-                                        <input className="h3" type="checkbox" name="studentEmail" value={student._id} onChange={handleChange} />
-                                        <label className="h3" htmlFor={student._id}>{student.email}</label>
-                                    </div>
-                            </div>
-                        )))}
-                        <button className="btn btn-primary" onClick={sendCredential}>Submit</button>
-                        <br />
+                           <div key={student._id} className="mb-2">
+                                <div>
+                                    <input className="h3" type="checkbox" name="studentEmail" value={student._id} onChange={handleChange} />
+                                    &emsp;
+                                    <label className="h5" htmlFor={student._id}>{student.email}</label>
+                                </div>
+                           </div>
+                       )))}
+
                         {message && (
                             <div className="alert alert-warning mt-3" role="alert">
                                 {message}
                             </div>
                         )}
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleClose}>
+                            Close
+                        </Button>
+                        <Button variant="primary" onClick={sendCredential}>
+                            Submit
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
                     </div>
                 )}
                 </>
+
+
             )}
         </div>
     );
 };
 
 export default SendCredentialComponent;
+                // <>
+                // {currentCourse && (
+                //     <div className="form-group">
+                //         <h1>Send Credential of {currentCourse.name}</h1>
+                //         <br />
+                //         {/* All credentials */}
+
+                //         {currentCourse && (currentCourse.students.map((student) => (
+                //             <div key={student._id} className="mb-5">
+                //                     <div>
+                //                         <input className="h3" type="checkbox" name="studentEmail" value={student._id} onChange={handleChange} />
+                //                         <label className="h3" htmlFor={student._id}>{student.email}</label>
+                //                     </div>
+                //             </div>
+                //         )))}
+                //         <button className="btn btn-primary" onClick={sendCredential}>Submit</button>
+                //         <br />
+                //         {message && (
+                //             <div className="alert alert-warning mt-3" role="alert">
+                //                 {message}
+                //             </div>
+                //         )}
+                //     </div>
+                // )}
+                // </>

@@ -188,15 +188,17 @@ const Instructor = (props) => {
           <NewTeachFormComponent currentRole={props.currentRole}/>
         </Route>
         <Route path="/instructor/courses/:courseId/edit" exact>
+          <InstructorHomePageComponent currentRole={props.currentRole}/>
           <CourseFormComponent currentRole={props.currentRole}/>
         </Route>
         <Route path="/instructor/courses/:courseId/sendCredential" exact>
+          <InstructorHomePageComponent currentRole={props.currentRole}/>
           <SendCredentialComponent currentRole={props.currentRole}/>
         </Route>
         <Route path="/instructor/intro" exact>
           <InstructorHomePageComponent currentRole={props.currentRole}/>
           <InstituteFormComponent currentRole={props.currentRole}/>
-        </Route>
+        </Route>d
       </Switch>
     </>
   )

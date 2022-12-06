@@ -41,7 +41,7 @@ const NewTeachFormComponent = (props) => {
 
   const handleClose = e => {
     history.push("/instructor/home");
-};
+  };
 
   // Post new credential
   const postCourse = () => {
@@ -70,8 +70,16 @@ const NewTeachFormComponent = (props) => {
     // Destructuring
     const { email , _id } = student;
     // Case 1 : The user checks the box
-    setAddStudentsId([...addStudentsId, _id]);
-    setAddStudentsEmail([...addStudentsEmail, email])
+
+  if (!addStudentsId.includes(_id)) {
+      setAddStudentsId([...addStudentsId, _id]);
+      setAddStudentsEmail([...addStudentsEmail, email])
+      setMessage(null)
+  }
+  else {
+      setMessage("This student is already on the list")
+  }
+
   };
 
   return (
@@ -103,7 +111,7 @@ const NewTeachFormComponent = (props) => {
                         controlId="exampleForm.ControlTextarea1"
                     >
                         <Form.Label>Description</Form.Label>
-                        <Form.Control as="textarea" rows={6}
+                        <Form.Control as="textarea" rows={3}
                             value={description}
                             onChange={handleChangeDescription}
                         />
@@ -115,7 +123,7 @@ const NewTeachFormComponent = (props) => {
                         onChange={handleChangeStudentEmail}
                     />
 
-                    <Button variant="info" onClick={searchEmail}>
+                    <Button variant="warning" onClick={searchEmail}>
                       Search and add
                     </Button>
                     <br />
