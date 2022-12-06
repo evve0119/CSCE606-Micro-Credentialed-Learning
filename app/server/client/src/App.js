@@ -184,6 +184,7 @@ const Instructor = (props) => {
           <InstructorHomePageComponent currentRole={props.currentRole}/>
         </Route>
         <Route path="/instructor/courses/new" exact>
+          <InstructorHomePageComponent currentRole={props.currentRole}/>
           <NewTeachFormComponent currentRole={props.currentRole}/>
         </Route>
         <Route path="/instructor/courses/:courseId/edit" exact>
@@ -193,6 +194,7 @@ const Instructor = (props) => {
           <SendCredentialComponent currentRole={props.currentRole}/>
         </Route>
         <Route path="/instructor/intro" exact>
+          <InstructorHomePageComponent currentRole={props.currentRole}/>
           <InstituteFormComponent currentRole={props.currentRole}/>
         </Route>
       </Switch>
@@ -220,15 +222,18 @@ const Recruiter = (props) => {
           <RecruiterHomePageComponent currentRole={props.currentRole}/>
         </Route>
         <Route path="/recruiter/jobs/new" exact>
+          <RecruiterHomePageComponent currentRole={props.currentRole}/>
           <NewJobFormComponent currentRole={props.currentRole}/>
         </Route>
         <Route path="/recruiter/jobs/:jobId/edit" exact>
+          <RecruiterHomePageComponent currentRole={props.currentRole}/>
           <JobFormComponent currentRole={props.currentRole}/>
         </Route>
         <Route path="/recruiter/jobs/:jobId/applications" exact>
           <RenderApplicationComponent currentRole={props.currentRole}/>
         </Route>
         <Route path="/recruiter/intro" exact>
+          <RecruiterHomePageComponent currentRole={props.currentRole}/>
           <CompanyFormComponent currentRole={props.currentRole}/>
         </Route>
       </Switch>

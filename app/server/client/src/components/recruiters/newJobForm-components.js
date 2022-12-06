@@ -1,6 +1,20 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import {Modal, Form, Button} from "react-bootstrap";
 import RecruiterService from "../../services/recruiter.service";
+
+const JobForm = (props) => {
+    return(
+      <Form.Group className="mb-3" controlId={props.name}>
+        <Form.Label>{props.name}</Form.Label>
+        <Form.Control
+          type={props.name}
+          defaultValue={props.defaultValue}
+          onChange={props.onChange}
+        />
+      </Form.Group>
+    );
+  };
 
 const NewJobFormComponent = (props) => {
     const history = useHistory();
@@ -35,7 +49,10 @@ const NewJobFormComponent = (props) => {
         }).catch((err) => {
             setMessage(err.response.data)
         });
-    }
+    };
+    const handleClose = e => {
+        history.push("/recruiter/home");
+    };
 
     /*
     const searchEmail = () => {
@@ -62,7 +79,7 @@ const NewJobFormComponent = (props) => {
     */
 
     return (
-        <div style={{ padding: "3rem" }}>
+        <div>
             {/* If not login*/}
             {!props.currentRole && (
                 <h1>Please Login</h1>
@@ -73,38 +90,79 @@ const NewJobFormComponent = (props) => {
             )}
             {/* If login and recruiter */}
             {props.currentRole && props.currentRole === "recruiter" && (
-                <div className="form-course">
-                    {/* Button to submit all form */}
-                    <h1>Add new job <button className="btn btn-primary" onClick={postJob}>Submit</button></h1>
+                <Modal show={true} centered scrollable backdrop="static" onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Add New Job</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form>
+                            <JobForm
+                                name={"Job Name"}
+                                defaultValue={jobName}
+                                onChange={handleChangeJobName}
+                            />
 
-                    <label htmlFor="jobName">Job name</label>
-                    <input
-                        name="jobName"
-                        type="text"
-                        className="form-control"
-                        id="jobName"
-                        onChange={handleChangeJobName}
-                    />
-                    <br />
-                    <label htmlFor="description">Description</label>
-                    <input
-                        name="description"
-                        type="text"
-                        className="form-control"
-                        id="description"
-                        onChange={handleChangeDescription}
-                    />
-                    <br />
-                    {/* Error msg */}
-                    {message && (
-                        <div className="alert alert-warning mt-3" role="alert">
-                            {message}
-                        </div>
-                    )}
-                </div>
+                            <Form.Group
+                                className="mb-3"
+                                controlId="exampleForm.ControlTextarea1"
+                            >
+                                <Form.Label>Description</Form.Label>
+                                <Form.Control as="textarea" rows={12}
+                                    value={description}
+                                    onChange={handleChangeDescription}
+                                />
+                            </Form.Group>
+                        </Form>
+                        {message && (
+                            <div className="alert alert-warning mt-3" role="alert">
+                                {message}
+                            </div>
+                        )}
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleClose}>
+                            Close
+                        </Button>
+                        <Button variant="primary" onClick={postJob}>
+                            Submit
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+
             )}
         </div>
     );
 };
 
 export default NewJobFormComponent;
+
+
+// {/* <div className="form-course">
+// {/* Button to submit all form */}
+// <h1>Add new job <button className="btn btn-primary" onClick={postJob}>Submit</button></h1>
+
+// <label htmlFor="jobName">Job name</label>
+// <input
+//     name="jobName"
+//     type="text"
+//     className="form-control"
+//     id="jobName"
+//     onChange={handleChangeJobName}
+// />
+// <br />
+// <label htmlFor="description">Description</label>
+// <input
+//     name="description"
+//     type="text"
+//     className="form-control"
+//     id="description"
+//     onChange={handleChangeDescription}
+// />
+// <br />
+// {/* Error msg */}
+// {message && (
+//     <div className="alert alert-warning mt-3" role="alert">
+//         {message}
+//     </div>
+// )}
+// </div> */}

@@ -4,19 +4,32 @@ import RecruiterService from "../../services/recruiter.service";
 import {Modal, Form, Button} from "react-bootstrap";
 
 
+// const ProfileForm = (props) => {
+//     return (
+//         <><label htmlFor={props.name}>{props.name}</label>
+//             <input
+//                 name={props.name}
+//                 type="text"
+//                 className="form-control mt-2"
+//                 id={props.name}
+//                 defaultValue={props.defaultValue}
+//                 onChange={props.onChange}
+//             /></>
+//     );
+// };
+
 const ProfileForm = (props) => {
-    return (
-        <><label htmlFor={props.name}>{props.name}</label>
-            <input
-                name={props.name}
-                type="text"
-                className="form-control mt-2"
-                id={props.name}
-                defaultValue={props.defaultValue}
-                onChange={props.onChange}
-            /></>
+    return(
+      <Form.Group className="mb-3" controlId={props.name}>
+        <Form.Label>{props.name}</Form.Label>
+        <Form.Control
+          type={props.name}
+          defaultValue={props.defaultValue}
+          onChange={props.onChange}
+        />
+      </Form.Group>
     );
-};
+  };
 
 const CompanyFormComponent = (props) => {
     const [currentFirstName, setFirstName] = useState("");
@@ -98,7 +111,7 @@ const CompanyFormComponent = (props) => {
     }
 
     return (
-        <div style={{ padding: "3rem" }}>
+        <div>
             {/* If not login*/}
             {!props.currentRole && (
                 <h1>Please Login</h1>
