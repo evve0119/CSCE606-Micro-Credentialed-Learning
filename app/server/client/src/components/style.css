@@ -273,7 +273,7 @@ a{
 .screen-1 .email input {
     outline: none;
     border: none;
-    width: 94%;
+    width: 95%;
 }
 
 .screen-1 .email input::placeholder {
@@ -300,7 +300,7 @@ a{
 .screen-1 .password input {
     outline: none;
     border: none;
-    width: 87.5%;
+    width: 90%;
 }
 
 .screen-1 .password input::placeholder {
@@ -334,6 +334,7 @@ a{
     border-radius: 30px;
     padding: 10px 185px;
     font-weight: 600;
+    width: 100%;
 }
 
 .screen-1 .registerButton {
@@ -344,6 +345,7 @@ a{
     border-radius: 30px;
     padding: 10px 185px;
     font-weight: 600;
+    width: 100%;
 }
 
 .screen-1 .footer {
