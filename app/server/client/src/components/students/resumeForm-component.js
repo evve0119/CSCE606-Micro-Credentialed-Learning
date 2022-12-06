@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory, useParams, useLocation } from "react-router-dom";
+import { useHistory, useParams, useLocation} from "react-router-dom";
 import StudentService from "../../services/student.service"
 
 const ResumeFormComponent = (props) => {
@@ -34,15 +34,24 @@ const ResumeFormComponent = (props) => {
       console.log(err);
     });
   }, [location]);
-
+  console.log(firstName)
   return (
-    <div style={{ padding: "3rem" }}>
-        <div className="form-resume">
-          <h1>{firstName} {lastName}</h1>
-          <h5>
-            {phone && (<>Phone: {phone} &emsp;</>)}
-            {email && (<>Email: {email} &emsp;</>)}
-          </h5>
+    <div style={{padding: "3rem"}}>
+        <div
+          className="form-group"
+          style={{
+            position: "absolute",
+            background: "#fff",
+            top: "10%",
+            left: "10%",
+            right: "10%",
+            padding: 15,
+            border: "2px solid #444"
+          }}
+        >
+          <h1> {firstName} {lastName}</h1>
+          <h5> {phone && (<>Phone: {phone} &emsp;</>)} </h5>
+          <h5> {email && (<>Email: {email} &emsp;</>)}</h5>
           <h5>{address && (<>Address: {address} &emsp;</>)}</h5>
           <pre>{description}</pre>
           <br></br>

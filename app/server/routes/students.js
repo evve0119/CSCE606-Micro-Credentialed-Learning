@@ -29,7 +29,7 @@ router.route("/resumes/new")
 .post(passport.authenticate("jwt", { session: false }), students.createNewResume)
 
 router.route("/resumes/:resumeId")
-.get(passport.authenticate("jwt", { session: false }), students.renderResumeForm)
+.get(students.renderResumeForm)
 .put(passport.authenticate("jwt", { session: false }), students.updateResume)
 .delete(passport.authenticate("jwt", { session: false }), students.deleteResume)
 
