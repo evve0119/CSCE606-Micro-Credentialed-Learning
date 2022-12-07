@@ -1,6 +1,6 @@
-Feature: organize job
+Feature: recruiter functions
 
-    I want to organize jobs
+    I want to use the system as a recruiter
 
     Scenario: I want to add a new job
         Given I am logged in as a recruiter
@@ -22,25 +22,30 @@ Feature: organize job
         When I click the view job button
         Then I should be at the view job page
 
-    Scenario: I want to view all the applicants to a job
+    Scenario: I want to edit a job
         Given I am logged in as a recruiter
         And I am at the recruiter home page
-        When I click on a job
-        Then I should be at the applicants list page
+        When I click the edit job button
+        Then I should be at the edit job page
 
-    Scenario: I want to update changes to an existing job
+    Scenario: I want to submit changes to a job
         Given I am logged in as a recruiter
-        And I am at the recruiter home page
-        When I click on the edit job button
-        When I click on the update job button
-        Then I should be at the view job page
+        And I am at the edit job page
+        When I click the submit edit job button
+        Then I should be at the recruiter home page
 
     Scenario: I want to edit my recruiter profile
         Given I am logged in as a recruiter
         And I am at the recruiter home page
-        When I click on the edit recruiter profile button
+        When I click the edit recruiter profile button
         Then I should be at the edit recruiter profile page 
     
+    Scenario: I want to submit changes to my recruiter profile
+        Given I am logged in as a recruiter
+        And I am at the edit recruiter profile page
+        When I click the submit edit recruiter profile button
+        Then I should be at the recruiter home page
+
     #Scenario: I want to delete an existing group
     #    Given I am logged in as a recruiter
     #    And I am at the add new course page
