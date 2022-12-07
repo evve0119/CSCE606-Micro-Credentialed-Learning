@@ -41,7 +41,7 @@ To test the app and deploy on Heroku
 <h4>Step 1: Login to Heroku and clone the repository</h4>
 
 `heroku login`\
-`heroku git:clone -a micro-credential`
+`heroku git:clone -a micro-credential-learning`
 
 <h4>Step 2: Clone the repository on github and copy all the file to Heroku repository</h4>
 
@@ -58,7 +58,7 @@ Go to `micro-credential/client/scr/services` and change all files of "API_URL" t
 
 Put `.env` to gitignore
 
-`cd micro-credential`\
+`cd micro-credential-learning`\
 `git add .`\
 `git commit -am "<message>"`\
 `git push heroku master`
@@ -115,7 +115,7 @@ Put `.env` to gitignore
 `cd app/server`\
 `heroku login`\
 `git init`\
-`heroku git:remote -a micro-credential`\
+`heroku git:remote -a micro-credential-learning`\
 `git add .`\
 `git commit -am "<message>"`\
 `git push heroku master`
