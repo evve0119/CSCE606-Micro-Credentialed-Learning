@@ -42,7 +42,7 @@ describe("testing updateCourse", function () {
         await instructor.save();
         course = new Course({
             name: "python",
-            description: "",
+            description: "cool",
             holder: instructor._id,
             students: [student1._id]
         });
@@ -62,7 +62,7 @@ describe("testing updateCourse", function () {
         const req = {
             user: { _id: instructor._id },
             params: { courseId: course._id },
-            body: { courseName: "javascript", courseDescription: "Best course ever!", editStudents: [] }
+            body: { courseName: "javascript", description: "Best course ever!", addStudentsId: [] }
         };
         await updateCourse(req, res);
         expect(res.text).toEqual("Successfully update!!!");
@@ -75,7 +75,7 @@ describe("testing updateCourse", function () {
         const req = {
             user: { _id: "hehehehe" },
             params: { courseId: course._id },
-            body: { courseName: "javascript", courseDescription: "Best course ever!", editStudents: [] }
+            body: { courseName: "javascript", description: "Best course ever!", addStudentsId: [] }
         };
         await updateCourse(req, res);
         expect(res.text).toEqual("You are not authorized");
@@ -85,7 +85,7 @@ describe("testing updateCourse", function () {
         const req = {
             user: { _id: instructor._id },
             params: { courseId: course._id },
-            body: { courseName: "javascript", courseDescription: "Best course ever!", editStudents: [] }
+            body: { courseName: "javascript", description: "Best course ever!", addStudentsId: [] }
         };
         await updateCourse(req, res);
         expect(res.text).toEqual("Successfully update!!!");
@@ -99,7 +99,7 @@ describe("testing updateCourse", function () {
         const req = {
             user: { _id: instructor._id },
             params: { courseId: course._id },
-            body: { courseName: "javascript", courseDescription: "Best course ever!", editStudents: [student1._id,student2._id] }
+            body: { courseName: "javascript", description: "Best course ever!", addStudentsId: [student1._id,student2._id] }
         };
         await updateCourse(req, res);
         expect(res.text).toEqual("Successfully update!!!");

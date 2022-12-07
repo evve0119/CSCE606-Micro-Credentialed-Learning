@@ -98,7 +98,7 @@ module.exports.verifiedReset = async (req, res) => {
 module.exports.verifiedEmail = async (req, res) => {
   try {
     const user = await User.findOne({_id: req.params.id});
-
+    
     if (!user) return res.status(400).send("Invalid link");
 
     const token = await Token.findOne({
@@ -107,7 +107,6 @@ module.exports.verifiedEmail = async (req, res) => {
     });
 
     if (!token) return res.status(400).send("Invalid link");
-    console.log(user.verified);
     await User.updateOne({_id: user._id},{verified: true});
     await token.remove();
 
@@ -168,8 +167,6 @@ module.exports.login = async (req, res) => {
       return res.status(400).send("The user doesn't exit.");
     } else {
       if(!user.verified) {
-        res.status(400).send("Email is not verified. A new verification email sent to your account, please verify again.");
-
         let store_token = await Token.findOne({userId: user._id});
         if(!store_token){
           await new Token({
@@ -185,6 +182,7 @@ module.exports.login = async (req, res) => {
 
         const url = `${process.env.BASE_URL}user/${user._id}/verify/${token.token}`;
         await sendEmail(user.email, url);
+        res.status(400).send("Email is not verified. A new verification email sent to your account, please verify again.");
       } else {
         if (user.role != req.body.role) {
           return res.status(400).send(`You are not a ${req.body.role}`);
@@ -195,7 +193,7 @@ module.exports.login = async (req, res) => {
             if (isMatch) {
               const tokenObject = { _id: user._id, role: user.role };
               const token = jwt.sign(tokenObject, process.env.PASSPORT_SECRET);
-              res.send({ token: "JWT " + token });
+              res.status(200).send({ token: "JWT " + token });
             } else {
               res.status(400).send("Wrong password.");
             };

@@ -22,7 +22,7 @@ describe("testing updateProfile", function () {
             username: "aaa",
             password: "aaaaaa",
             role: "student",
-            profile:{firstName: "Ken", phone: "0123456789" }
+            profile:{firstName: "Ken", lastName: "student", phone: "0123456789" }
         });
         await student.save();
         instructor = new User({
@@ -40,13 +40,13 @@ describe("testing updateProfile", function () {
 
     test("update first name", async() => {
         const req = {user: {_id: student._id},
-                     body: {editProfile: {firstName: "Justin", phone:"0123456789"}
+                     body: {editProfile: {firstName: "Justin", lastName: "student", phone:"0123456789"}
                     }};
         await updateProfile(req, res);
         expect(res.text).toEqual("Successfully update!!!");
         const currentStudent = await User.findById(student._id);
         expect(currentStudent.profile.firstName).toEqual("Justin");
-        expect(currentStudent.profile.lastName).toEqual("");
+        expect(currentStudent.profile.email).toEqual("");
         expect(currentStudent.profile.phone).toEqual("0123456789");
     });
 

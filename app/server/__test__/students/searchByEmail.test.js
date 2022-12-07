@@ -58,6 +58,6 @@ describe("testing searchByEmail", function () {
         const req = {body: {studentEmail: "gmail.com"}};
         await searchByEmail(req, res);
         expect(res.statusCode).toBe(400);
-        expect(res.text).toEqual("Invalid email format");
+        expect(res.text).toEqual("\"studentEmail\" must be a valid email");
     });
 })
