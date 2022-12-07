@@ -2,24 +2,32 @@ const { Before, Given, When, Then } = require('@cucumber/cucumber')
 const { Builder, By, until, ChromeOptions, Browser } = require('selenium-webdriver');
 const { getSystemErrorMap } = require('util');
 
-Given('I am at the register page', async function () {
+Given('I am at the student register portal', async function () {
     this.driver = new Builder()
         .forBrowser('chrome')
         .build();
 
-    await this.driver.get('http://localhost:3000/register');
+    await this.driver.get('http://localhost:3000/register/student');
 });
 
-When('I click the login tab', async function () {
-    await this.driver.findElement(By.xpath("//*[@id='navbarNav']/ul/li[3]/a")).click();
+Given('I am at the instructor register portal', async function () {
+    this.driver = new Builder()
+        .forBrowser('chrome')
+        .build();
+
+    await this.driver.get('http://localhost:3000/register/instructor');
 });
 
-Then('I should be at the login page', async function () {
-    let expectedUrl = "http://localhost:3000/login";
-    let actualUrl = await this.driver.getCurrentUrl();
-    let assert = require('assert');
-    assert.equal(actualUrl, expectedUrl);
-    this.driver.close();
+Given('I am at the recruiter register portal', async function () {
+    this.driver = new Builder()
+        .forBrowser('chrome')
+        .build();
+
+    await this.driver.get('http://localhost:3000/register/recruiter');
+});
+
+When('I click the login link', async function () {
+    await this.driver.findElement(By.xpath("//*[@id='root']/div/div[2]/div/div[6]/a")).click();
 });
 
 When('I fill the register username textbox with value {string}', function (username) {

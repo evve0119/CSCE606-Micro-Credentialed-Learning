@@ -2,30 +2,36 @@ const { Before, Given, When, Then } = require('@cucumber/cucumber')
 const { Builder, By, until, ChromeOptions, Browser } = require('selenium-webdriver');
 const { getSystemErrorMap } = require('util');
 
-Given('I am at the login page as a student', async function () {
+Given('I am at the student login portal', async function () {
     this.driver = new Builder()
         .forBrowser('chrome')
         .build();
 
-    await this.driver.get('http://localhost:3000/');
-    await this.driver.findElement(By.xpath("//*[@id='root']/div/main/div/div[2]/div[1]/div/button")).click();
+    await this.driver.get('http://localhost:3000/login/student');
 });
 
-Given('I am at the login page as an instructor', async function () {
+Given('I am at the instructor login portal', async function () {
     this.driver = new Builder()
         .forBrowser('chrome')
         .build();
 
-    await this.driver.get('http://localhost:3000/');
-    await this.driver.findElement(By.xpath("//*[@id='root']/div/main/div/div[2]/div[2]/div/button")).click();
+    await this.driver.get('http://localhost:3000/login/instructor');
+});
+
+Given('I am at the recruiter login portal', async function () {
+    this.driver = new Builder()
+        .forBrowser('chrome')
+        .build();
+
+    await this.driver.get('http://localhost:3000/login/recruiter');
 });
 
 When('I fill the login account email textbox with value {string}', function (email) {
-   this.driver.findElement(By.xpath("//*[@id='root']/div/div[2]/div/div[1]/input")).sendKeys(email);
+   this.driver.findElement(By.xpath("//*[@id='root']/div/div[2]/div/div[1]/div/input")).sendKeys(email);
 });
 
 When('I fill the login password textbox with value {string}', function (password) {
-    this.driver.findElement(By.xpath("//*[@id='root']/div/div[2]/div/div[2]/input")).sendKeys(password);
+    this.driver.findElement(By.xpath("//*[@id='root']/div/div[2]/div/div[2]/div/input")).sendKeys(password);
 });
 
 When('I click the login button', async function () {
@@ -36,8 +42,8 @@ When('I click the login button', async function () {
     await alert.accept();
 });
 
-When('I click the register tab', async function () {
-    await this.driver.findElement(By.xpath("//*[@id='navbarNav']/ul/li[2]/a")).click();
+When('I click the register link', async function () {
+    await this.driver.findElement(By.xpath("//*[@id='root']/div/div[2]/div/div[3]/a[1]")).click();
 });
 
 Then('I should be at the student home page', async function () {
@@ -56,8 +62,32 @@ Then('I should be at the instructor home page', async function () {
     this.driver.close();
 });
 
-Then('I should be at the register page', async function () {
-    let expectedUrl = "http://localhost:3000/register";
+Then('I should be at the recruiter home page', async function () {
+    let expectedUrl = "http://localhost:3000/recruiter/home";
+    let actualUrl = await this.driver.getCurrentUrl();
+    let assert = require('assert');
+    assert.equal(actualUrl, expectedUrl);
+    this.driver.close();
+});
+
+Then('I should be at the student register portal', async function () {
+    let expectedUrl = "http://localhost:3000/register/student";
+    let actualUrl = await this.driver.getCurrentUrl();
+    let assert = require('assert');
+    assert.equal(actualUrl, expectedUrl);
+    this.driver.close();
+});
+
+Then('I should be at the instructor register portal', async function () {
+    let expectedUrl = "http://localhost:3000/register/instructor";
+    let actualUrl = await this.driver.getCurrentUrl();
+    let assert = require('assert');
+    assert.equal(actualUrl, expectedUrl);
+    this.driver.close();
+});
+
+Then('I should be at the recruiter register portal', async function () {
+    let expectedUrl = "http://localhost:3000/register/recruiter";
     let actualUrl = await this.driver.getCurrentUrl();
     let assert = require('assert');
     assert.equal(actualUrl, expectedUrl);
