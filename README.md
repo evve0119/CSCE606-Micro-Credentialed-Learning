@@ -18,7 +18,7 @@ In order to run the cucumber tests, you will need to install a chrome browser in
 2. Go to this website http://chromedriver.storage.googleapis.com/index.html and choose a chrome version that matches your current chrome version. In my terminal, I am using version 106.0.5249.21 on my M1 Mac.
 3. Download the file that matches your operating system, and add the chromedriver.exe to your path (for Mac users, go to /usr/local/bin, and drag the file into that folder).
 4. Then you are ready to run selenium.
-5. If an error pops out when running cucumber saying that “chromedriver cannot be opened because the developer cannot be verified", you need to move the chrome driver out of quarantine by typing in the terminal "xattr -d com.apple.quarantine /usr/local/bin/chromedriver".
+5. If an error pops out when running cucumber saying that “chromedriver cannot be opened because the developer cannot be verified", you need to move the chrome driver out of quarantine by typing in the terminal `xattr -d com.apple.quarantine /usr/local/bin/chromedriver`.
 
 `npm test` this will execute the cucumber tests.
 
