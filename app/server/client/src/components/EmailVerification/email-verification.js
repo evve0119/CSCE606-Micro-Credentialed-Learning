@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useHistory } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import success from "../../images/success.png";
@@ -6,7 +6,11 @@ import styles from "./styles.module.css";
 const API_URL = "http://localhost:8080/api/user";
 // const API_URL = "/api/user";
 
-const EmailVerify = () => {
+const EmailVerify = (props) => {
+	const history = useHistory();
+	if(props.currentRole){
+		history.replace(`/${props.currentRole}/home`);
+	}
 	const [validUrl, setValidUrl] = useState(true);
 	const param = useParams();
 

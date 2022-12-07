@@ -2,6 +2,10 @@ const Student = require("../models").User;
 const Group = require("../models").Group;
 const Resume = require("../models").Resume;
 const Job = require("../models").Job;
+const profileValidation = require("../validation").profileValidation;
+const groupValidation = require("../validation").groupValidation;
+const resumeValidation = require("../validation").resumeValidation;
+const emailValidation = require("../validation").emailValidation;
 
 module.exports.myHomePage = async (req, res) => {
     try {
@@ -26,6 +30,8 @@ module.exports.myHomePage = async (req, res) => {
 module.exports.createNewGroup = async (req, res) => {
     // save new group
     try {
+        const { error } = groupValidation(req.body);
+        if (error) return res.status(400).send(error.details[0].message);
         const currentStudent = await Student.findById(req.user._id);
         if (!currentStudent.isStudent()) {
             return res.status(403).send("You are not authorized");
@@ -58,11 +64,15 @@ module.exports.renderGroupForm = async (req, res) => {
 
 module.exports.updateGroup = async (req, res) => {
     try {
+        const { error } = groupValidation(req.body);
+        if (error) return res.status(400).send(error.details[0].message);
         const currentGroup = await Group.findById(req.params.groupId)
         if (req.user._id != currentGroup.holder._id.toString()) {
             return res.status(403).send("You are not authorized");
         }
-        await currentGroup.update({ $set: { credentials: req.body.editCredentials, name: req.body.groupName } });
+        currentGroup.credentials = req.body.addCredentials;
+        currentGroup.name = req.body.groupName;
+        await currentGroup.save();
         return res.send("Successfully update!!!");
     } catch (err) {
         return res.status(400).send("Error!! Cannot update group!!");
@@ -102,6 +112,8 @@ module.exports.renderAllCredentials = async (req, res) => {
 
 module.exports.searchByEmail = async (req, res) => {
     try {
+        const { error } = emailValidation(req.body);
+        if (error) return res.status(400).send(error.details[0].message);
         const currentStudent = await Student.findOne({ email: req.body.studentEmail });
         if (!currentStudent.isStudent()) {
             return res.status(403).send("This is not a student");
@@ -127,6 +139,8 @@ module.exports.renderProfileForm = async (req, res) => {
 
 module.exports.updateProfile = async (req, res) => {
     try {
+        const { error } = profileValidation(req.body.editProfile);
+        if (error) return res.status(400).send(error.details[0].message);
         const currentStudent = await Student.findById(req.user._id);
         if (!currentStudent.isStudent()) {
             return res.status(403).send("You are not authorized");
@@ -141,6 +155,8 @@ module.exports.updateProfile = async (req, res) => {
 module.exports.createNewResume = async (req, res) => {
     // save new resume
     try {
+        const { error } = resumeValidation(req.body);
+        if (error) return res.status(400).send(error.details[0].message);
         const currentStudent = await Student.findById(req.user._id);
         if (!currentStudent.isStudent()) {
             return res.status(403).send("You are not authorized");
@@ -164,8 +180,6 @@ module.exports.renderResumeForm = async (req, res) => {
             path: "credentials",
             populate: [{ path: "holder" }, { path: "instructor" }]
         });
-
-        console.log(currentResume.credentials[0])
         return res.send(currentResume);
     } catch (err) {
         console.log(err)
@@ -176,6 +190,8 @@ module.exports.renderResumeForm = async (req, res) => {
 
 module.exports.updateResume = async (req, res) => {
     try {
+        const { error } = resumeValidation(req.body);
+        if (error) return res.status(400).send(error.details[0].message);
         const currentResume = await Resume.findById(req.params.resumeId)
         if (req.user._id != currentResume.holder._id.toString()) {
             return res.status(403).send("You are not authorized");

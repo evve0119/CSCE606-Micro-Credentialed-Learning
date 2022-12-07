@@ -79,7 +79,7 @@ describe("testing updateProfile", function () {
                     }};
         await updateProfile(req, res);
         expect(res.statusCode).toBe(403);
-        expect(res.text).toEqual("You are not a student");
+        expect(res.text).toEqual("You are not authorized");
     });
     test("update without login", async() => {
         const req = {user: {_id: ""},

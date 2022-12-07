@@ -112,7 +112,7 @@ describe("testing updateResume", function () {
                             addCredentials: [student.credentials[1]]}};
         await updateResume(req, res);
         expect(res.statusCode).toBe(403);
-        expect(res.text).toEqual("You are not a student");
+        expect(res.text).toEqual("You are not authorized");
     });
     test("update without user ID", async() => {
         const req = {user: {_id: ""},
@@ -121,11 +121,11 @@ describe("testing updateResume", function () {
                             addProfile: {firstName: "Ken", phone: "0123456789"},
                             addCredentials: [student.credentials[1]]}};
         await updateResume(req, res);
-        expect(res.statusCode).toBe(400);
-        expect(res.text).toEqual("Error!! Cannot update resume!!");
+        expect(res.statusCode).toBe(403);
+        expect(res.text).toEqual("You are not authorized");
     });
     test("update without resume ID", async() => {
-        const req = {user: {_id: ""},
+        const req = {user: {_id: student._id},
                      params: {resumeId: ""},
                      body: {resumeName: "Programming",
                             addProfile: {firstName: "Ken", phone: "0123456789"},

@@ -4,8 +4,11 @@ import AuthService from "../../services/auth.service";
 import "../style.css";
 // import "https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
 
-const InstructorRegisterComponent = () => {
+const InstructorRegisterComponent = (props) => {
   const history = useHistory();
+  if(props.currentRole){
+    history.replace(`/${props.currentRole}/home`);
+  }
   let [firstname, setFirstname] = useState("");
   let [lastname, setLastname] = useState("");
   let [username, setUsername] = useState("");

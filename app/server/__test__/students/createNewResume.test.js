@@ -58,14 +58,14 @@ describe("testing createNewResume", function () {
         expect(newResume.profile.lastName).toEqual("");
         expect(newResume.credentials.length).toBe(2);
     });
-    test("create new new by instructor", async() => {
+    test("create new resume by instructor", async() => {
         const req = {user: {_id: instructor._id},
                      body: {resumeName: "software",
                             addprofile: {firstName: "Ken", phone:"0123456789"},
                             credentials: [student.credentials[0], student.credentials[1]]}};
         await createNewResume(req, res);
         expect(res.statusCode).toBe(403);
-        expect(res.text).toEqual("You are not a student");
+        expect(res.text).toEqual("You are not authorized");
     });
     test("create new resume without login", async() => {
         const req = {user: {_id: ""},

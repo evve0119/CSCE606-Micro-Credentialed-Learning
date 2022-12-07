@@ -26,6 +26,11 @@ describe("testing renderGroupForm", function () {
             role: "student",
         });
         await student.save();
+        group = new Group({
+            name: "python",
+            holder: student._id
+        });
+        await group.save();
         instructor = new User({
             email: "bb@gmail.com",
             username: "bbb",
@@ -33,10 +38,6 @@ describe("testing renderGroupForm", function () {
             role: "instructor",
         });
         await instructor.save();
-        group = new Group({
-            name: "python"
-        });
-        await group.save();
         student.groups.push(group._id)
         await student.save()
     });
@@ -52,10 +53,11 @@ describe("testing renderGroupForm", function () {
         expect(res.text.name).toEqual("python")
     });
     test("get request by instructor", async() => {
-        const req = {user:{_id: instructor._id}};
+        const req = {user:{_id: instructor._id},
+                     params: {groupId: group._id}};
         await renderGroupForm(req, res);
         expect(res.statusCode).toBe(403);
-        expect(res.text).toEqual("You are not a student");
+        expect(res.text).toEqual("You are not authorized");
     });
     test("get request by wonrg user ID", async() => {
         const req = {user:{_id: group._id},

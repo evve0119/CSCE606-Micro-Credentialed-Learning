@@ -51,34 +51,34 @@ function App() {
       <NavComponent currentRole={currentRole} setCurrentRole={setCurrentRole} />
       <Switch>
         <Route path="/" exact>
-          <HomeComponent />
+          <HomeComponent currentRole={currentRole}/>
         </Route>
         <Route path="/register/student" exact>
-          <StudentRegisterComponent />
+          <StudentRegisterComponent currentRole={currentRole}/>
         </Route>
         <Route path="/register/instructor" exact>
-          <InstructorRegisterComponent />
+          <InstructorRegisterComponent currentRole={currentRole}/>
         </Route>
         <Route path="/register/recruiter" exact>
-          <RecruiterRegisterComponent />
+          <RecruiterRegisterComponent currentRole={currentRole}/>
         </Route>
         <Route path="/login/student" exact>
-          <StudentLoginComponent setCurrentRole={setCurrentRole}/>
+          <StudentLoginComponent currentRole={currentRole} setCurrentRole={setCurrentRole}/>
         </Route>
         <Route path="/login/instructor" exact>
-          <InstructorLoginComponent setCurrentRole={setCurrentRole}/>
+          <InstructorLoginComponent currentRole={currentRole} setCurrentRole={setCurrentRole}/>
         </Route>
         <Route path="/login/recruiter" exact>
-          <RecruiterLoginComponent setCurrentRole={setCurrentRole}/>
+          <RecruiterLoginComponent currentRole={currentRole} setCurrentRole={setCurrentRole}/>
         </Route>
         <Route path="/forgot" exact>
-          <ForgotComponent/>
+          <ForgotComponent currentRole={currentRole}/>
         </Route>
         <Route path="/user/:id/reset/:token" exact>
-          <ResetPassword/>
+          <ResetPassword currentRole={currentRole}/>
         </Route>
         <Route path="/user/:id/verify/:token" exact>
-          <EmailVerify/>
+          <EmailVerify currentRole={currentRole}/>
         </Route>
         <Route path="/student">
           <Student currentRole={currentRole}/>
@@ -135,41 +135,6 @@ const Student = (props) => {
         </Route>
         <Route path="/student/applications/:jobId">
           <ApplicationComponent currentRole={props.currentRole}/>
-        </Route>
-      </Switch>
-    </>
-  )
-};
-
-const Group = (props) => {
-  return (
-    <>
-      <Switch>
-        <Route path="/student/groups/new">
-          <NewGroupFormComponent currentRole={props.currentRole}/>
-        </Route>
-        <Route path="/student/groups/:groupId">
-          <GroupFormComponent currentRole={props.currentRole}/>
-        </Route>
-      </Switch>
-    </>
-  )
-};
-
-const Resume = (props) => {
-  return (
-    <>
-      <Switch>
-        <Route path="/student/resumes/new">
-          <StudentHomePageComponent currentRole={props.currentRole}/>
-          <NewResumeFormComponent currentRole={props.currentRole}/>
-        </Route>
-        <Route path="/student/resumes/:resumeId" exact>
-          <ResumeFormComponent currentRole={props.currentRole}/>
-        </Route>
-        <Route path="/student/resumes/:resumeId/edit">
-          <StudentHomePageComponent currentRole={props.currentRole}/>
-          <EditResumeFormComponent currentRole={props.currentRole}/>
         </Route>
       </Switch>
     </>

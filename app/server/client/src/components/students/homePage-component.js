@@ -102,11 +102,7 @@ const Profile = (props) => {
       <button id="addNewGroup" className="btn btn-profile" onClick={props.renderProfileForm}>
         <i className="bi bi-pencil-fill icon-profile-edit"></i>
       </button>
-      {profile.firstName && (
-        <div>
-          <h3>{profile.firstName} {profile.lastName}</h3>
-        </div>
-      )}
+      <h3>{profile.firstName} {profile.lastName}</h3>
       <h5> <i className="bi bi-envelope-fill icon-n"></i> <br/> {profile.email} </h5>
       <h5> <i className="bi bi-telephone-fill icon-n"></i> <br/> {profile.phone} </h5>
       <h5> <i className="bi bi-geo-alt-fill icon-n"></i> <br/> {profile.address}</h5>

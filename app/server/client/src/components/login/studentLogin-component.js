@@ -7,6 +7,9 @@ import "../style.css";
 
 const StudentLoginComponent = (props) => {
   const history = useHistory();
+  if(props.currentRole){
+    history.replace(`/${props.currentRole}/home`);
+  }
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
   const location = useLocation();

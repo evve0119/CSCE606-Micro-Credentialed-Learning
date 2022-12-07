@@ -26,10 +26,7 @@ class AuthService {
       }
     });
   }
-  //get current user function
-  getCurrentUser() {
-    return JSON.parse(localStorage.getItem("user"));
-  }
+  
   getCurrentRole() {
     const user = JSON.parse(localStorage.getItem("user"));
     if (user) {

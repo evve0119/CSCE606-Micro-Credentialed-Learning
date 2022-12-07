@@ -3,9 +3,8 @@
     background: #e9ecef;
     min-height: 100vh;
 }
-.nav-bg{
+.bg-nav{
     background: #adb5bd;
-    height: 8vh;
 }
 .profile-bg {
     background: #343a40;
@@ -377,6 +376,8 @@ a:hover {
 @media (max-width: 575.5px) {
     .profile-bg{
         background: #e9ecef;
+        height: auto;
+        min-height: auto;
     }
     .phone-profile-bg {
         background: #343a40;

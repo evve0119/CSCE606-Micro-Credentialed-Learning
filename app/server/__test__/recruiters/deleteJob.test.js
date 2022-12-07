@@ -61,7 +61,6 @@ describe("testing updateJob", function () {
         const req = {user:{_id: recruiter._id},
                      params: {jobId: job._id}};
         await deleteJob(req, res);
-        console.log(res.text)
         expect(res.text).toEqual("Successfully delete!!!")
     });
 

@@ -72,28 +72,20 @@ const InstituteFormComponent = (props) => {
 
     // Update profile
     const updateProfile = () => {
-        if (currentFirstName === "") {
-            setMessage("First name is not allowed to be empty!");
-        }
-        else if (currentLastName === "") {
-            setMessage("Last name is not allowed to be empty!");
-        }
-        else {
-            const editProfile = {
-                firstName: currentFirstName,
-                lastName: currentLastName,
-                address: currentAddress,
-                phone: currentPhone,
-                email: currentEmail,
-                description: currentDescription,
-            };
-            InstructorService.updateProfile(editProfile, currentInstitute).then(() => {
-                window.alert("Profile is updated!")
-                history.push("/instructor/home")
-            }).catch((err) => {
-                setMessage(err.response.data)
-            });
-        }
+        const editProfile = {
+            firstName: currentFirstName,
+            lastName: currentLastName,
+            address: currentAddress,
+            phone: currentPhone,
+            email: currentEmail,
+            description: currentDescription,
+        };
+        InstructorService.updateProfile(editProfile, currentInstitute).then(() => {
+            window.alert("Profile is updated!")
+            history.push("/instructor/home")
+        }).catch((err) => {
+            setMessage(err.response.data)
+        });
     }
 
     return (

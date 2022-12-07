@@ -67,30 +67,25 @@ const NewResumeFormComponent = (props) => {
     history.push("/student/home");
   };
   const postResume = () => {
-    if(resumeName === ""){
-      setMessage("Resume name is not allowed to be empty!");
-    }
-    else{
-      const addProfile = {
-        firstName: currentFirstName,
-        lastName: currentLastName,
-        address: currentAddress,
-        phone: currentPhone,
-        email: currentEmail,
-        description: currentDescription,
-      };
-      const addCred = [];
-      addCredentials.map((credential) => {
-        addCred.push(credential.value);
-      });
-      StudentService.createNewResume(resumeName, addProfile, addCred)
-      .then(() => {
-        window.alert("New resume is created!")
-        history.push("/student/home")
-      }).catch((err) => {
-        setMessage(err.response.data)
-      });
-    }
+    const addProfile = {
+      firstName: currentFirstName,
+      lastName: currentLastName,
+      address: currentAddress,
+      phone: currentPhone,
+      email: currentEmail,
+      description: currentDescription,
+    };
+    const addCred = [];
+    addCredentials.map((credential) => {
+      addCred.push(credential.value);
+    });
+    StudentService.createNewResume(resumeName, addProfile, addCred)
+    .then(() => {
+      window.alert("New resume is created!")
+      history.push("/student/home")
+    }).catch((err) => {
+      setMessage(err.response.data)
+    });
   };  
 
   useEffect(() => {

@@ -69,30 +69,25 @@ const EditResumeFormComponent = (props) => {
   };
 
   const updateResume = () => {
-    if(resumeName === ""){
-      setMessage("Resume name is not allowed to be empty!");
-    }
-    else{
-      const addProfile = {
-        firstName: currentFirstName,
-        lastName: currentLastName,
-        address: currentAddress,
-        phone: currentPhone,
-        email: currentEmail,
-        description: currentDescription,
-      };
-      const addCred = [];
-      addCredentials.map((credential) => {
-        addCred.push(credential.value);
-      });
-      StudentService.updateResume(resumeName, addProfile, addCred, resumeId)
-      .then(() => {
-        window.alert("The resume is updated!");
-        history.push(`/student/resumes/${resumeId}`);
-      }).catch((err) => {
-        setMessage(err.response.data);
-      });
-    }
+    const addProfile = {
+      firstName: currentFirstName,
+      lastName: currentLastName,
+      address: currentAddress,
+      phone: currentPhone,
+      email: currentEmail,
+      description: currentDescription,
+    };
+    const addCred = [];
+    addCredentials.map((credential) => {
+      addCred.push(credential.value);
+    });
+    StudentService.updateResume(resumeName, addProfile, addCred, resumeId)
+    .then(() => {
+      window.alert("The resume is updated!");
+      history.push(`/student/resumes/${resumeId}`);
+    }).catch((err) => {
+      setMessage(err.response.data);
+    });
   };  
 
   const deleteResume = () => {

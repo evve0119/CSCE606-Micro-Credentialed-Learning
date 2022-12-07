@@ -1,6 +1,8 @@
 const User = require("../models").User;
 const Course = require("../models").Course;
 const Credential = require("../models").Credential;
+const instructorValidation = require("../validation").instructorValidation;
+const courseValidation = require("../validation").courseValidation;
 
 module.exports.myHomePage = async (req, res) => {
     try {
@@ -17,6 +19,8 @@ module.exports.myHomePage = async (req, res) => {
 module.exports.createNewCourse = async (req, res) => {
     // save new group
     try {
+        const { error } = courseValidation(req.body);
+        if (error) return res.status(400).send(error.details[0].message);
         const currentInstructor = await User.findById(req.user._id);
         if (!currentInstructor.isInstructor()) {
             return res.status(403).send("You are not an instructor");
@@ -54,13 +58,15 @@ module.exports.renderCourseForm = async (req, res) => {
 
 module.exports.updateCourse = async (req, res) => {
     try {
+        const { error } = courseValidation(req.body);
+        if (error) return res.status(400).send(error.details[0].message);
         const currentCourse = await Course.findById(req.params.courseId);
         if (req.user._id != currentCourse.holder._id.toString()) {
             return res.status(400).send("You are not authorized");
         }
         // New students
         let newStudentsId = []
-        req.body.editStudents.map((studentId) => {
+        req.body.addStudentsId.map((studentId) => {
             if (!currentCourse.students.includes(studentId)) {
                 newStudentsId = [...newStudentsId, studentId]
             }
@@ -68,12 +74,12 @@ module.exports.updateCourse = async (req, res) => {
         // Deleted students
         let deletedStudentsId = []
         currentCourse.students.map((studentId) => {
-            if (!req.body.editStudents.includes(studentId)) {
+            if (!req.body.addStudentsId.includes(studentId)) {
                 deletedStudentsId = [...deletedStudentsId, studentId]
             }
         })
         // Update course
-        await currentCourse.update({ $set: { name: req.body.courseName, students: req.body.editStudents, description: req.body.courseDescription } });
+        await currentCourse.update({ $set: { name: req.body.courseName, students: req.body.addStudentsId, description: req.body.description } });
         await currentCourse.save();
         // Add course to new student
         newStudentsId.map(async (studentId) => {
@@ -165,6 +171,8 @@ module.exports.renderProfileForm = async (req, res) => {
 
 module.exports.updateProfile = async (req, res) => {
     try {
+        const { error } = instructorValidation(req.body);
+        if (error) return res.status(400).send(error.details[0].message);
         const currentInstructor = await User.findById(req.user._id);
         if (!currentInstructor.isInstructor()) {
             return res.status(403).send("You are not an instructor");

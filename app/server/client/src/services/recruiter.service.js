@@ -50,7 +50,7 @@ class RecruiterService {
             });
     }
 
-    updateJob(jobId, jobName, jobDescription) {
+    updateJob(jobId, jobName, description) {
         let token;
         if (localStorage.getItem("user")) {
             token = JSON.parse(localStorage.getItem("user")).token;
@@ -58,7 +58,7 @@ class RecruiterService {
             token = "";
         }
         return axios.put(API_URL + `/jobs/${jobId}/edit`,
-        {jobName, jobDescription},
+        {jobName, description},
         {
             headers: {
                 Authorization: token,

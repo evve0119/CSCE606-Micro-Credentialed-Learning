@@ -53,7 +53,7 @@ describe("testing submitResume", function () {
                      body:{resumeId: resume, jobId: job}};
         await submitResume(req, res);
         expect(res.text).toEqual("You are not authorized");
-        expect(res.statusCode).toBe(400);
+        expect(res.statusCode).toBe(403);
     });
     test("submit with wrong resume id", async() => {
         const req = {user:{_id: student._id},
@@ -74,6 +74,6 @@ describe("testing submitResume", function () {
                      body:{resumeId: resume, jobId: job}};
         await submitResume(req, res);
         expect(res.text).toEqual("You are not authorized");
-        expect(res.statusCode).toBe(400);
+        expect(res.statusCode).toBe(403);
     });
 })
