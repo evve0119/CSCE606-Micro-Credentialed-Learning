@@ -40,7 +40,12 @@ describe("testing updateResume", function () {
         student.credentials.push(credential._id);
         await student.save();
         resume = new Resume({
-            name: "software", profile: {firstName: "Ken", phone: "0123456789"},
+            name: "software",
+            profile: {
+                firstName: "Ken", 
+                lastName: "student", 
+                email: "student@gmail.com",
+                phone: "0123456789"},
             credentials: [credential._id],
             holder: student._id,
         })
@@ -57,7 +62,8 @@ describe("testing updateResume", function () {
         const req = {user: {_id: student._id},
                      params: {resumeId: student.resumes[0]},
                      body: {resumeName: "Programming",
-                            addProfile: {firstName: "Ken", phone: "0123456789"},
+                            addProfile: {firstName: "Ken", lastName: "student", 
+                            email: "student@gmail.com", phone: "0123456789"},
                             addCredentials: [student.credentials[1]]}};
         await updateResume(req, res);
         expect(res.text).toEqual("Successfully update!!!");
@@ -71,7 +77,8 @@ describe("testing updateResume", function () {
         const req = {user: {_id: student._id},
                      params: {resumeId: student.resumes[0]},
                      body: {resumeName: "Programming",
-                            addProfile: {firstName: "Justin", lastName: "Student", phone: "0123456789"},
+                            addProfile: {firstName: "Justin", lastName: "Student", 
+                            email: "student@gmail.com", phone: "0123456789"},
                             addCredentials: [student.credentials[1]]}};
         await updateResume(req, res);
         expect(res.text).toEqual("Successfully update!!!");
@@ -84,7 +91,8 @@ describe("testing updateResume", function () {
         const req = {user: {_id: student._id},
                      params: {resumeId: student.resumes[0]},
                      body: {resumeName: "Programming",
-                            addProfile: {firstName: "Ken", phone: "0123456789"},
+                            addProfile: {firstName: "Ken", lastName: "student", 
+                            email: "student@gmail.com", phone: "0123456789"},
                             addCredentials: [student.credentials[1], student.credentials[1]]}};
         await updateResume(req, res);
         expect(res.text).toEqual("Successfully update!!!");
@@ -96,7 +104,8 @@ describe("testing updateResume", function () {
         const req = {user: {_id: student._id},
                      params: {resumeId: student.resumes[0]},
                      body: {resumeName: "Programming",
-                            addProfile: {firstName: "Ken", phone: "0123456789"},
+                            addProfile: {firstName: "Ken", lastName: "student", 
+                            email: "student@gmail.com", phone: "0123456789"},
                             addCredentials: [student.credentials[1]]}};
         await updateResume(req, res);
         expect(res.text).toEqual("Successfully update!!!");
@@ -108,7 +117,8 @@ describe("testing updateResume", function () {
         const req = {user: {_id: instructor._id},
                      params: {resumeId: student.resumes[0]},
                      body: {resumeName: "Programming",
-                            addProfile: {firstName: "Ken", phone: "0123456789"},
+                            addProfile: {firstName: "Ken", lastName: "student", 
+                            email: "student@gmail.com", phone: "0123456789"},
                             addCredentials: [student.credentials[1]]}};
         await updateResume(req, res);
         expect(res.statusCode).toBe(403);
@@ -118,7 +128,8 @@ describe("testing updateResume", function () {
         const req = {user: {_id: ""},
                      params: {resumeId: student.resumes[0]},
                      body: {resumeName: "Programming",
-                            addProfile: {firstName: "Ken", phone: "0123456789"},
+                            addProfile: {firstName: "Ken", lastName: "student", 
+                            email: "student@gmail.com", phone: "0123456789"},
                             addCredentials: [student.credentials[1]]}};
         await updateResume(req, res);
         expect(res.statusCode).toBe(403);
@@ -128,7 +139,8 @@ describe("testing updateResume", function () {
         const req = {user: {_id: student._id},
                      params: {resumeId: ""},
                      body: {resumeName: "Programming",
-                            addProfile: {firstName: "Ken", phone: "0123456789"},
+                            addProfile: {firstName: "Ken", lastName: "student", 
+                            email: "student@gmail.com", phone: "0123456789"},
                             addCredentials: [student.credentials[1]]}};
         await updateResume(req, res);
         expect(res.statusCode).toBe(400);

@@ -63,7 +63,7 @@ describe("testing updateGroup", function () {
         const req = {user: {_id: student._id},
                      params: {groupId: student.groups[0]},
                      body: {groupName: "Software",
-                            editCredentials: [student.credentials[0], student.credentials[1]]}};
+                            addCredentials: [student.credentials[0], student.credentials[1]]}};
         await updateGroup(req, res);
         expect(res.text).toEqual("Successfully update!!!");
         const currentStudent = await User.findById(student._id)
@@ -75,7 +75,7 @@ describe("testing updateGroup", function () {
         const req = {user: {_id: student._id},
                      params: {groupId: student.groups[0]},
                      body: {groupName: "Software",
-                            editCredentials: [student.credentials[0], student.credentials[1], student.credentials[2]]}};
+                            addCredentials: [student.credentials[0], student.credentials[1], student.credentials[2]]}};
         await updateGroup(req, res);
         expect(res.text).toEqual("Successfully update!!!");
         const currentStudent = await User.findById(student._id)
@@ -87,7 +87,7 @@ describe("testing updateGroup", function () {
         const req = {user: {_id: student._id},
                      params: {groupId: student.groups[0]},
                      body: {groupName: "Software",
-                            editCredentials: [student.credentials[0]]}};
+                            addCredentials: [student.credentials[0]]}};
         await updateGroup(req, res);
         expect(res.text).toEqual("Successfully update!!!");
         const currentStudent = await User.findById(student._id)
@@ -98,7 +98,7 @@ describe("testing updateGroup", function () {
         const req = {user: {_id: instructor._id},
                      params: {groupId: student.groups[0]},
                      body: {groupName: "Software",
-                            editCredentials: [student.credentials[0], student.credentials[1]]}};
+                            addCredentials: [student.credentials[0], student.credentials[1]]}};
         await updateGroup(req, res);
         expect(res.statusCode).toBe(403);
         expect(res.text).toEqual("You are not authorized");
@@ -107,7 +107,7 @@ describe("testing updateGroup", function () {
         const req = {user: {_id: ""},
                      params: {groupId: student.groups[0]},
                      body: {groupName: "Software",
-                            editCredentials: [student.credentials[0], student.credentials[1]]}};
+                            addCredentials: [student.credentials[0], student.credentials[1]]}};
         await updateGroup(req, res);
         expect(res.statusCode).toBe(403);
         expect(res.text).toEqual("You are not authorized");

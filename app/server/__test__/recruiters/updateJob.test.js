@@ -52,11 +52,11 @@ describe("testing updateJob", function () {
     test("update job", async () => {
         const req = {user:{_id: recruiter._id},
                      params: {jobId: job._id},
-                     body: { jobName: "Zawarudo", jobDescription: "JoJo is the best"}};
+                     body: { jobName: "Zawarudo", description: "JoJo is the best"}};
         await updateJob(req, res);
         const currentJob= await Job.findById(job._id);
         expect(currentJob.name).toEqual(req.body.jobName);
-        expect(currentJob.description).toEqual(req.body.jobDescription);
+        expect(currentJob.description).toEqual(req.body.description);
         expect(res.text).toEqual("Successfully update!!!");
     });
 

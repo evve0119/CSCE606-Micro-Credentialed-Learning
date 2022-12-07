@@ -50,14 +50,14 @@ describe("testing createNewJob", function () {
     test("create new job", async() => {
         const req = {user: {_id: recruiter._id},
                      params: {id: recruiter._id},
-                     body: {jobName: "software engineering"}};
+                     body: {jobName: "software engineering", description: "cool"}};
         await createNewJob(req, res);
         expect(res.text).toEqual("Successfully add new job");
     });
     test("create new job by student", async() => {
         const req = {user: {_id: student._id},
                     params: {id: student._id},
-                    body: {jobName: "software engineering"}};
+                    body: {jobName: "software engineering", description: "cool"}};
         await createNewJob(req, res);
         expect(res.statusCode).toBe(403);
         expect(res.text).toEqual("You are not a recruiter");
@@ -65,7 +65,7 @@ describe("testing createNewJob", function () {
     test("create new job by wrong ID", async() => {
         const req = {user: {_id: job._id},
                      params: {id: job._id},
-                     body: {jobName: "software engineering"}};
+                     body: {jobName: "software engineering", description: "cool"}};
         await createNewJob(req, res);
         expect(res.statusCode).toBe(400);
         expect(res.text).toEqual("Failed to create");

@@ -46,7 +46,8 @@ describe("testing createNewResume", function () {
     test("create new resume", async() => {
         const req = {user: {_id: student._id},
                      body: {resumeName: "software",
-                            addProfile: {firstName: "Ken", phone:"0123456789"},
+                            addProfile: {firstName: "Ken", lastName: "student", 
+                                         email: "student@gmail.com", phone:"0123456789"},
                             addCredentials: [student.credentials[0], student.credentials[1]]}};
         await createNewResume(req, res);
         expect(res.text).toEqual("Successfully create new resume");
@@ -55,14 +56,15 @@ describe("testing createNewResume", function () {
         expect(newResume.name).toEqual("software");
         expect(newResume.profile.firstName).toEqual("Ken");
         expect(newResume.profile.phone).toEqual("0123456789");
-        expect(newResume.profile.lastName).toEqual("");
+        expect(newResume.profile.lastName).toEqual("student");
         expect(newResume.credentials.length).toBe(2);
     });
     test("create new resume by instructor", async() => {
         const req = {user: {_id: instructor._id},
                      body: {resumeName: "software",
-                            addprofile: {firstName: "Ken", phone:"0123456789"},
-                            credentials: [student.credentials[0], student.credentials[1]]}};
+                            addProfile: {firstName: "Ken", lastName: "student", 
+                            email: "student@gmail.com", phone:"0123456789"},
+                            addCredentials: [student.credentials[0], student.credentials[1]]}};
         await createNewResume(req, res);
         expect(res.statusCode).toBe(403);
         expect(res.text).toEqual("You are not authorized");
@@ -70,8 +72,9 @@ describe("testing createNewResume", function () {
     test("create new resume without login", async() => {
         const req = {user: {_id: ""},
                      body: {resumeName: "software",
-                            addprofile: {firstName: "Ken", phone:"0123456789"},
-                            credentials: [student.credentials[0], student.credentials[1]]}};
+                            addProfile: {firstName: "Ken", lastName: "student", 
+                            email: "student@gmail.com", phone:"0123456789"},
+                            addCredentials: [student.credentials[0], student.credentials[1]]}};
         await createNewResume(req, res);
         expect(res.statusCode).toBe(400);
         expect(res.text).toEqual("Failed to create");
