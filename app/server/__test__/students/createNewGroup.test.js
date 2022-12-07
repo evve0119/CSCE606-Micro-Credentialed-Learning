@@ -70,7 +70,7 @@ describe("testing createNewGroup", function () {
                             addCredentials: [student.credentials[0], student.credentials[1]]}};
         await createNewGroup(req, res);
         expect(res.statusCode).toBe(403);
-        expect(res.text).toEqual("You are not a student");
+        expect(res.text).toEqual("You are not authorized");
     });
     test("create new group by wrong ID", async() => {
         const req = {user: {_id: group._id},

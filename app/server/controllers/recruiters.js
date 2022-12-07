@@ -1,10 +1,12 @@
 const User = require("../models").User;
 const Job = require("../models").Job;
 const Resume = require("../models").Resume;
+const recruiterValidation = require("../validation").recruiterValidation;
+const jobValidation = require("../validation").jobValidation;
 
 module.exports.myHomePage = async (req, res) => {
     try{
-        const currentRecruiter = await User.findById(req.user._id).populate("jobs");
+        const currentRecruiter = await User.findById(req.user._id).populate("jobs").populate({path: "jobs", populate: "resumes"});
         if (!currentRecruiter.isRecruiter()) {
             return res.status(403).send("You are not a recruiter");
         }
@@ -17,6 +19,8 @@ module.exports.myHomePage = async (req, res) => {
 
 module.exports.createNewJob = async (req, res) => {
     try {
+        const { error } = jobValidation(req.body);
+        if (error) return res.status(400).send(error.details[0].message);
         const currentRecruiter = await User.findById(req.user._id);
         if (!currentRecruiter.isRecruiter()) {
             return res.status(403).send("You are not a recruiter");
@@ -47,11 +51,13 @@ module.exports.renderJobForm = async (req, res) => {
 
 module.exports.updateJob = async (req, res) => {
     try{
+        const { error } = jobValidation(req.body);
+        if (error) return res.status(400).send(error.details[0].message);
         const currentJob = await Job.findById(req.params.jobId);
         if(req.user._id != currentJob.holder._id.toString()){
             return res.status(400).send("You are not authorized");
         }
-        await currentJob.update({ $set: { name: req.body.jobName, description: req.body.jobDescription } });
+        await currentJob.update({ $set: { name: req.body.jobName, description: req.body.description } });
         await currentJob.save();
         return res.send("Successfully update!!!");
     } catch(err){
@@ -76,7 +82,6 @@ module.exports.deleteJob = async (req, res) => {
 
 module.exports.renderResume = async (req, res) => {
     try{
-        console.log(req.params.resumeId);
         const currentResume = await Resume.findById(req.params.resumeId).populate("credentials");
         return res.send(currentResume);
     } catch(err){
@@ -99,6 +104,8 @@ module.exports.renderProfileForm = async (req, res) => {
 
 module.exports.updateProfile = async (req, res) => {
     try {
+        const { error } = recruiterValidation(req.body);
+        if (error) return res.status(400).send(error.details[0].message);
         const currentRecruiter = await User.findById(req.user._id);
         if (!currentRecruiter.isRecruiter()) {
             return res.status(403).send("You are not a recruiter");

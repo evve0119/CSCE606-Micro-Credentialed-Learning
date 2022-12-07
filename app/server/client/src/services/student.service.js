@@ -44,7 +44,7 @@ class StudentService {
   }
 
   //update group
-  updateGroup(editCredentials, groupId, groupName) {
+  updateGroup(addCredentials, groupId, groupName) {
     let token;
     if (localStorage.getItem("user")) {
       token = JSON.parse(localStorage.getItem("user")).token;
@@ -52,7 +52,7 @@ class StudentService {
       token = "";
     }
     return axios.put(API_URL + `/groups/${groupId}`,
-      {editCredentials, groupName},
+      {addCredentials, groupName},
       {headers: {Authorization: token}}
     );
   };

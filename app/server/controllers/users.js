@@ -133,7 +133,8 @@ module.exports.register = async (req, res) => {
   const newUser = new User({
     profile: {
       firstName: req.body.profile.firstname,
-      lastName: req.body.profile.lastname
+      lastName: req.body.profile.lastname,
+      email: req.body.email
     },
     email: req.body.email,
     username: req.body.username,

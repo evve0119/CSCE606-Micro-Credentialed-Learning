@@ -6,10 +6,13 @@ import PasswordService from "../../services/password.service";
 const API_URL = "http://localhost:8080/api/user";
 // const API_URL = "/api/user";
 
-const ResetPassword = () => {
+const ResetPassword = (props) => {
 	const [validUrl, setValidUrl] = useState(true);
 	const param = useParams();
   const history = useHistory();
+  if(props.currentRole){
+    history.replace(`/${props.currentRole}/home`);
+  }
   let [newPassword, setNewPassword] = useState("");
   let [confirmPassword, setConfirmPassword] = useState("");
   let [message, setMessage] = useState("");

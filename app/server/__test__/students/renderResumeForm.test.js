@@ -51,26 +51,11 @@ describe("testing renderResumeForm", function () {
     });
 
     test("get request by student", async() => {
-        const req = {user:{_id: student._id},
-                     params: {resumeId: resume._id}};
+        const req = {params: {resumeId: resume._id}};
         await renderResumeForm(req, res);
         expect(res.text.name).toEqual("software");
         expect(res.text.profile.firstName).toEqual("Ken");
         expect(res.text.profile.lastName).toEqual("");
         expect(res.text.credentials[0].name).toEqual("python");
-    });
-    test("get request by instructor", async() => {
-        const req = {user:{_id: instructor._id},
-                     params: {resumeId: resume._id}};
-        await renderResumeForm(req, res);
-        expect(res.statusCode).toBe(403);
-        expect(res.text).toEqual("You are not a student");
-    });
-    test("get request wihtout user ID", async() => {
-        const req = {user:{_id: ""},
-                     params: {resumeId: resume._id}};
-        await renderResumeForm(req, res);
-        expect(res.statusCode).toBe(400);
-        expect(res.text).toEqual("Error!! Cannot get resume!!");
     });
 })

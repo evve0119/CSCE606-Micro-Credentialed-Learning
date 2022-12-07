@@ -60,7 +60,6 @@ const RecruiterHomePageComponent = (props) => {
     });
   }, [location]);
 
-
   return (
     <div>
       {/* If not login*/}
@@ -112,16 +111,15 @@ const Profile = (props) => {
   return(
     <>
       <i className="bi bi-person-fill icon-profile"></i>
-      {profile.firstName && (
-        <h3>{profile.firstName} {profile.lastName}
-          <button id="addNewGroup" className="btn btn-profile" onClick={props.renderProfileForm}>
-            <i className="bi bi-pencil-fill icon-profile-edit"></i>
-          </button>
-        </h3>
-      )}
-      <h5> <i className="bi bi-envelope-fill icon-n"></i> {profile.email} </h5>
-      <h5> <i className="bi bi-telephone-fill icon-n"></i> {profile.phone} </h5>
-      {company && <h5> <i className="bi bi bi-building-fill icon-n"></i> {company}</h5>}
+      <button id="addNewGroup" className="btn btn-profile" onClick={props.renderProfileForm}>
+          <i className="bi bi-pencil-fill icon-profile-edit"></i>
+      </button>
+      <h3>{profile.firstName} {profile.lastName}</h3>
+      <h5> <i className="bi bi-envelope-fill icon-n"></i> <br/> {profile.email} </h5>
+      <h5> <i className="bi bi-telephone-fill icon-n"></i> <br/> {profile.phone} </h5>
+      <h5> <i className="bi bi bi-building-fill icon-n"></i> <br/> {company}</h5>
+      <h5> <i className="bi bi-geo-alt-fill icon-n"></i> <br/> <br/> {profile.address}</h5>
+      <pre>{profile.description}</pre>
     </>
   )
 };
@@ -148,8 +146,10 @@ const Job = (props) => {
                       {jobs.resumes.length >= 1 && <h5>Applicants:</h5>}
 
                       {jobs.resumes.map((resume) => (
-                        <li key={resume}>
-                          <Link className="text-primary h6" onClick={() => {props.renderResumeForm(resume)}}>{resume}</Link>
+                        <li key={resume._id}>
+                          <Link className="text-primary h6" onClick={() => {props.renderResumeForm(resume._id)}}>
+                            {resume.profile.firstName} {resume.profile.lastName}
+                          </Link>
                         </li>
                       ))}
                     </Accordion.Body>

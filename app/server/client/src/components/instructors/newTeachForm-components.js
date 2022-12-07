@@ -22,8 +22,8 @@ const NewTeachFormComponent = (props) => {
 
   let [message, setMessage] = useState(null);
   // Set new group name
-  let [courseName, setCourseName] = useState(null);
-  let [description, setDescription] = useState(null);
+  let [courseName, setCourseName] = useState("");
+  let [description, setDescription] = useState("");
   let [studentEmail, setStudentEmail] = useState(null);
 
   // Handle new group name

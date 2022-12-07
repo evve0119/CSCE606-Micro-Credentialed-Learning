@@ -26,21 +26,16 @@ const GroupFormComponent = (props) => {
 
   // Update group
   const updateGroup = () => {
-    if(newGroupName === ""){
-      setMessage("Group name is not allowed to be empty!")
-    }
-    else{
-      const editCred = [];
-      editCredentials.map((credential) => {
-        editCred.push(credential.value);
-      });
-      StudentService.updateGroup(editCred, currentGroup._id, newGroupName).then(() => {
-        window.alert("Group is updated!")
-        history.push("/student/home")
-      }).catch((err) => {
-        setMessage(err.response.data)
-      });
-    }
+    const editCred = [];
+    editCredentials.map((credential) => {
+      editCred.push(credential.value);
+    });
+    StudentService.updateGroup(editCred, currentGroup._id, newGroupName).then(() => {
+      window.alert("Group is updated!")
+      history.push("/student/home")
+    }).catch((err) => {
+      setMessage(err.response.data)
+    });
   };
 
   const deleteGroup = () => {
@@ -86,7 +81,7 @@ const GroupFormComponent = (props) => {
       {props.currentRole && props.currentRole === "student" && (
         <>
         {currentGroup && (
-          <Modal show={true} centered scrollable backdrop="static" onHide={handleClose}>
+          <Modal show={true} centered backdrop="static" onHide={handleClose}>
             <Modal.Header closeButton>
               <Modal.Title>Edit Group</Modal.Title>
             </Modal.Header>

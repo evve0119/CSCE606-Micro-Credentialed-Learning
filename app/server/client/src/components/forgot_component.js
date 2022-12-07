@@ -2,8 +2,11 @@ import React, {useState} from "react";
 import { useHistory } from "react-router-dom";
 import PasswordService from "../services/password.service";
 
-const ForgotComponent = () => {
+const ForgotComponent = (props) => {
   const history = useHistory();
+  if(props.currentRole){
+    history.replace(`/${props.currentRole}/home`);
+  }
   let [email, setEmail] = useState("");
   let [message, setMessage] = useState("");
 

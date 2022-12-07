@@ -67,8 +67,8 @@ const userSchema = new mongoose.Schema({
     maxLength: 1024,
   },
   profile: {
-    firstName: {type: String},
-    lastName: {type: String},
+    firstName: {type: String, default: ""},
+    lastName: {type: String, default: ""},
     phone: {type: String, default: ""},
     email: {type: String, default: ""},
     address: {type: String, default: ""},

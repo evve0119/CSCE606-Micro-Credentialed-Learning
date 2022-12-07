@@ -23,21 +23,16 @@ const NewGroupFormComponent = (props) => {
   };
 
   const postGroup = () => {
-    if(groupName === ""){
-      setMessage("Group name is not allowed to be empty!");
-    }
-    else{
-      const addCred = [];
-      addCredentials.map((credential) => {
-        addCred.push(credential.value);
-      });
-      StudentService.createNewGroup(groupName, addCred).then(() => {
-        window.alert("New group is created!")
-        history.push("/student/home")
-      }).catch((err) => {
-        setMessage(err.response.data);
-      });
-    }
+    const addCred = [];
+    addCredentials.map((credential) => {
+      addCred.push(credential.value);
+    });
+    StudentService.createNewGroup(groupName, addCred).then(() => {
+      window.alert("New group is created!")
+      history.push("/student/home")
+    }).catch((err) => {
+      setMessage(err.response.data);
+    });
   }
   
   useEffect(() => {
@@ -58,7 +53,7 @@ const NewGroupFormComponent = (props) => {
     <div>
       {/* If login and student */}
       {props.currentRole && props.currentRole === "student" &&(
-        <Modal show={true} centered scrollable backdrop="static" onHide={handleClose}>
+        <Modal show={true} centered backdrop="static" onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Create New Group</Modal.Title>
           </Modal.Header>

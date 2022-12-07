@@ -69,7 +69,6 @@ const ResumeFormComponent = (props) => {
                       </div>
                       <div class="modal-body">
                         <p>
-                          Credential ID: {credential._id} <br></br>
                           Holder: {credential.holder.profile.firstName} {credential.holder.profile.lastName}<br></br>
                           Instructor: {credential.instructor.profile.firstName} {credential.instructor.profile.lastName} <br></br>
                           Institute: {credential.instructor.institute} <br></br>

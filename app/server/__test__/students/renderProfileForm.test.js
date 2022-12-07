@@ -47,7 +47,7 @@ describe("testing renderProfileForm", function () {
         const req = {user:{_id: instructor._id}};
         await renderProfileForm(req, res);
         expect(res.statusCode).toBe(403);
-        expect(res.text).toEqual("You are not a student");
+        expect(res.text).toEqual("You are not authorized");
     });
     test("get request without login", async() => {
         const req = {user:{_id: ""}};

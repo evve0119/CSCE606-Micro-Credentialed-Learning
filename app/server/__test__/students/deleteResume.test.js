@@ -60,14 +60,14 @@ describe("testing deleteResume", function () {
         const req = {user: {_id: instructor._id},
                      params: {resumeId: resume2._id}};
         await deleteResume(req, res);
-        expect(res.statusCode).toBe(400);
+        expect(res.statusCode).toBe(403);
         expect(res.text).toEqual("You are not authorized");
     });
     test("delete without user ID", async() => {
         const req = {user: {_id: ""},
                      params: {resumeId: resume2._id}};
         await deleteResume(req, res);
-        expect(res.statusCode).toBe(400);
+        expect(res.statusCode).toBe(403);
         expect(res.text).toEqual("You are not authorized");
     });
     test("delete without resume ID", async() => {

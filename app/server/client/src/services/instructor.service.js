@@ -66,7 +66,7 @@ class InstructorService {
     );
   }
 
-  updateCourse(courseId, courseName, courseDescription, editStudents) {
+  updateCourse(courseId, courseName, description, addStudentsId) {
     let token;
     if (localStorage.getItem("user")) {
       token = JSON.parse(localStorage.getItem("user")).token;
@@ -74,7 +74,7 @@ class InstructorService {
       token = "";
     }
     return axios.put(API_URL + `/courses/${courseId}/edit`,
-      {courseName, courseDescription, editStudents},
+      {courseName, description, addStudentsId},
       {headers: {Authorization: token}}
     );
   }

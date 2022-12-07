@@ -21,8 +21,8 @@ const NewJobFormComponent = (props) => {
 
     let [message, setMessage] = useState(null);
     // Set new group name
-    let [jobName, setJobName] = useState(null);
-    let [description, setDescription] = useState(null);
+    let [jobName, setJobName] = useState("");
+    let [description, setDescription] = useState("");
     //let [studentEmail, setStudentEmail] = useState(null);
 
     // Handle new group name

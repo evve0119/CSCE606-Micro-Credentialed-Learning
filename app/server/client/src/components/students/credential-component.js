@@ -38,7 +38,6 @@ const CredentialComponent = (props) => {
                     <th scope="col">Instructor</th>
                     <th scope="col">Institute</th>
                     <th scope="col">Issued date</th>
-                    <th scope="col">ID</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -49,7 +48,6 @@ const CredentialComponent = (props) => {
                       <td>{credential.instructor.profile.firstName} {credential.instructor.profile.lastName}</td>
                       <td>{credential.instructor.institute}</td>
                       <td>{new Date(credential.issuedDate).toDateString().slice(4)}</td>
-                      <td>{credential._id}</td>
                     </tr>
                   ))}
                 </tbody>
