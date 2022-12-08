@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 import AuthService from "../services/auth.service";
 import Select from 'react-select';
 import { useLocation } from "react-router-dom";

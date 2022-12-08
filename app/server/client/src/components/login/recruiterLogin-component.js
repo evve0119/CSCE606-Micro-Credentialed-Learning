@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 import AuthService from "../../services/auth.service";
 import { useLocation } from "react-router-dom";
 import "../style.css";
