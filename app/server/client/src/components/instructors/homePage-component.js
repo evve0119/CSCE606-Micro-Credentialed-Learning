@@ -119,7 +119,7 @@ const Profile = (props) => {
       <h5> <i className="bi bi-envelope-fill icon-n"></i> <br/>{profile.email} </h5>
       <h5> <i className="bi bi-telephone-fill icon-n"></i> <br/>{profile.phone} </h5>
       <h5> <i className="bi bi bi-building-fill icon-n"></i> <br/>{institute}</h5>
-      <h5> <i className="bi bi-geo-alt-fill icon-n"></i> <br/> <br/>{profile.address}</h5>
+      <h5> <i className="bi bi-geo-alt-fill icon-n"></i><br/>{profile.address}</h5>
       <pre>{profile.description}</pre>
     </>
   )
