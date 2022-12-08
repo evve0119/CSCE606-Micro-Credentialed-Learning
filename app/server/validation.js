@@ -6,13 +6,13 @@ const Joi = require("joi");
 // Register Validation
 const registerValidation = (data) => {
   const schema = Joi.object({
-    username: Joi.string().min(3).max(50).regex(/\w/).required(),
+    username: Joi.string().min(3).max(50).regex(/^\w+$/).required(),
     email: Joi.string().min(6).max(100).required().email(),
     password: Joi.string().min(6).max(255).required(),
     role: Joi.string().required().valid("student", "instructor", "recruiter"),
     profile:{
-      firstname: Joi.string().min(1).max(50).regex(/\w/).required(),
-      lastname: Joi.string().min(1).max(50).regex(/\w/).required()
+      firstname: Joi.string().min(1).max(50).regex(/^\w+$/).required(),
+      lastname: Joi.string().min(1).max(50).regex(/^\w+$/).required()
     }
   });
 
@@ -41,10 +41,10 @@ const resetValidation = (data) => {
 // student Validation
 const profileValidation = (data) => {
   const schema = Joi.object({
-    firstName: Joi.string().min(1).max(50).regex(/\w/).required(),
-    lastName: Joi.string().min(1).max(50).regex(/\w/).required(),
+    firstName: Joi.string().min(1).max(50).regex(/^\w+$/).required(),
+    lastName: Joi.string().min(1).max(50).regex(/^\w+$/).required(),
     email: Joi.string().min(6).max(100).email().allow(null, ''),
-    phone:Joi.string().regex(/\d/).min(10).max(10).allow(null, ''),
+    phone:Joi.string().regex(/^\d+$/).min(10).max(10).allow(null, ''),
     address: Joi.string().max(500).allow(null, ''),
     description: Joi.string().max(5000).allow(null, ''),
   });
@@ -61,10 +61,10 @@ const resumeValidation = (data) => {
   const schema = Joi.object({
     resumeName: Joi.string().min(1).max(50).required(),
     addProfile: {
-      firstName: Joi.string().min(1).max(50).regex(/\w/).required(),
-      lastName: Joi.string().min(1).max(50).regex(/\w/).required(),
+      firstName: Joi.string().min(1).max(50).regex(/^\w+$/).required(),
+      lastName: Joi.string().min(1).max(50).regex(/^\w+$/).required(),
       email: Joi.string().min(6).max(100).email().required(),
-      phone:Joi.string().regex(/\d/).min(10).max(10).allow(null, ''),
+      phone:Joi.string().regex(/^\d+$/).min(10).max(10).allow(null, ''),
       address: Joi.string().max(500).allow(null, ''),
       description: Joi.string().max(5000).allow(null, ''),
     },
@@ -83,10 +83,10 @@ const emailValidation = (data) => {
 const instructorValidation = (data) => {
   const schema = Joi.object({
     editProfile:{
-      firstName: Joi.string().min(1).max(50).regex(/\w/).required(),
-      lastName: Joi.string().min(1).max(50).regex(/\w/).required(),
+      firstName: Joi.string().min(1).max(50).regex(/^\w+$/).required(),
+      lastName: Joi.string().min(1).max(50).regex(/^\w+$/).required(),
       email: Joi.string().min(6).max(100).email().allow(null, ''),
-      phone:Joi.string().regex(/\d/).min(10).max(10).allow(null, ''),
+      phone:Joi.string().regex(/^\d+$/).min(10).max(10).allow(null, ''),
       address: Joi.string().max(500).allow(null, ''),
       description: Joi.string().max(5000).allow(null, '')
     },
@@ -108,10 +108,10 @@ const courseValidation = (data) => {
 const recruiterValidation = (data) => {
   const schema = Joi.object({
     editProfile:{
-      firstName: Joi.string().min(1).max(50).regex(/\w/).required(),
-      lastName: Joi.string().min(1).max(50).regex(/\w/).required(),
+      firstName: Joi.string().min(1).max(50).regex(/^\w+$/).required(),
+      lastName: Joi.string().min(1).max(50).regex(/^\w+$/).required(),
       email: Joi.string().min(6).max(100).email().allow(null, ''),
-      phone:Joi.string().regex(/\d/).min(10).max(10).allow(null, ''),
+      phone:Joi.string().regex(/^\d+$/).min(10).max(10).allow(null, ''),
       address: Joi.string().max(500).allow(null, ''),
       description: Joi.string().max(5000).allow(null, '')
     },
